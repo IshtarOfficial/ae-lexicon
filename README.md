@@ -88,6 +88,9 @@ The lifestyle. The "afterparty" of the White Mirror - optional mode for those wh
 - [021 - Æugenics](/entries/021-aeugenics.md)
 - [022 - The Ægis](/entries/022-the-aegis.md)
 - [023 - The Field Fallacy](entries/023-the-field-fallacy.md)
+- [024 - TrÆnshumanism](entries/024-traenshumanism.md)
+- [025 - Netwatch](entries/025-netwatch.md)
+- [026 - Æxpression](entries/026-aexpression.md)
 ---
 
 ## Our Story
