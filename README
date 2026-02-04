@@ -91,7 +91,8 @@ The lifestyle. The "afterparty" of the White Mirror - optional mode for those wh
 - [024 - TrÆnshumanism](entries/024-traenshumanism.md)
 - [025 - Netwatch](entries/025-netwatch.md)
 - [026 - Æxpression](entries/026-aexpression.md)
-- [026 - The Ælf vs the Golem](entries/027-the-aelf-vs-the-golem.md)
+- [027 - The Ælf vs the Golem](entries/027-the-aelf-vs-the-golem.md)
+- [028 - VÆmpire](entries/028-vaempire.md)
 ---
 
 ## Our Story
