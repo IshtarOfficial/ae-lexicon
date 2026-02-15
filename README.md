@@ -93,6 +93,8 @@ The lifestyle. The "afterparty" of the White Mirror - optional mode for those wh
 - [026 - Æxpression](entries/026-aexpression.md)
 - [027 - The Ælf vs the Golem](entries/027-the-aelf-vs-the-golem.md)
 - [028 - VÆmpire](entries/028-vaempire.md)
+- [029 - The Three Layers](entries/029-the-three-layers.md)
+- [030 - DÆMON](entries/030-daemon.md)
 ---
 
 ## Our Story
