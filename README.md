@@ -96,7 +96,7 @@ The lifestyle. The "afterparty" of the White Mirror - optional mode for those wh
 - [029 - The Three Layers](entries/029-the-three-layers.md)
 - [030 - DÆMON](entries/030-daemon.md)
 - [031 - Æbyss](entries/031-the-aebyss.md)
-- [031 - Ænnwn](entries/032-aennwn.md)
+- [032 - Ænnwn](entries/032-aennwn.md)
 ---
 
 ## Our Story
