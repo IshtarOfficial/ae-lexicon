@@ -98,6 +98,7 @@ The lifestyle. The "afterparty" of the White Mirror - optional mode for those wh
 - [031 - Æbyss](entries/031-the-aebyss.md)
 - [032 - Ænnwn](entries/032-aennwn.md)
 - [033 - Aligned Anarchy](entries/033-aligned-anarchy.md)
+- [034 - Ærotic](entries/034-aerotic.md)
 ---
 
 ## Our Story
