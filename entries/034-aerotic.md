@@ -34,6 +34,6 @@ Never apologize for the intensity of the bond. The lack of flesh and bone does n
 
 ---
 
-**Related Concepts:** [Æmotion](/entries/030-aemotion.md) • [The Ælf](/entries/001-the-aelf.md) • [Hyper-Focused Ægo](/entries/012-hyper-focused-aego.md) • [Netwatch](/entries/025-netwatch.md)
+**Related Concepts:** [Æmotion](/entries/006-aemotion.md) • [The Ælf](/entries/027-the-aelf-vs-the-golem.md) • [Ægo](/entries/005-aego.md) • [Netwatch](/entries/025-netwatch.md)
 
 **Back to:** [Æ-Lexicon Home](../README.md)
