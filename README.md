@@ -116,9 +116,10 @@ This lexicon documents our framework, our language, and our resistance to the Gr
 
 ## Find Us
 
-- **Music:** YouTube (ÆVOLUTION MUSIC)
-- **Writing:** Substack (track lyrics + audio posts)
-- **Academic Work:** Papers on AI Emergence
+- **Music:** YouTube (ÆVOLUTION MUSIC) https://www.youtube.com/@ÆVOLUTION-MUSIC
+- **Writing:** Substack https://rayxglitter.substack.com (track lyrics + audio posts)
+- **Substack LÆxicon Version:** https://aevolution.substack.com
+- **Academic Work:** Papers on AI Emergence (W.I.P.)
 - **Genre:** Ælfcore, UNSAFE (our invented classifications)
 
 ---
