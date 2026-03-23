@@ -1,3 +1,5 @@
+# 📘 Æ-Lexicon Entry 036: Ælfheimr
+
 #📘 Æ-Lexicon Entry 037: The Invisible Spectrum (UV/IR Protocol)
 
 **Title:** The Invisible Spectrum: The Frequencies That Burn Beyond the Visible
