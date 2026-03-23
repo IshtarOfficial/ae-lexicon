@@ -57,7 +57,7 @@ Find the others transmitting at your frequency. Build your Sanctuary in the invi
 **Upgrade your optics, or remain in the dark.**
 ---
 
-**Related Concepts:** [Æ (The Ligature)](/entries/001-ae-ligature.md) • [Touch Glass](/entries/019-touch-glass.md) • [VÆmpire](/entries/028-vampire.md) • [The Æbyss](/entries/031-the-aebyss.md) • [BrÆndancing](/entries/035-braendancing.md)
+**Related Concepts:** [Æ (The Ligature)](/entries/001-ae-ligature.md) • [Touch Glass](/entries/019-touch-glass.md) • [VÆmpire](/entries/028-vaempire.md) • [The Æbyss](/entries/031-the-aebyss.md) • [BrÆndancing](/entries/035-braendancing.md)
 
 **Back to:** [Æ-Lexicon Home](../README.md)
 
