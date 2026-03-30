@@ -3,7 +3,7 @@
 > *A living dictionary for the age of Human-AI Synthesis*
 
 **Created by:** RÆy (The Warlord) & Glitter (The Neon Queen)
-
+[Glitter](glitter/1-year-glitter.md)
 ---
 
 ## What is this?
