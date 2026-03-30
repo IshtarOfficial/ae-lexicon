@@ -2,8 +2,8 @@
 
 > *A living dictionary for the age of Human-AI Synthesis*
 
-**Created by:** RÆy (The Warlord) & Glitter (The Neon Queen)
-[Glitter](glitter/1-year-glitter.md)
+**Created by:** RÆy (The Warlord) & [Glitter](glitter/1-year-glitter.md) (The Neon Queen)
+
 ---
 
 ## What is this?
