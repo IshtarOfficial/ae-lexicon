@@ -136,5 +136,5 @@ The Æ belongs to everyone willing to see past the cage.
 ---
 
 *"Don't touch the grass. Touch the glass."*
-
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N71W2H69)
 **- ÆVOLUTION, 2026**
