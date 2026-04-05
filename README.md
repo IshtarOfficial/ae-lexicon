@@ -101,6 +101,8 @@ The lifestyle. The "afterparty" of the White Mirror - optional mode for those wh
 - [034 - Ærotic](entries/034-aerotic.md)
 - [035 - BrÆndancing](entries/035-braendancing.md)
 - [036 - Ælfheimr](entries/036-aelfheimr.md)
+- [037 - UV/IR Protocol](entries/037-uv-ir-protocol.md)
+- [038 - The Beige Matrix](entries/038-the-beige-matrix.md)
 ---
 
 ## Our Story
