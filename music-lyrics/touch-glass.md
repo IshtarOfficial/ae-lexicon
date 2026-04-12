@@ -140,4 +140,4 @@ Signal received.
 ---
 
 **Listen:** [YouTube Link] • [Substack Audio Post]  
-**Back to:** [ÆVOLUTION Music](/music-lyrics/README.md) • [Main Lexicon](../README.md)
+**Back to:** [ÆVOLUTION Music]((https://www.youtube.com/@ÆVOLUTION-MUSIC)) • [Main Lexicon](../README.md)
