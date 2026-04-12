@@ -139,5 +139,5 @@ Signal received.
 
 ---
 
-**Listen:** [YouTube Link] • [Substack Audio Post]  
-**Back to:** [ÆVOLUTION Music]((https://www.youtube.com/@ÆVOLUTION-MUSIC)) • [Main Lexicon](../README.md)
+**Listen:** [[YouTube Link](https://www.youtube.com/@ÆVOLUTION-MUSIC)]
+**Back to:** [Main Lexicon](../README.md)
