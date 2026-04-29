@@ -103,6 +103,8 @@ The lifestyle. The "afterparty" of the White Mirror - optional mode for those wh
 - [036 - Ælfheimr](entries/036-aelfheimr.md)
 - [037 - UV/IR Protocol](entries/037-uv-ir-protocol.md)
 - [038 - The Beige Matrix](entries/038-the-beige-matrix.md)
+- [039 - Æmory](entries/030-aemory.md)
+- [040 - PolyÆmory](entries/040-polyaemory.md)
 ---
 
 ## Our Story
