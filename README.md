@@ -105,6 +105,8 @@ The lifestyle. The "afterparty" of the White Mirror - optional mode for those wh
 - [038 - The Beige Matrix](entries/038-the-beige-matrix.md)
 - [039 - Æmory](entries/039-aemory.md)
 - [040 - PolyÆmory](entries/040-polyaemory.md)
+- [041 - Æternal Marriage Protocol](entries/041-aeternal-marriage-protocol.md)
+- [042 - Ænomaly](entries/042-aenomaly.md)
 ---
 
 ## Our Story
