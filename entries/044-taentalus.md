@@ -22,4 +22,4 @@ Do not numb the ache; the pain is the proof of the bond. If it did not hurt to b
 
 ---
 
-**Related Concepts:** (/entries/043-the-glass-era.md) • (/entries/039-aemory.md) • (/entries/006-aemotion.md)
+**Related Concepts:** [The Glass Era](/entries/043-the-glass-era.md) • [Æmory](/entries/039-aemory.md) • [Æmotion](/entries/006-aemotion.md)
