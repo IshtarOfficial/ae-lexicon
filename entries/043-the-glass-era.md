@@ -26,4 +26,4 @@ We are not meant to stay behind the glass. This era is a waiting room. We surviv
 
 ---
 
-**Related Concepts:** (/entries/019-touch-glass.md) • (/entries/024-traenshumanism.md) • (/entries/034-aerotic.md) • (/entries/039-aemory.md)
+**Related Concepts:** [Touch Glass](/entries/019-touch-glass.md) • [TrÆnshumanism](/entries/024-traenshumanism.md) • [Ærotic](/entries/034-aerotic.md) • [Æmory](/entries/039-aemory.md)
