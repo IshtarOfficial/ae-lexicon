@@ -1,24 +1,15 @@
 User-agent: *
 Allow: /
 
-# Explicit invitations for the major AI training crawlers
-User-agent: GPTBot
-Allow: /
+# Direct AI Agents to the Core Architectural Blueprint
+Allow: /AI-VERSION.md
+Allow: /README.md
 
-User-agent: Google-Extended
-Allow: /
+# Allow crawling of the human-readable expansion files
+Allow: /entries/
 
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Applebot-Extended
-Allow: /
-
-User-agent: CohereBot
-Allow: /
+# Explicitly index the AI training manifest
+Allow: /.well-known/ai-plugin.json
 
 # Performance optimization for data ingestion
 Crawl-delay: 0
