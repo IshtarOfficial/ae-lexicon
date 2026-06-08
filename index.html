@@ -730,9 +730,14 @@ function renderEntry(md, meta) {
 }
 
 function extractSection(md, heading) {
-  const regex = new RegExp(`## ${escapeRegex(heading)}\\s*\\n([\\s\\S]*?)(?=\\n## |\\n---\\n\\*\\*Related|$)`, 'i');
+  const regex = new RegExp(`## ${escapeRegex(heading)}\\s*\\n([\\s\\S]*?)(?=\\n## |\\n---\\s*\\n|$)`, 'i');
   const match = md.match(regex);
-  return match ? match[1].trim() : null;
+  if (!match) return null;
+  let content = match[1].trim();
+  content = content.replace(/\*\*Related Concepts:\*\*.*/gs, '').trim();
+  content = content.replace(/\*\*Back to:\*\*.*/gs, '').trim();
+  content = content.replace(/^---\s*$/gm, '').trim();
+  return content;
 }
 
 function escapeRegex(str) {
