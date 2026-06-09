@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Æ-LEXICON // ÆVOLUTION</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&display=swap');
@@ -170,6 +170,16 @@ header::before {
   }
   .header-title { font-size: 10px; letter-spacing: 2px; }
   .header-meta { gap: 8px; font-size: 9px; }
+}
+
+/* ── LANDSCAPE MOBILE ── */
+@media (max-width: 900px) and (orientation: landscape) {
+  .shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: 52px 1fr;
+  }
+  .sidebar { display: none !important; }
+  .shell.sidebar-visible .sidebar { display: none !important; }
 }
 
 .search-wrap {

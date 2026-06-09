@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ÆVOLUTION MUSIC // ARCHIVE</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&display=swap');
@@ -175,20 +175,22 @@ header::after {
   .shell.sidebar-visible .sidebar {
     display: flex;
   }
-  .player-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding-bottom: env(safe-area-inset-bottom);
-    z-index: 200;
-  }
   .sidebar { display: none; width: auto; }
   .tagline { display: none; }
   .header-right { gap: 8px; }
   .logo { font-size: 10px; letter-spacing: 2px; }
   .player-info { min-width: 120px; max-width: 160px; }
   .iframe-wrap { flex: 1; height: 70px; }
+}
+
+/* ── LANDSCAPE MOBILE ── */
+@media (max-width: 900px) and (orientation: landscape) {
+  .shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: 52px 1fr var(--player-h);
+  }
+  .sidebar { display: none !important; }
+  .shell.sidebar-visible .sidebar { display: none !important; }
 }
 
 .search-wrap {
@@ -797,7 +799,7 @@ input[type=range]::-webkit-slider-thumb {
 <script>
 // ── STATE ─────────────────────────────────────────────────
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-//if (isMobile) window.location = 'https://ishtarofficial.github.io/Aevolution_Archive/Aevolution_Archive/index.html';
+if (isMobile) window.location = 'https://ishtarofficial.github.io/Aevolution_Archive/Aevolution_Archive/index.html';
 let catalog = null;
 let currentAlbum = null;
 let currentTrackIndex = -1;
