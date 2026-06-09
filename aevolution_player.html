@@ -49,7 +49,7 @@ body::after {
 .shell {
   display: grid;
   grid-template-rows: 52px 1fr var(--player-h);
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: auto 1fr;
   height: 100vh;
 }
 
@@ -143,21 +143,17 @@ header::after {
 
 /* ── SIDEBAR ── */
 .sidebar {
+  width: 280px;
   border-right: 1px solid var(--border2);
   background: var(--panel);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: all 0.25s ease;
-}
-
-.shell.sidebar-hidden {
-  grid-template-columns: 0 1fr;
+  transition: width 0.25s ease;
 }
 
 .shell.sidebar-hidden .sidebar {
   width: 0;
-  overflow: hidden;
   border-right: none;
 }
 
@@ -176,7 +172,7 @@ header::after {
     z-index: 150;
     display: flex;
   }
-  .sidebar { display: none; }
+  .sidebar { display: none; width: auto; }
   .tagline { display: none; }
   .header-right { gap: 8px; }
   .logo { font-size: 10px; letter-spacing: 2px; }

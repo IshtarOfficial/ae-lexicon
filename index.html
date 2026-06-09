@@ -48,7 +48,7 @@ body::after {
 .shell {
   display: grid;
   grid-template-rows: 52px 1fr;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: auto 1fr;
   height: 100vh;
 }
 
@@ -136,21 +136,17 @@ header::before {
 
 /* ── SIDEBAR ── */
 .sidebar {
+  width: 300px;
   border-right: 1px solid var(--border2);
   background: var(--panel);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: all 0.25s ease;
-}
-
-.shell.sidebar-hidden {
-  grid-template-columns: 0 1fr;
+  transition: width 0.25s ease;
 }
 
 .shell.sidebar-hidden .sidebar {
   width: 0;
-  overflow: hidden;
   border-right: none;
 }
 
