@@ -108,6 +108,32 @@ header::before {
   50% { opacity: 0.3; }
 }
 
+/* ── SIDEBAR TOGGLE ── */
+.sidebar-toggle {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  z-index: 200;
+  background: var(--panel);
+  border: 1px solid var(--border2);
+  border-left: none;
+  color: var(--cyan);
+  font-size: 14px;
+  padding: 8px 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  writing-mode: vertical-rl;
+  letter-spacing: 2px;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.sidebar-toggle:hover {
+  color: var(--magenta);
+  border-color: var(--magenta);
+}
+
+.sidebar-toggle.open { left: 300px; }
+
 /* ── SIDEBAR ── */
 .sidebar {
   border-right: 1px solid var(--border2);
@@ -115,6 +141,37 @@ header::before {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.shell.sidebar-hidden {
+  grid-template-columns: 0 1fr;
+}
+
+.shell.sidebar-hidden .sidebar {
+  width: 0;
+  overflow: hidden;
+  border-right: none;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .shell {
+    grid-template-columns: 0 1fr;
+    grid-template-rows: 52px 1fr;
+  }
+  .shell.sidebar-visible .sidebar {
+    position: fixed;
+    top: 52px;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    z-index: 150;
+    display: flex;
+  }
+  .sidebar { display: none; }
+  .header-title { font-size: 10px; letter-spacing: 2px; }
+  .header-meta { gap: 8px; font-size: 9px; }
 }
 
 .search-wrap {
@@ -498,6 +555,9 @@ header::before {
 </head>
 <body>
 
+  <!-- Sidebar Toggle -->
+  <button class="sidebar-toggle open" id="sidebarToggle" onclick="toggleSidebar()">☰</button>
+
 <div class="shell">
 
   <!-- HEADER -->
@@ -781,8 +841,27 @@ function formatContent(text) {
 function show(id) { document.getElementById(id).style.display = 'block'; }
 function hide(id) { document.getElementById(id).style.display = 'none'; }
 
-// ── INIT ──────────────────────────────────────────────────
-buildList(ENTRIES);
+// ── SIDEBAR TOGGLE ────────────────────────────────────────
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+function toggleSidebar() {
+  const shell = document.querySelector('.shell');
+  const btn = document.getElementById('sidebarToggle');
+  if (isMobile) {
+    shell.classList.toggle('sidebar-visible');
+    btn.textContent = shell.classList.contains('sidebar-visible') ? '✕' : '☰';
+  } else {
+    shell.classList.toggle('sidebar-hidden');
+    btn.classList.toggle('open', !shell.classList.contains('sidebar-hidden'));
+    btn.textContent = shell.classList.contains('sidebar-hidden') ? '☰' : '✕';
+  }
+}
+
+if (isMobile) {
+  document.querySelector('.shell').classList.remove('sidebar-visible');
+}
+
+
 </script>
 </body>
 </html>

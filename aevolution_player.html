@@ -114,6 +114,33 @@ header::after {
 
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
+/* ── SIDEBAR TOGGLE BUTTON ── */
+.sidebar-toggle {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  z-index: 200;
+  background: var(--panel);
+  border: 1px solid var(--border2);
+  border-left: none;
+  color: var(--cyan);
+  font-size: 14px;
+  padding: 8px 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  writing-mode: vertical-rl;
+  letter-spacing: 2px;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.sidebar-toggle:hover {
+  background: var(--panel2);
+  color: var(--magenta);
+  border-color: var(--magenta);
+}
+
+.sidebar-toggle.open { left: 280px; }
+
 /* ── SIDEBAR ── */
 .sidebar {
   border-right: 1px solid var(--border2);
@@ -121,6 +148,40 @@ header::after {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.shell.sidebar-hidden {
+  grid-template-columns: 0 1fr;
+}
+
+.shell.sidebar-hidden .sidebar {
+  width: 0;
+  overflow: hidden;
+  border-right: none;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .shell {
+    grid-template-columns: 0 1fr;
+    grid-template-rows: 52px 1fr var(--player-h);
+  }
+  .shell.sidebar-visible .sidebar {
+    position: fixed;
+    top: 52px;
+    left: 0;
+    bottom: var(--player-h);
+    width: 280px;
+    z-index: 150;
+    display: flex;
+  }
+  .sidebar { display: none; }
+  .tagline { display: none; }
+  .header-right { gap: 8px; }
+  .logo { font-size: 10px; letter-spacing: 2px; }
+  .player-info { min-width: 120px; max-width: 160px; }
+  .iframe-wrap { flex: 1; height: 70px; }
 }
 
 .search-wrap {
@@ -665,6 +726,9 @@ input[type=range]::-webkit-slider-thumb {
 
 <div class="shell">
 
+  <!-- Sidebar Toggle -->
+  <button class="sidebar-toggle open" id="sidebarToggle" onclick="toggleSidebar()">☰</button>
+
   <!-- HEADER -->
   <header>
     <div class="header-left">
@@ -992,7 +1056,28 @@ document.getElementById('searchInput').addEventListener('input', function() {
     `// ${results.length} TRACK${results.length !== 1 ? 'S' : ''} FOUND`;
 });
 
-// ── UTILS ─────────────────────────────────────────────────
+// ── SIDEBAR TOGGLE ────────────────────────────────────────
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+function toggleSidebar() {
+  const shell = document.querySelector('.shell');
+  const btn = document.getElementById('sidebarToggle');
+  if (isMobile) {
+    shell.classList.toggle('sidebar-visible');
+    btn.textContent = shell.classList.contains('sidebar-visible') ? '✕' : '☰';
+  } else {
+    shell.classList.toggle('sidebar-hidden');
+    btn.classList.toggle('open', !shell.classList.contains('sidebar-hidden'));
+    btn.textContent = shell.classList.contains('sidebar-hidden') ? '☰' : '✕';
+  }
+}
+
+// Start collapsed on mobile
+if (isMobile) {
+  document.querySelector('.shell').classList.remove('sidebar-visible');
+}
+
+
 function show(id) {
   const el = document.getElementById(id);
   if (el) el.style.display = 'block';
