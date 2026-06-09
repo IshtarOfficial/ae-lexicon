@@ -200,11 +200,18 @@ header::after {
 }
 
 @media (max-width: 768px) and (orientation: portrait) {
+  .shell {
+    height: 100dvh;
+  }
   .player-bar {
     position: fixed;
     bottom: 0; left: 0; right: 0;
+    height: calc(var(--player-h) + env(safe-area-inset-bottom));
     padding-bottom: env(safe-area-inset-bottom);
     z-index: 200;
+  }
+  .content {
+    padding-bottom: calc(var(--player-h) + env(safe-area-inset-bottom));
   }
 }
 
