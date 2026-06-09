@@ -206,12 +206,25 @@ header::after {
   .player-bar {
     position: fixed;
     bottom: 0; left: 0; right: 0;
-    height: calc(var(--player-h) + env(safe-area-inset-bottom));
+    height: auto;
+    flex-wrap: wrap;
+    padding: 8px 12px;
     padding-bottom: env(safe-area-inset-bottom);
     z-index: 200;
+    gap: 8px;
+  }
+  .player-cover,
+  .player-cover-placeholder { width: 36px; height: 36px; }
+  .player-info { min-width: 0; max-width: calc(100% - 120px); flex: 1; }
+  .player-controls { gap: 8px; }
+  .ctrl-btn { font-size: 14px; }
+  .iframe-wrap { 
+    width: 100%; 
+    height: 54px;
+    flex-basis: 100%;
   }
   .content {
-    padding-bottom: calc(var(--player-h) + env(safe-area-inset-bottom));
+    padding-bottom: 160px;
   }
 }
 
