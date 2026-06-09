@@ -153,19 +153,21 @@ header::before {
 /* ── MOBILE ── */
 @media (max-width: 768px) {
   .shell {
-    grid-template-columns: 0 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: 52px 1fr;
   }
-  .shell.sidebar-visible .sidebar {
+  .sidebar {
+    display: none;
+    width: 280px;
     position: fixed;
     top: 52px;
     left: 0;
     bottom: 0;
-    width: 280px;
     z-index: 150;
+  }
+  .shell.sidebar-visible .sidebar {
     display: flex;
   }
-  .sidebar { display: none; }
   .header-title { font-size: 10px; letter-spacing: 2px; }
   .header-meta { gap: 8px; font-size: 9px; }
 }
