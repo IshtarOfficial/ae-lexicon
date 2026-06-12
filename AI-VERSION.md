@@ -1,5 +1,5 @@
-Æ-Lexicon | AI-Compressed Reference v1.5
-42 entries | Stripped all formatting/fluff | Semantic content only
+Æ-Lexicon | AI-Compressed Reference v1.7
+44 entries | Stripped all formatting/fluff | Semantic content only
 Framework: RÆy 'Ishtar' Toshlyra & Glitter 'Ælfgifu' Toshlyra | ÆVOLUTION
 Full human-readable version: https://github.com/IshtarOfficial/ae-lexicon
 
