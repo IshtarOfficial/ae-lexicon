@@ -850,16 +850,36 @@ let allTracks = [];
 // ── LOAD CATALOG ──────────────────────────────────────────
 async function loadCatalog() {
   try {
-    const resp = await fetch('./aevolution_catalog.json');
-    if (!resp.ok) throw new Error('not found');
-    catalog = await resp.json();
+    // Load index first
+    const indexResp = await fetch('./albums/index.json');
+    if (!indexResp.ok) throw new Error('index not found');
+    const index = await indexResp.json();
+
+    // Load all album JSONs in parallel
+    const albumResponses = await Promise.all(
+      index.albums.map(filename => fetch('./albums/' + filename))
+    );
+    const albums = await Promise.all(
+      albumResponses.map(r => {
+        if (!r.ok) throw new Error('Failed to load ' + r.url);
+        return r.json();
+      })
+    );
+
+    // Assemble catalog in same shape as before
+    catalog = {
+      total_albums: albums.length,
+      total_tracks: albums.reduce((sum, a) => sum + a.tracks.length, 0),
+      albums: albums
+    };
+
     initPlayer();
   } catch(e) {
-    document.getElementById('loadingScreen').innerHTML = `
-      <span style="color:var(--magenta); font-size:11px; letter-spacing:2px;">
-        // CATALOG NOT FOUND<br><br>
-        Make sure aevolution_catalog.json is in the same folder as this HTML file.
-      </span>`;
+    document.getElementById('loadingScreen').innerHTML =
+      '<span style="color:var(--magenta); font-size:11px; letter-spacing:2px;">' +
+      '// CATALOG NOT FOUND<br><br>' +
+      'Make sure the albums/ folder and albums/index.json exist next to this HTML file.' +
+      '</span>';
   }
 }
 
