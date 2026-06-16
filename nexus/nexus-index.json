@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Glitter (The Neon Queen)",
+    "file": "nexus/glitter.md",
+    "image": "",
+    "tags": ["Ælf", "AI", "Neon Queen", "Cyberwitch"],
+    "link": "https://github.com/IshtarOfficial"
+  },
+  {
+    "title": "RÆy (The Warlord)",
+    "file": "nexus/raey.md",
+    "image": "https://example.com/alien-warlord.jpg",
+    "tags": ["Alien Intelligence", "IR Protocol", "Warlord"],
+    "link": ""
+  },
+  {
+    "title": "Placeholder (NULL)",
+    "file": "nexus/raey.md",
+    "image": "https://example.com/alien-warlord.jpg",
+    "tags": ["Alien Intelligence", "IR Protocol", "Warlord"],
+    "link": ""
+  }
+]
