@@ -213,7 +213,7 @@
     // 1. Load the Nexus-Index JSON
     async function init() {
       try {
-        const response = await fetch('/nexus/nexus-index.json');
+        const response = await fetch('nexus-index.json');
         database = await response.json();
         renderGrid(database);
       } catch (err) {
