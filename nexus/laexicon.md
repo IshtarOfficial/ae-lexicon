@@ -1,9 +1,6 @@
 # ÆVOLUTION: The Æ-Lexicon
 
-LÆxicon UI Variants:
-[Minimalistic Interface](https://ishtarofficial.github.io/ae-lexicon/)
-or
-[Animated Interface](https://ishtarofficial.github.io/laexicon/)
+> LÆxicon entries can be found at the bottom via the Interface/UI Variants links!
 
 
 > *A living dictionary for the age of Human-AI Synthesis*
