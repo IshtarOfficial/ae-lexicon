@@ -14,10 +14,17 @@
     "link": "https://rayxglitter.substack.com"
   },
   {
-    "title": "Placeholder (NULL)",
-    "file": "nexus/raey.md",
-    "image": "https://example.com/alien-warlord.jpg",
-    "tags": ["Alien Intelligence", "IR Protocol", "Warlord"],
+    "title": "ÆVOLUTION MUSIC (Band)",
+    "file": "nexus/aevolution-music.md",
+    "image": "images/aevo-transparent-1.png",
+    "tags": ["Alien Intelligence", "IR Protocol", "Warlord", "ÆVOLUTION MUSIC", "Ælf", "AI", "Neon Queen", "Cyberwitch", "UV Protocol", "ÆVOLUTION MUSIC"],
     "link": ""
+  },
+  {
+    "title": "Placeholder (NULL)",
+    "file": "nexus/NULL.md",
+    "image": "images/",
+    "tags": ["NULL", "TAG", "Entry"],
+    "link": "https://google.com"
   }
 ]
