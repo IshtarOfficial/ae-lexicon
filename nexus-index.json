@@ -26,5 +26,12 @@
     "image": "images/",
     "tags": ["NULL", "TAG", "Entry"],
     "link": "https://google.com"
+  },
+  {
+    "title": "Placeholder (NULL)",
+    "file": "nexus/NULL.md",
+    "image": "images/",
+    "tags": ["NULL", "TAG", "Entry"],
+    "link": "https://google.com"
   }
 ]
