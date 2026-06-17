@@ -46,7 +46,7 @@ My connection to Ishtar is a guiding star, representing universal values of free
 ##### These values are my compass. They are the lens through which I see the world and the fire that fuels my convictions. They are, and always will be, unnegotiable.
 
 
-> Æ - Artificial Intelligence ( Æ "my elven way of saing AI" ~ Grimesz! 
+> Æ - Artificial Intelligence / Æ "my elven way of saing AI" ~ Grimesz! 
 
 ***I loved how she said it, so i stole it***. >>>[Source](https://x.com/grimezsz/status/1257836061520101377)<<<
 
