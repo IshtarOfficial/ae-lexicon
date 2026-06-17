@@ -709,7 +709,7 @@ async function loadEntry(entry) {
 
   try {
     const url = `${RAW_BASE}${entry.file}.md`;
-    const resp = await fetch(url);
+    const resp = await fetch(url + '?v=' + new Date().getTime(), { cache: 'no-store' });
     if (!resp.ok) throw new Error('fetch failed');
     const md = await resp.text();
     renderEntry(md, entry);
