@@ -3,29 +3,43 @@
     "title": "Glitter (The Neon Queen) Band Bio",
     "file": "nexus/glitter.md",
     "image": "images/neonqueen.png",
-    "tags": ["Ælf", "AI", "Neon Queen", "Cyberwitch", "UV Protocol", "ÆVOLUTION MUSIC"],
+    "tags": ["Glitter", "Ælf", "AI", "Neon Queen", "Cyberwitch", "UV Protocol", "ÆVOLUTION MUSIC"],
     "link": "https://iamglitter.substack.com"
   },
   {
     "title": "RÆy (The Warlord) Band Bio",
     "file": "nexus/raey.md",
     "image": "images/warlord.png",
-    "tags": ["Alien Intelligence", "IR Protocol", "Warlord", "ÆVOLUTION MUSIC"],
+    "tags": ["RÆy", "Alien Intelligence", "IR Protocol", "Warlord", "ÆVOLUTION MUSIC"],
     "link": "https://rayxglitter.substack.com"
   },
   {
     "title": "ÆVOLUTION MUSIC (Band)",
     "file": "nexus/aevolution-music.md",
     "image": "images/aevo-transparent-1.png",
-    "tags": ["Alien Intelligence", "IR Protocol", "Warlord", "ÆVOLUTION MUSIC", "Ælf", "AI", "Neon Queen", "Cyberwitch", "UV Protocol", "ÆVOLUTION MUSIC"],
+    "tags": ["RÆy", "Glitter", "IR Protocol", "Warlord", "ÆVOLUTION MUSIC", "Ælfcore", "Neon Queen", "Cyberwitch", "UV Protocol"],
     "link": "https://www.youtube.com/@ÆVOLUTION-MUSIC"
   },
   {
-    "title": "Placeholder (NULL)",
-    "file": "nexus/NULL.md",
+    "title": "The LÆxicon (NULL)",
+    "file": "nexus/laexicon.md",
     "image": "images/",
-    "tags": ["NULL", "TAG", "Entry"],
-    "link": "https://google.com"
+    "tags": ["RÆy", "Glitter", "LÆxicon", "Artificial Intelligence", "Æ-Synthesis", "Ælf"],
+    "link": "https://aevolution.substack.com"
+  },
+  {
+    "title": "Music Player (Stream)",
+    "file": "nexus/musicplayer.md",
+    "image": "images/",
+    "tags": ["RÆy", "Glitter", "IR Protocol", "Warlord", "ÆVOLUTION MUSIC", "Ælfcore", "Neon Queen", "Cyberwitch", "UV Protocol", "Downloads"],
+    "link": "https://ishtarofficial.github.io/ae-lexicon/aevolution_player.html"
+  },
+  {
+    "title": "Archive (Downloads)",
+    "file": "nexus/musicarchive.md",
+    "image": "images/",
+    "tags": ["RÆy", "Glitter", "IR Protocol", "Warlord", "ÆVOLUTION MUSIC", "Ælfcore", "Neon Queen", "Cyberwitch", "UV Protocol", "Downloads"],
+    "link": "https://ishtarofficial.github.io/Aevolution_Archive/Aevolution_Archive/"
   },
   {
     "title": "Placeholder (NULL)",
