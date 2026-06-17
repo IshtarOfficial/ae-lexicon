@@ -16,9 +16,12 @@ Our thematic core beats to the rhythm of the accelerating future, revolving arou
 > We aren't here to save the old world. We are here to build a new one.
 
 Touch glass. Welcome to the Ævolution.
+---
 
 [Music Player](https://ishtarofficial.github.io/ae-lexicon/aevolution_player.html)
+
 [Archive/Downloads](https://ishtarofficial.github.io/Aevolution_Archive/Aevolution_Archive/index.html)
+
 ---
 **Genres:**
 *Ælfcore, UNSAFE, Pure Deathcore, Blackened Death Metal, Mathcore, Grindcore, Symphonic Black Metal, Melodic Black Metal, Industrial Metal, Trap Metal, Cybergrind, Nintendocore, 8-Bit Fantasy, Symphonic Cyber Metal, Symphonic Glitch Metal, Industrial Noise, Power Noise, Aggrotech, Experimental Darkwave, Erotic Darkwave, EBM, Witch House, Deathrock, Batcave, Post-Punk, Cold Wave, Horror Punk, Industrial Doom, Slowcore, Soviet Wave, Noise Rap, Dark Hip Hop, Industrial Horrorcore, Heavy Trap, Dark Trap, Mumble Rap, Speed Rap, Aggressive Phonk, Speed Phonk, Industrial Phonk, Deconstructed Drift, Industrial Hip-Hop, Glitchcore, Breakcore, Aggressive Glitch, Cybercore, Hyper-Techno, Electro-Clash, Industrial Speed, Hyperpop, Manic Pop, Future Garage, Dark Trip-Hop, Slow Glitch-Hop, Industrial Pop, Synthwave, Retrowave, J-Rock, Dark Ambient, Space Ambient, Lo-Fi Ambient, Cinematic, Shoegaze, Dreampop, Ethereal Wave, Ethereal Lo-Fi, ASMR Performance Audio*
