@@ -810,6 +810,9 @@ function formatContent(text) {
   // Clean up old markdown anchor artifacts
   text = text.replace(/\[#[^\]]*\]\([^)]*\)/g, '');
 
+  // THE MAGIC TRICK: Turn standard --- into our glowing cyan/magenta divider!
+  text = text.replace(/^---+\s*$/gm, '<hr class="neon-divider">');
+
   // THE MAGIC TRICK: Convert ANY ## Heading into our sleek UI section labels!
   text = text.replace(/^###?\s+(.*$)/gim, '</div><div class="section-label" style="margin-top:35px;">// $1</div><div class="section-content">');
 
