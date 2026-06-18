@@ -731,49 +731,26 @@ async function loadEntry(entry) {
 function renderEntry(md, meta) {
   hide('loadingState');
 
-  // Extract title line (first # heading)
-  const titleMatch = md.match(/^#\s+📘\s+Æ-Lexicon Entry \d+:\s+(.+)$/m);
+  // 1. Extract title and subtitle, with a fallback for normal markdown headers
+  const titleMatch = md.match(/^#\s+📘\s+Æ-Lexicon Entry \d+:\s+(.+)$/m) || md.match(/^#\s+(.+)$/m);
   const mainTitle = titleMatch ? titleMatch[1].trim() : meta.title;
 
-  // Extract subtitle (bold line after title)
   const subtitleMatch = md.match(/\*\*Title:\*\*\s*(.+)/);
   const subtitle = subtitleMatch ? subtitleMatch[1].trim() : '';
 
-  // Extract sections
-  const sections = [
-    { key: 'The Definition', label: '// DEFINITION' },
-    { key: 'The Mechanic (The Science)', label: '// THE MECHANIC — SCIENCE' },
-    { key: 'The Soul (The Experience)', label: '// THE SOUL — EXPERIENCE' },
-    { key: 'The Takeaway', label: '// TAKEAWAY' },
-  ];
+  // 2. Remove title and subtitle from the body so they don't print twice
+  let bodyText = md;
+  if (titleMatch) bodyText = bodyText.replace(titleMatch[0], '');
+  if (subtitleMatch) bodyText = bodyText.replace(subtitleMatch[0], '');
 
-  let html = `
-    <div class="entry-header">
-      <div class="entry-number">ENTRY ${meta.num}</div>
-      <div class="entry-main-title">${mainTitle}</div>
-      ${subtitle ? `<div class="entry-subtitle">${subtitle}</div>` : ''}
-    </div>
-  `;
-
-  sections.forEach(s => {
-    const content = extractSection(md, s.key);
-    if (content) {
-      html += `
-        <div class="entry-section">
-          <div class="section-label">${s.label}</div>
-          <div class="section-content">${formatContent(content)}</div>
-        </div>
-      `;
-    }
-  });
-
-  // Related concepts
-  const relatedMatch = md.match(/\*\*Related Concepts:\*\*(.+)/);
+  // 3. Extract our custom "Related Concepts" chips (if they exist)
+  let relatedHtml = '';
+  const relatedMatch = bodyText.match(/\*\*Related Concepts:\*\*(.+)/);
   if (relatedMatch) {
     const relatedRaw = relatedMatch[1];
     const links = [...relatedRaw.matchAll(/\[([^\]]+)\]\([^)]+entries\/([^)]+)\.md\)/g)];
     if (links.length) {
-      html += `
+      relatedHtml = `
         <div class="related-section">
           <div class="related-label">// RELATED CONCEPTS</div>
           <div class="related-chips">
@@ -782,21 +759,39 @@ function renderEntry(md, meta) {
         </div>
       `;
     }
+    bodyText = bodyText.replace(relatedMatch[0], ''); // Remove from main body
   }
+
+  // Remove "Back to" lines if any exist
+  bodyText = bodyText.replace(/\*\*Back to:\*\*.*/gs, '');
+
+  // 4. Build the final HTML dynamically
+  let html = `
+    <div class="entry-header">
+      <div class="entry-number">ENTRY ${meta.num}</div>
+      <div class="entry-main-title">${mainTitle}</div>
+      ${subtitle ? `<div class="entry-subtitle">${subtitle}</div>` : ''}
+    </div>
+    <div class="entry-section">
+      <div class="section-content">
+        ${formatContent(bodyText.trim())}
+      </div>
+    </div>
+    ${relatedHtml}
+  `;
 
   const view = document.getElementById('entryView');
   view.innerHTML = html;
   view.style.display = 'block';
   view.scrollTop = 0;
 
-  // Wire related chips
+  // Wire up the related chips
   view.querySelectorAll('.related-chip').forEach(chip => {
     chip.addEventListener('click', () => {
       const file = chip.dataset.file;
       const entry = ENTRIES.find(e => e.file === file);
       if (entry) loadEntry(entry);
       else {
-        // Try to derive from filename
         const num = file.match(/^(\d+)/)?.[1];
         const found = ENTRIES.find(e => e.num === num?.padStart(3,'0'));
         if (found) loadEntry(found);
@@ -805,34 +800,23 @@ function renderEntry(md, meta) {
   });
 }
 
-function extractSection(md, heading) {
-  const regex = new RegExp(`## ${escapeRegex(heading)}\\s*\\n([\\s\\S]*?)(?=\\n## |\\n---\\s*\\n|$)`, 'i');
-  const match = md.match(regex);
-  if (!match) return null;
-  let content = match[1].trim();
-  content = content.replace(/\*\*Related Concepts:\*\*.*/gs, '').trim();
-  content = content.replace(/\*\*Back to:\*\*.*/gs, '').trim();
-  content = content.replace(/^---\s*$/gm, '').trim();
-  return content;
-}
-
-function escapeRegex(str) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
 function formatContent(text) {
-  // Remove anchor links like [#heading-text](#heading-text)
+  // Clean up old markdown anchor artifacts
   text = text.replace(/\[#[^\]]*\]\([^)]*\)/g, '');
-  
-  // Bold **text** → styled span
+
+  // THE MAGIC TRICK: Convert ANY ## Heading into our sleek UI section labels!
+  text = text.replace(/^###?\s+(.*$)/gim, '</div><div class="section-label" style="margin-top:35px;">// $1</div><div class="section-content">');
+
+  // Bold and Italic formatting
   text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-  
-  // Italic *text* → styled span
   text = text.replace(/\*([^*]+)\*/g, '<em>$1</em>');
   
-  // Bullet points
+  // Standard Markdown Links to Cyber-Links
+  text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" style="color:var(--magenta); text-decoration:none; border-bottom: 1px dotted var(--magenta); transition:all 0.2s;">$1</a>');
+
+  // Parse Bullet points & Paragraphs dynamically
   const lines = text.split('\n');
-  let result = '';
+  let result = '<div>'; 
   let inList = false;
   
   lines.forEach(line => {
@@ -841,6 +825,14 @@ function formatContent(text) {
       if (inList) { result += '</ul>'; inList = false; }
       return;
     }
+    
+    // Ignore wrapping if it's our newly injected section label
+    if (stripped.includes('class="section-label"')) {
+       if (inList) { result += '</ul>'; inList = false; }
+       result += stripped;
+       return;
+    }
+
     if (stripped.startsWith('- ') || stripped.startsWith('* ')) {
       if (!inList) { result += '<ul>'; inList = true; }
       result += `<li>${stripped.slice(2)}</li>`;
@@ -850,7 +842,8 @@ function formatContent(text) {
     }
   });
   if (inList) result += '</ul>';
-  
+  result += '</div>';
+
   return result;
 }
 
