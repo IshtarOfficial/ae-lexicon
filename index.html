@@ -435,7 +435,13 @@ header::before {
   color: var(--magenta);
   font-style: normal;
 }
-
+.neon-divider {
+  border: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), var(--magenta), transparent);
+  margin: 30px 0;
+  box-shadow: 0 0 10px rgba(0, 245, 255, 0.4);
+}
 /* Bullet-style list items from markdown */
 .section-content ul {
   list-style: none;
