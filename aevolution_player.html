@@ -181,6 +181,7 @@ header::after {
   .logo { font-size: 10px; letter-spacing: 2px; }
   .player-info { min-width: 120px; max-width: 160px; }
   .iframe-wrap { flex: 1; height: 70px; }
+  .sidebar-toggle.open { left: 280px; }
 }
 
 /* ── LANDSCAPE MOBILE ── */
@@ -1125,6 +1126,7 @@ function toggleSidebar() {
 // Start collapsed on mobile
 if (isMobile) {
   document.querySelector('.shell').classList.remove('sidebar-visible');
+  document.getElementById('sidebarToggle').classList.remove('open');
 }
 
 
