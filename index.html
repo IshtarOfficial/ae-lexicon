@@ -170,6 +170,7 @@ header::before {
   }
   .header-title { font-size: 10px; letter-spacing: 2px; }
   .header-meta { gap: 8px; font-size: 9px; }
+  .sidebar-toggle.open { left: 280px; }
 }
 
 /* ── LANDSCAPE MOBILE ── */
@@ -864,6 +865,8 @@ function toggleSidebar() {
   const btn = document.getElementById('sidebarToggle');
   if (isMobile) {
     shell.classList.toggle('sidebar-visible');
+    // ADDED: This makes the button slide with the menu on mobile!
+    btn.classList.toggle('open', shell.classList.contains('sidebar-visible'));
     btn.textContent = shell.classList.contains('sidebar-visible') ? '✕' : '☰';
   } else {
     shell.classList.toggle('sidebar-hidden');
@@ -874,6 +877,8 @@ function toggleSidebar() {
 
 if (isMobile) {
   document.querySelector('.shell').classList.remove('sidebar-visible');
+  // ADDED: This ensures the button starts in the closed position on mobile!
+  document.getElementById('sidebarToggle').classList.remove('open');
 }
 
 // ── INIT ──────────────────────────────────────────────────
