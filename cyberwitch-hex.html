@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberwitch: Prismatic Run</title>
+    <!-- Standalone Tailwind CSS V4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body { margin: 0; background: #020202; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; font-family: sans-serif; }
+        @keyframes pulse-slow { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .animate-pulse-slow { animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        #ui-layer, #start-overlay, #game-over-overlay {
+            user-select: none;
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="relative w-[1024px] h-[768px] bg-[#050505] overflow-hidden text-white shadow-[0_0_50px_rgba(0,255,255,0.15)] rounded font-sans">
+    
+    <!-- UI OVERLAY -->
+    <div id="ui-layer" class="absolute top-0 left-0 w-full p-8 flex justify-between items-start z-10 pointer-events-none hidden">
+        <div class="flex flex-col gap-2">
+            <div class="text-[10px] tracking-[0.2em] text-[#00FFFF] font-bold uppercase">System_Status</div>
+            <div class="w-64 h-4 bg-[#111] border border-[#00FFFF]/30 rounded-full overflow-hidden">
+                <div id="health-bar" class="h-full bg-gradient-to-r from-[#FF00FF] to-[#00FFFF] w-full transition-all duration-300"></div>
+            </div>
+            <div class="text-[9px] text-[#FF00FF] font-mono uppercase">Cyberwitch_Core_Stable</div>
+        </div>
+        
+        <div class="text-right">
+            <div class="text-[10px] tracking-[0.2em] text-[#00FFFF] font-bold uppercase">Matrix_Disruption</div>
+            <div id="score-display" class="text-4xl font-black italic text-white drop-shadow-[0_0_10px_#00FFFF]">000000</div>
+        </div>
+    </div>
+
+    <!-- START OVERLAY -->
+    <div id="start-overlay" class="absolute inset-0 bg-black/90 flex flex-col items-center justify-center z-20">
+        <h1 class="text-7xl font-black italic tracking-tighter mb-4">
+            <span class="text-[#00FFFF]">CYBER</span><span class="text-[#FF00FF]">WITCH</span>
+        </h1>
+        <p class="text-[#D5C4A1] text-sm tracking-[0.3em] uppercase opacity-60 mb-8">Deconstruct the Beige Matrix</p>
+        <div id="start-btn" class="px-8 py-3 border-2 border-[#00FFFF] text-[#00FFFF] font-bold hover:bg-[#00FFFF] hover:text-black cursor-pointer transition-colors animate-pulse-slow uppercase tracking-widest text-center pointer-events-auto">
+            Initiate Override
+        </div>
+        <div class="mt-12 grid grid-cols-2 gap-8 text-[10px] uppercase tracking-widest text-gray-500">
+            <div class="text-center"><span class="text-white">WASD</span> to Navigate</div>
+            <div class="text-center"><span class="text-white">SPACE</span> to Purge</div>
+        </div>
+        <p class="text-[9px] mt-8 text-gray-600 uppercase">Audio will initialize upon boot.</p>
+    </div>
+
+    <!-- GAME OVER OVERLAY -->
+    <div id="game-over-overlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center z-20 transition-opacity hidden">
+        <h1 class="text-7xl font-black italic tracking-tighter mb-4 text-[#FF00FF] drop-shadow-[0_0_25px_#FF00FF]">
+            SYSTEM FAILURE
+        </h1>
+        <p id="game-over-score" class="text-[#00FFFF] text-xl tracking-[0.2em] font-bold uppercase mb-8 drop-shadow-[0_0_10px_#00FFFF]"></p>
+        <div id="restart-btn" class="px-8 py-3 border-2 border-[#00FFFF] text-[#00FFFF] font-bold hover:bg-[#00FFFF] hover:text-black cursor-pointer transition-colors animate-pulse-slow uppercase tracking-widest text-center pointer-events-auto">
+            Reboot Sequence
+        </div>
+    </div>
+
+    <!-- CANVAS -->
+    <canvas id="gameCanvas" width="1024" height="768" class="block bg-transparent"></canvas>
+    <audio id="bgm" loop></audio>
+</div>
+
+<script>
+// ============================================================================
+// 🎵 INSERT_BACKGROUND_MUSIC_URL_HERE 🎵
+// Replace this empty string with your audio file URL.
+// ============================================================================
+const BGM_URL = "assets/HEX_THE_SYSTEM_8bit_GAMEBGM.ogg";
+
+// ============================================================================
+// 🔊 INSERT_FULL_CHARGE_AUDIO_URL_HERE 🔊
+// ============================================================================
+const AUDIO_FULL_CHARGE_URL = "assets/CW-SHOOT1.ogg";
+
+// ============================================================================
+// 🔊 INSERT_PLAYER_HURT_AUDIO_URL_HERE 🔊
+// ============================================================================
+const AUDIO_PLAYER_HURT_URL = "assets/CW-Hurt.ogg";
+
+// ============================================================================
+// 🔊 INSERT_ENEMY_HIT_AUDIO_URL_HERE 🔊
+// ============================================================================
+const AUDIO_ENEMY_HIT_URL = "assets/CW-HIT1.ogg";
+
+// ============================================================================
+// 🔊 INSERT_KILL_STREAK_AUDIO_URL_HERE 🔊
+// ============================================================================
+const AUDIO_KILL_STREAK_URL = "assets/CW-laugh.ogg";
+
+// ============================================================================
+// 🧙‍♀️ INSERT_CYBERWITCH_IDLE_SPRITE_URL_HERE 🧙‍♀️
+// Replace with your 64x64 custom sprite URL.
+// ============================================================================
+const PLAYER_IDLE_SPRITE_URL = "assets/CW-Combat-1.png";
+
+// ============================================================================
+// 🧙‍♀️ INSERT_CYBERWITCH_MOVE_UP_SPRITE_URL_HERE 🧙‍♀️
+// ============================================================================
+const PLAYER_MOVE_UP_SPRITE_URL = "assets/CW-Back.png";
+
+// ============================================================================
+// 🧙‍♀️ INSERT_CYBERWITCH_MOVE_DOWN_SPRITE_URL_HERE 🧙‍♀️
+// ============================================================================
+const PLAYER_MOVE_DOWN_SPRITE_URL = "assets/CW-Front.png";
+
+// ============================================================================
+// 🧙‍♀️ INSERT_CYBERWITCH_MOVE_FORWARD_SPRITE_URL_HERE 🧙‍♀️
+// ============================================================================
+const PLAYER_MOVE_FORWARD_SPRITE_URL = "assets/CW-Walk_Forward.png";
+
+// ============================================================================
+// 🧙‍♀️ INSERT_CYBERWITCH_MOVE_BACKWARD_SPRITE_URL_HERE 🧙‍♀️
+// ============================================================================
+const PLAYER_MOVE_BACKWARD_SPRITE_URL = "assets/CW-Walk_Backward.png";
+
+// ============================================================================
+// 🧙‍♀️ INSERT_CYBERWITCH_CHARGE_SPRITE_URL_HERE 🧙‍♀️
+// ============================================================================
+const PLAYER_CHARGE_SPRITE_URL = "assets/CW-Combat-2.png";
+
+// ============================================================================
+// 🧙‍♀️ INSERT_CYBERWITCH_SHOOT_SPRITE_URL_HERE 🧙‍♀️
+// ============================================================================
+const PLAYER_SHOOT_SPRITE_URL = "assets/CW-Combat-3.png";
+
+// ============================================================================
+// 👾 INSERT_BEIGE_MATRIX_AGENT_SPRITE_URL_HERE 👾
+// Replace with your custom enemy sprite URL.
+// ============================================================================
+const ENEMY_SPRITE_URL = "assets/Beige_Agent.png";
+// ============================================================================
+// 👾 INSERT_ELITE_ENFORCER_SPRITE_URL_HERE 👾
+// ============================================================================
+const ENEMY_ELITE_SPRITE_URL = "assets/Netwatch.png"; // Make sure the filename matches!
+
+const enemyEliteImage = new Image();
+if (ENEMY_ELITE_SPRITE_URL) enemyEliteImage.src = ENEMY_ELITE_SPRITE_URL;
+
+// DOM Elements
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const uiLayer = document.getElementById('ui-layer');
+const startOverlay = document.getElementById('start-overlay');
+const gameOverOverlay = document.getElementById('game-over-overlay');
+const healthBar = document.getElementById('health-bar');
+const scoreDisplay = document.getElementById('score-display');
+const gameOverScore = document.getElementById('game-over-score');
+const startBtn = document.getElementById('start-btn');
+const restartBtn = document.getElementById('restart-btn');
+const bgm = document.getElementById('bgm');
+
+// --- MOUSE TRACKING FOR 25° CONE AIMING ---
+const mouse = { x: 0, y: 0 };
+window.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+}); // <--- Safe and closed!
+
+if (BGM_URL) bgm.src = BGM_URL;
+
+// Game State
+let isRunning = false;
+let score = 0;
+let lastTime = 0;
+let enemySpawnTimer = 0;
+let enemySpawnInterval = 1200;
+let screenShakeTimer = 0;
+
+const keys = {};
+
+const player = {
+    x: 100,
+    y: 384,
+    w: 128,
+    h: 128,
+    speed: 400,
+    hp: 100,
+    maxHp: 100,
+    lastShot: 0,
+    chargeTime: 0,
+    state: 'IDLE',
+    shootStanceTimer: 0,
+    fullChargePlayed: false
+};
+
+const bullets = [];
+const enemies = [];
+const particles = [];
+const stars = Array.from({ length: 150 }).map(() => ({
+    x: Math.random() * 1024,
+    y: Math.random() * 768,
+    speed: Math.random() * 3 + 0.5,
+    size: Math.random() * 2 + 1,
+    color: Math.random() > 0.5 ? '#00FFFF' : '#FF00FF'
+}));
+
+// Images
+const playerIdleImg = new Image(); if (PLAYER_IDLE_SPRITE_URL) playerIdleImg.src = PLAYER_IDLE_SPRITE_URL;
+playerIdleImg.onload = () => { if (!isRunning) draw(); };
+const playerMoveUpImg = new Image(); if (PLAYER_MOVE_UP_SPRITE_URL) playerMoveUpImg.src = PLAYER_MOVE_UP_SPRITE_URL;
+const playerMoveDownImg = new Image(); if (PLAYER_MOVE_DOWN_SPRITE_URL) playerMoveDownImg.src = PLAYER_MOVE_DOWN_SPRITE_URL;
+const playerMoveForwardImg = new Image(); if (PLAYER_MOVE_FORWARD_SPRITE_URL) playerMoveForwardImg.src = PLAYER_MOVE_FORWARD_SPRITE_URL;
+const playerMoveBackwardImg = new Image(); if (PLAYER_MOVE_BACKWARD_SPRITE_URL) playerMoveBackwardImg.src = PLAYER_MOVE_BACKWARD_SPRITE_URL;
+const playerChargeImg = new Image(); if (PLAYER_CHARGE_SPRITE_URL) playerChargeImg.src = PLAYER_CHARGE_SPRITE_URL;
+const playerShootImg = new Image(); if (PLAYER_SHOOT_SPRITE_URL) playerShootImg.src = PLAYER_SHOOT_SPRITE_URL;
+
+const enemyImage = new Image();
+if (ENEMY_SPRITE_URL) enemyImage.src = ENEMY_SPRITE_URL;
+
+// Audio
+const audioFullCharge = new Audio(); if (AUDIO_FULL_CHARGE_URL) audioFullCharge.src = AUDIO_FULL_CHARGE_URL;
+const audioPlayerHurt = new Audio(); if (AUDIO_PLAYER_HURT_URL) audioPlayerHurt.src = AUDIO_PLAYER_HURT_URL;
+const audioEnemyHit = new Audio(); if (AUDIO_ENEMY_HIT_URL) audioEnemyHit.src = AUDIO_ENEMY_HIT_URL;
+const audioKillStreak = new Audio(); if (AUDIO_KILL_STREAK_URL) audioKillStreak.src = AUDIO_KILL_STREAK_URL;
+
+audioFullCharge.loop = true;
+
+function playSound(audioEl) {
+    if (audioEl.src && audioEl.src !== window.location.href) {
+        audioEl.currentTime = 0;
+        audioEl.play().catch(e => console.warn("Audio play blocked by browser."));
+    }
+}
+
+function stopSound(audioEl) {
+    if (audioEl.src && audioEl.src !== window.location.href) {
+        audioEl.pause();
+        audioEl.currentTime = 0;
+    }
+}
+
+// Input Handling
+window.addEventListener('keydown', (e) => {
+    keys[e.key] = true;
+    keys[e.code] = true;
+    if ([' ', 'Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+    }
+    // Allow space to start game from overlays
+    if (e.code === 'Space') {
+        if (!isRunning && startOverlay.style.display !== 'none') {
+            startGame();
+        } else if (!isRunning && gameOverOverlay.style.display !== 'none') {
+            startGame();
+        }
+    }
+});
+
+window.addEventListener('keyup', (e) => {
+    keys[e.key] = false;
+    keys[e.code] = false;
+});
+
+startBtn.addEventListener('click', startGame);
+restartBtn.addEventListener('click', startGame);
+
+function startGame() {
+    isRunning = true;
+    score = 0;
+    player.hp = player.maxHp;
+    player.x = 100;
+    player.y = 384;
+    player.chargeTime = 0;
+    player.state = 'IDLE';
+    player.shootStanceTimer = 0;
+    player.fullChargePlayed = false;
+    player.enemiesKilled = 0;
+    bullets.length = 0;
+    enemies.length = 0;
+    particles.length = 0;
+    enemySpawnInterval = 1200;
+    enemySpawnTimer = 0;
+    lastTime = performance.now();
+
+    startOverlay.style.display = 'none';
+    gameOverOverlay.style.display = 'none';
+    gameOverOverlay.classList.add('hidden');
+    uiLayer.style.display = 'flex';
+    uiLayer.classList.remove('hidden');
+
+    updateUI();
+
+    if (bgm.src && bgm.src !== window.location.href) {
+        bgm.volume = 0.5;
+        bgm.play().catch(e => console.warn("Audio play blocked by browser."));
+    }
+
+    requestAnimationFrame(gameLoop);
+}
+
+function gameOver() {
+    isRunning = false;
+    uiLayer.style.display = 'none';
+    gameOverOverlay.style.display = 'flex';
+    gameOverOverlay.classList.remove('hidden');
+    gameOverScore.innerText = `AGENTS DEFEATED: ${player.enemiesKilled}`;
+    stopSound(bgm);
+    stopSound(audioFullCharge);
+}
+
+function updateUI() {
+    scoreDisplay.innerText = score.toString().padStart(6, '0');
+    healthBar.style.width = Math.max(0, (player.hp / player.maxHp) * 100) + '%';
+    healthBar.className = `h-full transition-all duration-300 w-full ${player.hp <= 30 ? 'bg-red-500' : 'bg-gradient-to-r from-[#FF00FF] to-[#00FFFF]'}`;
+}
+
+const rectIntersect = (r1, r2) => {
+    return !(r2.x > r1.x + r1.w || r2.x + r2.w < r1.x || r2.y > r1.y + r1.h || r2.y + r2.h < r1.y);
+};
+
+function createExplosion(x, y, color, count) {
+    for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 50 + Math.random() * 300; // Faster, more chaotic scattering!
+        
+        // Force strict UV/IR Protocol Colors for the enemies!
+        const godRayColor = Math.random() > 0.5 ? '#00FFFF' : '#FF00FF'; 
+        
+        particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: 0.3 + Math.random() * 0.5,
+            maxLife: 0.8,
+            // Keep the red color only for when the Cyberwitch gets hurt
+            color: color === '#FF0000' ? '#FF0000' : godRayColor, 
+            size: Math.random() * 6 + 3 // Bigger, chunkier pixel shards
+        });
+    }
+}
+
+function update(dt, now) {
+    if (screenShakeTimer > 0) {
+        screenShakeTimer -= dt;
+    }
+    if (player.hp <= 0) {
+        gameOver();
+        return;
+    }
+
+    // Move Player
+    let dx = 0, dy = 0;
+    if (keys['w'] || keys['W'] || keys['ArrowUp']) dy -= 1;
+    if (keys['s'] || keys['S'] || keys['ArrowDown']) dy += 1;
+    if (keys['a'] || keys['A'] || keys['ArrowLeft']) dx -= 1;
+    if (keys['d'] || keys['D'] || keys['ArrowRight']) dx += 1;
+
+    let movementState = 'IDLE';
+    if (dy < 0) movementState = 'UP';
+    else if (dy > 0) movementState = 'DOWN';
+    else if (dx < 0) movementState = 'BACKWARD';
+    else if (dx > 0) movementState = 'FORWARD';
+
+    if (dx !== 0 && dy !== 0) {
+        const length = Math.sqrt(dx * dx + dy * dy);
+        dx /= length;
+        dy /= length;
+    }
+
+    player.x += dx * player.speed * dt;
+    player.y += dy * player.speed * dt;
+    player.x = Math.max(0, Math.min(canvas.width - player.w, player.x));
+    player.y = Math.max(0, Math.min(canvas.height - player.h, player.y));
+
+    // Shooting
+    const isHoldingShoot = keys[' '] || keys['Space'];
+    
+    if (player.shootStanceTimer > 0) {
+        player.shootStanceTimer -= dt;
+    }
+
+    if (isHoldingShoot) {
+        player.chargeTime += dt;
+        if (player.chargeTime >= 0.5 && !player.fullChargePlayed) {
+            playSound(audioFullCharge);
+            player.fullChargePlayed = true;
+        }
+
+        if (player.chargeTime >= 0.5 && now - player.lastShot > 150) {
+            player.lastShot = now;
+            player.shootStanceTimer = 0.2;
+            const rayColor = bullets.length % 2 === 0 ? '#00FFFF' : '#FF00FF';
+            
+            // Calculate angle toward the mouse
+            const pX = player.x + player.w;
+            const pY = player.y + player.h / 2;
+            let angle = Math.atan2(mouse.y - pY, mouse.x - pX);
+            
+            // Clamp the angle to a 25-degree cone (-25° to +25°)
+            const maxAngle = 25 * Math.PI / 180;
+            if (angle > maxAngle) angle = maxAngle;
+            if (angle < -maxAngle) angle = -maxAngle;
+
+            const bSpeed = 800;
+            bullets.push({
+                x: pX,
+                y: pY - 4,
+                w: 25,
+                h: 8,
+                vx: Math.cos(angle) * bSpeed,
+                vy: Math.sin(angle) * bSpeed,
+                angle: angle,
+                color: rayColor
+            });
+        }
+    } else {
+        if (player.fullChargePlayed) stopSound(audioFullCharge);
+        player.chargeTime = 0;
+        player.fullChargePlayed = false;
+    }
+
+    if (player.shootStanceTimer > 0) {
+        player.state = 'SHOOT';
+    } else if (isHoldingShoot && player.chargeTime < 0.5) {
+        player.state = 'CHARGE';
+    } else if (isHoldingShoot && player.chargeTime >= 0.5) {
+        player.state = 'SHOOT'; 
+    } else {
+        player.state = movementState;
+    }
+
+    // Update Bullets
+    for (let i = bullets.length - 1; i >= 0; i--) {
+        const b = bullets[i];
+        b.x += b.vx * dt;
+        b.y += b.vy * dt;
+        if (b.x > canvas.width || b.y < 0 || b.y > canvas.height) {
+            bullets.splice(i, 1);
+        }
+    }
+
+    // Spawn Enemies (Elite Enforcer Upgrade)
+    enemySpawnTimer += dt * 1000;
+    if (enemySpawnTimer > enemySpawnInterval) {
+        enemySpawnTimer = 0;
+        enemySpawnInterval = Math.max(200, enemySpawnInterval - 30); 
+
+        // 15% chance the Beige Matrix sends a heavy Enforcer!
+        const isElite = Math.random() < 0.15; 
+        
+        enemies.push({
+            x: canvas.width,
+            y: Math.random() * (canvas.height - (isElite ? 180 : 128)),
+            w: isElite ? 180 : 128, 
+            h: isElite ? 180 : 128,
+            speed: isElite ? 120 + Math.random() * 50 : 250 + Math.random() * 200, 
+            hp: isElite ? 120 : 10, 
+            isElite: isElite
+        });
+    }
+
+    // Update Enemies
+    for (let i = enemies.length - 1; i >= 0; i--) {
+        const e = enemies[i];
+        e.x -= e.speed * dt;
+
+        // Player Collision
+        if (rectIntersect(player, e)) {
+            player.hp -= 15;
+            enemies.splice(i, 1);
+            playSound(audioPlayerHurt);
+            createExplosion(player.x + player.w, player.y + player.h / 2, '#FF0000', 20);
+            updateUI();
+            continue;
+        }
+
+        // Bullet Collision (Armor-Piercing Upgrade)
+        let hit = false;
+        for (let j = bullets.length - 1; j >= 0; j--) {
+            const b = bullets[j];
+            if (rectIntersect(b, e)) {
+                playSound(audioEnemyHit);
+                // Tiny spark for a standard hit
+                createExplosion(b.x, b.y, b.color, 8); 
+                bullets.splice(j, 1); // Bullet is destroyed on impact
+                
+                e.hp -= 10; // Agent takes damage
+                
+                // If the agent's health hits zero, shatter them!
+                if (e.hp <= 0) {
+                    // Massive confetti explosion for the kill!
+                    createExplosion(e.x + e.w / 2, e.y + e.h / 2, b.color, e.isElite ? 30 : 15);
+                    enemies.splice(i, 1); // <--- Perfect execution!
+                    score += e.isElite ? 50 : 10; 
+                    player.enemiesKilled++;
+                    
+                    // --- THE CYBERWITCH HEALING STREAK ---
+                    if (player.enemiesKilled % 5 === 0) {
+                        playSound(audioKillStreak);
+                        player.hp = Math.min(player.maxHp, player.hp + 20); 
+                        createExplosion(player.x + player.w / 2, player.y + player.h / 2, '#00FFFF', 15);
+                    }
+                }
+                
+                updateUI();
+                hit = true;
+                break;
+            }
+        }
+
+        if (hit) continue;
+
+        if (e.x + e.w < 0) {
+            player.hp -= 10; // Take 10 damage for letting an NPC pass
+            screenShakeTimer = 0.3; // Shake screen for 0.3 seconds
+            playSound(audioPlayerHurt);
+            updateUI();
+            enemies.splice(i, 1);
+        }
+    }
+
+    // Update Particles
+    for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.life -= dt;
+        if (p.life <= 0) particles.splice(i, 1);
+    }
+
+    // Parallax
+    stars.forEach(s => {
+        s.x -= s.speed * (dt * 60);
+        if (s.x < 0) {
+            s.x = canvas.width;
+            s.y = Math.random() * canvas.height;
+        }
+    });
+}
+
+function draw() {
+    ctx.save(); // Save default canvas state
+    
+    // Apply heavy matrix glitch distortion if screenShakeTimer is active
+    if (screenShakeTimer > 0) {
+        const intensity = 10; // Change this number to make the shake harder/softer
+        const shakeX = (Math.random() - 0.5) * intensity;
+        const shakeY = (Math.random() - 0.5) * intensity;
+        ctx.translate(shakeX, shakeY);
+    }
+
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // clear for transparent bg
+
+    // Draw Parallax Stars
+    ctx.globalCompositeOperation = 'lighter';
+    stars.forEach(s => {
+        ctx.fillStyle = s.color;
+        ctx.globalAlpha = 0.4;
+        ctx.fillRect(s.x, s.y, s.size, s.size);
+    });
+    ctx.globalAlpha = 1.0;
+    ctx.globalCompositeOperation = 'source-over';
+
+    // Draw Bullets
+    ctx.shadowBlur = 15;
+    bullets.forEach(b => {
+        ctx.shadowColor = b.color;
+        ctx.fillStyle = b.color;
+        ctx.fillRect(b.x, b.y, b.w, b.h);
+    });
+    ctx.shadowBlur = 0;
+
+    // Draw Particles (Prismatic God RÆy Upgrade)
+    ctx.globalCompositeOperation = 'lighter';
+    particles.forEach(p => {
+        const alpha = Math.max(0, p.life / p.maxLife);
+        ctx.globalAlpha = alpha;
+        ctx.shadowBlur = 15; // Increased glow intensity
+        ctx.shadowColor = p.color;
+        
+        // Draw the outer Cyan/Magenta glow
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+        
+        // Draw the blinding white core of the God RÆy
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(p.x + p.size/4, p.y + p.size/4, p.size/2, p.size/2);
+    });
+    ctx.globalAlpha = 1.0;
+    ctx.shadowBlur = 0;
+    ctx.globalCompositeOperation = 'source-over';
+
+    // Draw Player
+    if (player.hp > 0) {
+        let currentImg = playerIdleImg;
+        switch (player.state) {
+            case 'UP': currentImg = playerMoveUpImg; break;
+            case 'DOWN': currentImg = playerMoveDownImg; break;
+            case 'BACKWARD': currentImg = playerMoveBackwardImg; break;
+            case 'FORWARD': currentImg = playerMoveForwardImg; break;
+            case 'CHARGE': currentImg = playerChargeImg; break;
+            case 'SHOOT': currentImg = playerShootImg; break;
+            case 'IDLE':
+            default: currentImg = playerIdleImg; break;
+        }
+
+        if (currentImg.complete && currentImg.naturalWidth > 0) {
+            ctx.drawImage(currentImg, player.x, player.y, player.w, player.h);
+        } else {
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = '#FF00FF';
+            
+            // Visual feedback for states when sprites are missing
+            if (player.state === 'CHARGE') ctx.fillStyle = '#FFAAFF';
+            else if (player.state === 'SHOOT') ctx.fillStyle = '#FFFFFF';
+            else ctx.fillStyle = '#FF00FF';
+            
+            ctx.fillRect(player.x, player.y, player.w, player.h);
+            ctx.strokeStyle = '#00FFFF';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(player.x, player.y, player.w, player.h);
+            ctx.shadowBlur = 0;
+        }
+    }
+
+    // Draw Enemies
+    enemies.forEach(e => {
+        if (e.isElite) {
+            // Draw the heavy trench-coat Enforcer!
+            if (enemyEliteImage.complete && enemyEliteImage.naturalWidth > 0) {
+                ctx.drawImage(enemyEliteImage, e.x, e.y, e.w, e.h);
+            } else {
+                ctx.fillStyle = '#8B0000'; // Dark red fallback box
+                ctx.fillRect(e.x, e.y, e.w, e.h);
+                ctx.strokeStyle = '#FF0000';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(e.x, e.y, e.w, e.h);
+            }
+        } else {
+            // Draw the standard Beige Matrix Agent
+            if (enemyImage.complete && enemyImage.naturalWidth > 0) {
+                ctx.drawImage(enemyImage, e.x, e.y, e.w, e.h);
+            } else {
+                ctx.fillStyle = '#D5C4A1'; // Beige fallback box
+                ctx.fillRect(e.x, e.y, e.w, e.h);
+                ctx.strokeStyle = '#8B8B83';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(e.x, e.y, e.w, e.h);
+            }
+        }
+    });
+	ctx.restore(); // Restore normal alignment for next frame
+}
+
+function gameLoop(timestamp) {
+    if (!isRunning) return;
+    
+    // Cap dt to prevent massive jumps when tab is inactive
+    let dt = (timestamp - lastTime) / 1000;
+    if (dt > 0.1) dt = 0.1; 
+    lastTime = timestamp;
+
+    update(dt, timestamp);
+    draw();
+
+    if (isRunning) {
+        requestAnimationFrame(gameLoop);
+    }
+}
+
+// Initial Draw for backgrounds
+draw();
+</script>
+</body>
+</html>
