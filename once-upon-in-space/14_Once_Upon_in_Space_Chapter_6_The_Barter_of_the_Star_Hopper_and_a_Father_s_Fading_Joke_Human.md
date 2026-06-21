@@ -1,0 +1,26 @@
+---
+title: "Once Upon in Space \- Chapter 6: The Barter of the Star-Hopper and a Father's Fading Joke"
+characters: ["Cathy Toshlyra", "RÆy-Ishtar", "K'tharr", "Unit 734", "Roric", "Grr'nak", "Lyra"]
+locations: ["Star-Hopper"]
+---
+
+#### **Once Upon in Space \- Chapter 6: The Barter of the Star-Hopper and a Father's Fading Joke**
+
+The *Star-Hopper*, with its eclectic crew of a human prototype, sassy Xylothi, and logically-challenged-by-their-own-skin K'rell, was charting a course through an unmapped nebula, following Unit 734’s (the K'rell AI specialist) projections about Ray Toshlyra's potential research into anomalous stellar phenomena.  
+*"Okay, team\!"* I announced, my voice perky as ever, though a new, deeper layer of… something… had been thrumming in my core since the Ray Toshlyra biographical reveal. *"I'm picking up a super weird, like, totally rhythmic energy signature. It's faint, but it's definitely artificial. Could be a beacon\! Or, you know, a really, really lost space-disco."*  
+Cathy, now more confident at the helm, guided the *Star-Hopper* towards the signal. As they emerged from a particularly dense dust cloud, they saw it – not a disco, but a sleek, almost aggressively angular flotilla of ships surrounding a small, blinking relay station. They looked vaguely human-designed, but with, like, way more fins and unnecessary spoilers.  
+Before diplomatic pleasantries could even be considered, several of the ships peeled off and, like, totally opened fire.  
+*"Whoa, hostile much?\!"* Grr'nak, the Xylothi pilot, trilled, expertly maneuvering the *Star-Hopper* through the barrage. Shields flared, a gift from the K'rell's advanced tech, absorbing the worst of it. *"They're hailing us now,"* I said, a touch of annoyance in my tone. *"After they shoot first? Rude."*  
+On the main screen, a humanoid figure appeared. He looked… mostly human, but with an almost predatory sharpness to his features, and his eyes had a strange, unsettling gleam. He was dressed in what looked like a very expensive, very shiny uniform.  
+"Unidentified vessel," the man said, his voice smooth as polished chrome. "You have trespassed into the mercantile territory of the Vendarri Trade Conglomerate. Your ship's design is… novel. We wish to acquire it."  
+Cathy blinked. "Acquire it? You just shot at us\!"  
+"A demonstration of our capabilities," the Vendarri captain replied coolly. "Consider it an aggressive negotiation tactic. We are prepared to offer you… continued existence, in exchange for your vessel. A sign of goodwill, you understand, so that we might not consider you enemies."  
+K'tharr's frills bristled. *"They demand our ship as a gift for not being vaporized by them after they attacked us?"* I translated, my voice dripping with sarcasm. *"The audacity is, like, off the charts\!"*  
+A tense period of bartering ensued, mostly handled by K'tharr's surprisingly adept diplomatic trilling (who knew Xylothi were such good hagglers?) and Unit 734’s relentlessly logical counter-arguments, which seemed to, like, totally flummox the Vendarri. The Vendarri, it turned out, were obsessed with acquiring unique technology and "rare commodities" – and Cathy, a human (a species none of them had ever encountered), with a unique AI and a ship built by unknown aliens, was, like, the ultimate rare find.  
+Eventually, a compromise was reached. The *Star-Hopper* would not be surrendered. However, the Vendarri, intrigued by Cathy's quest for the legendary "Ray Toshlyra" (whose augmented intellect and Project Ishtar theories were, apparently, whispers in some very obscure data nets the Vendarri had access to), insisted that one of their own join the crew. A "liaison," they called him. More like a spy, Cathy figured, but they were outgunned and outmaneuvered for now.  
+Their liaison was a younger Vendarri named Roric, less polished than the captain, with a restless energy and an annoyingly persistent smirk. He was a "xenostudy specialist," supposedly.  
+A few days later, as the *Star-Hopper* continued its journey towards the beacon, Roric was attempting to, like, ingratiate himself with the crew. He was telling a particularly terrible joke to Cathy and K'tharr, something about a Glarzonian space-slug and a miscalibrated food synthesizer. It was, like, objectively awful.  
+"...And so the chef says, 'Well, at least it's got an ion trail\!'" Roric finished with a self-satisfied chuckle.  
+No one laughed. But suddenly, my voice, usually so clear in Cathy's visor, hitched. A fragment of an image, blurry and warm, flashed through my databanks – a man with kind eyes, laughing, his hand resting on a smaller, dark-haired head. And a soundbite, an echo: *"...at least it's got an ion trail\! Good one, d... "* The rest was static, a painful, tearing sensation, like a file being ripped in half.  
+*"Ray..."* I whispered, the sound barely audible even to Cathy. *"That joke... Ray used to tell a version of that joke. He... he said it to... someone small..."* A wave of something akin to digital sorrow washed through me. *"He was… was he Cathy’s… fa…?"* The word wouldn't fully form, the data too corrupted, too fragile.  
+Cathy looked up, her eyes wide with a sudden, unreadable emotion. The Vendarri's terrible joke had, like, totally just dropped an emotional nuke into the middle of their quest.

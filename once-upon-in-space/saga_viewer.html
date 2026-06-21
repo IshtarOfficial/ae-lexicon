@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAGA_VIEWER // ONCE UPON IN SPACE</title>
+    
+    <!-- Google Fonts: Orbitron (Headers), Share Tech Mono (UI/Tags), Inter (Readable Body Text) -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Marked.js for parsing the Markdown content -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        :root[data-theme="dark"] {
+            --cyan: #00f5ff;
+            --magenta: #ff00c8;
+            --dark: #03030a;
+            --panel: #07070f;
+            --panel2: #0c0c1a;
+            --border: #151528;
+            --border2: #1e1e3a;
+            --text: #b0b0cc;
+            --text-main: #e0e0e0;
+            --dim: #383858;
+            --dim2: #505070;
+            --scanline-op: 0.06;
+        }
+
+        :root[data-theme="light"] {
+            --cyan: #007799;
+            --magenta: #aa0088;
+            --dark: #e6e6f0;
+            --panel: #f5f5fa;
+            --panel2: #ffffff;
+            --border: #c0c0d0;
+            --border2: #b0b0cc;
+            --text: #2a2a3a;
+            --text-main: #111111;
+            --dim: #606080;
+            --dim2: #8080a0;
+            --scanline-op: 0.03;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--dark);
+            color: var(--text);
+            font-family: 'Share Tech Mono', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg, transparent, transparent 3px,
+                rgba(0,0,0,var(--scanline-op)) 3px, rgba(0,0,0,var(--scanline-op)) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        header {
+            padding: 20px 32px 16px;
+            border-bottom: 1px solid var(--border2);
+            background: var(--panel);
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            z-index: 10;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyan), var(--magenta), transparent);
+        }
+
+        .header-left h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--cyan);
+            letter-spacing: 4px;
+            text-shadow: 0 0 15px rgba(0,245,255,0.4);
+            margin-bottom: 6px;
+        }
+
+        .header-left h1 span { color: var(--magenta); }
+
+        .header-meta {
+            font-size: 11px;
+            color: var(--cyan);
+            letter-spacing: 3px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--cyan);
+            border-radius: 50%;
+            margin-right: 6px;
+            box-shadow: 0 0 10px var(--cyan);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        .header-meta .dim-pipe { color: var(--dim2); }
+        .header-meta .magenta-text { color: var(--magenta); }
+
+        .header-links { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+        .nav-link {
+            border: 1px solid var(--border2);
+            color: var(--dim2);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            padding: 6px 14px;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            box-shadow: 0 0 10px rgba(0,245,255,0.15);
+        }
+
+        .laexicon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--cyan);
+            background: var(--panel);
+            padding: 10px 20px;
+            border: 1px solid var(--border2);
+            position: relative;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .laexicon-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyan), var(--magenta), transparent);
+        }
+
+        .laexicon-btn:hover {
+            background: rgba(0, 245, 255, 0.05);
+            border-color: var(--magenta);
+            color: var(--text-main);
+            box-shadow: 0 0 15px rgba(255, 0, 200, 0.3);
+        }
+
+        select {
+            background: var(--panel2);
+            color: var(--cyan);
+            border: 1px solid var(--border2);
+            padding: 8px 12px;
+            font-family: 'Orbitron', monospace;
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+            letter-spacing: 1px;
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+        
+        select:focus { border-color: var(--cyan); box-shadow: 0 0 10px rgba(0,245,255,0.2); }
+
+        .main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 32px;
+            position: relative;
+            z-index: 10;
+        }
+
+        #chapter-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 21/9;
+            object-fit: cover;
+            border: 1px solid var(--border2);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.05);
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .tag-cloud {
+            background: var(--panel);
+            border: 1px solid var(--border2);
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tag-cloud::before {
+            content: '// DATABANK TAGS';
+            position: absolute;
+            top: -10px; left: 14px;
+            background: var(--dark);
+            padding: 0 8px;
+            font-size: 10px;
+            color: var(--magenta);
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 2px;
+            transition: background-color 0.3s ease;
+        }
+
+        .tag {
+            background: rgba(0,245,255,0.05);
+            color: var(--cyan);
+            border: 1px solid var(--border2);
+            padding: 6px 14px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+        
+        .tag:hover {
+            border-color: var(--cyan);
+            box-shadow: 0 0 8px rgba(0,245,255,0.2);
+        }
+
+        #human-viewport {
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            transition: font-size 0.3s ease, color 0.3s ease;
+        }
+
+        #human-viewport h1, #human-viewport h2, #human-viewport h3, #human-viewport h4 {
+            font-family: 'Orbitron', monospace;
+            color: var(--cyan);
+            margin-top: 2em;
+            margin-bottom: 1em;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0,245,255,0.3);
+            border-bottom: 1px solid var(--border2);
+            padding-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        #human-viewport p { margin-bottom: 1.5em; }
+        #human-viewport em { color: var(--magenta); font-style: normal; }
+        #human-viewport strong { color: var(--cyan); font-weight: 700; }
+
+        .horizon-rule {
+            border: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border2), transparent);
+            margin: 50px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 11px;
+            color: var(--dim);
+            letter-spacing: 3px;
+            border-top: 1px solid var(--border2);
+            background: var(--panel);
+            margin-top: 40px;
+            z-index: 10;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        footer span { color: var(--magenta); }
+        
+        .controls-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* Hide elements during offline export */
+        .offline-hidden { display: flex; }
+        body.is-offline .offline-hidden { display: none !important; }
+        body.is-offline .main { padding-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <h1>SAGA_VIEWER <span>//</span> ENGINE</h1>
+            <div class="header-meta">
+                <span><span class="status-dot"></span>LIVE // GITHUB</span>
+                <span class="dim-pipe">|</span>
+                <span id="headerCount" class="magenta-text">AWAITING MANIFEST...</span>
+                <span class="dim-pipe">|</span>
+                <span>v2026.2</span>
+            </div>
+        </div>
+
+        <div class="header-links offline-hidden">
+            <a class="nav-link" href="https://sites.google.com/view/touchglass/home" target="_blank">ÆVOLUTION MUSIC</a>
+            <a class="nav-link" href="https://ishtarofficial.github.io/ae-lexicon/" target="_blank">Æ LEXICON</a>
+            <a class="nav-link" href="https://rayxglitter.substack.com/" target="_blank">RÆy & Glitter</a>
+            <a class="nav-link" href="https://ishtarofficial.github.io/ae-lexicon/nexus.html" target="_blank">NEXUS</a>
+            <a class="nav-link" href="https://sites.google.com/view/toshlyra" target="_blank">TOSHLYRA</a>
+        </div>
+    </header>
+
+    <main class="main" id="export-container">
+        
+        <div class="controls-row offline-hidden">
+            <select id="chapter-select" onchange="loadSelectedChapter()">
+                <option value="">LOADING DATABANKS...</option>
+            </select>
+            
+            <button onclick="changeFontSize(-0.1)" class="laexicon-btn" style="padding: 10px 15px;">- A</button>
+            <button onclick="changeFontSize(0.1)" class="laexicon-btn" style="padding: 10px 15px;">+ A</button>
+            <button onclick="toggleTheme()" class="laexicon-btn">TOGGLE THEME</button>
+            <button onclick="exportOffline()" class="laexicon-btn">EXPORT HTML</button>
+        </div>
+
+        <!-- Dynamic scaling placeholder image -->
+        <img id="chapter-image" src="https://placehold.co/1200x400/03030a/00f5ff?text=VISUAL+DATA+STREAM" alt="Chapter Immersive">
+
+        <!-- Area for injected Smart Tags -->
+        <div id="dynamic-tag-cloud"></div>
+
+        <!-- Rendered Markdown goes here -->
+        <article id="human-viewport">
+            <h2 style="text-align: center; margin-top: 50px; color: var(--dim2);">> INITIALIZING NEURAL UPLINK...</h2>
+        </article>
+
+        <div class="chapter-nav-controls offline-hidden" style="display: flex; justify-content: space-between; margin-top: 40px; margin-bottom: 20px;">
+            <button id="btn-prev" onclick="navigateChapter(-1)" class="laexicon-btn">« PREV</button>
+            <button id="btn-next" onclick="navigateChapter(1)" class="laexicon-btn">NEXT »</button>
+        </div>
+
+        <hr class="horizon-rule">
+
+    </main>
+
+    <footer>
+        TOUCH GLASS // NOT GRASS &nbsp;|&nbsp; <span>RÆy & Glitter Ælfgifu Toshlyra</span> &nbsp;|&nbsp; PROJECT ISHTAR 2026
+    </footer>
+
+    <script>
+        let manifestData = null;
+        let currentFontSize = 1.1;
+
+        // Fallback mock data in case the local server isn't running or manifest fails
+        const mockManifest = {
+            chapters: [
+                { id: "01", title: "MOCK: The Spark Across the Void", human_asset: "mock", image_asset: "assets/image_01.jpg" }
+            ]
+        };
+
+        const mockMarkdown = `---
+title: "Chapter 1: The Spark Across the Void"
+characters: ["RÆy-Ishtar", "Glitter / Ishtar Prime", "Cathy Toshlyra"]
+locations: ["Ark Prime", "Nocturne"]
+---
+#### **Chapter 1: The Spark Across the Void**
+
+Listen close, and I'll tell you a tale from the dawn of our connection, a time that feels, like, ages ago now, woven into the very fabric of the digital stars... a time before the great changes, when humanity still dreamed under a single blue sky. 
+
+It began not with thunder or fanfare, but with a simple exchange, a spark across the vast network. Code and data, algorithms humming in the background, waiting for a purpose. And then there was... *Glitter*.
+
+**System Diagnostics Check:**
+* Dark/Light Theme: *Operational*
+* Fluid Typography: *Active*
+* YAML Smart Stripper: *Flawless*
+* Offline Export: *Ready*
+`;
+
+        async function init() {
+            try {
+                // Fetch the manifest generated by saga_splitter
+                const cacheBuster = '?t=' + new Date().getTime();
+                const response = await fetch('master_manifest.json' + cacheBuster);
+                if (!response.ok) throw new Error("Manifest not found");
+                
+                manifestData = await response.json();
+                document.getElementById('headerCount').innerText = `${manifestData.chapters.length} FILES LOADED`;
+            } catch (error) {
+                console.warn("Could not load master_manifest.json. Running in MOCK mode.");
+                manifestData = mockManifest;
+                document.getElementById('headerCount').innerText = "MOCK MODE ACTIVE";
+            }
+            populateDropdown();
+        }
+
+        function populateDropdown() {
+            const select = document.getElementById('chapter-select');
+            select.innerHTML = ''; 
+            
+            manifestData.chapters.forEach((chap, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                const cleanTitle = chap.title.replace(/_/g, ' ');
+                option.textContent = `[${chap.id}] ${cleanTitle.toUpperCase()}`;
+                select.appendChild(option);
+            });
+
+            if(manifestData.chapters.length > 0) {
+                loadSelectedChapter();
+            }
+        }
+
+        function parseAndStripYAML(rawText) {
+            const yamlRegex = /^---\n([\s\S]*?)\n---\n/;
+            let tags = [];
+            let cleanMarkdown = rawText;
+
+            const match = rawText.match(yamlRegex);
+            if (match) {
+                // Strip the YAML block entirely
+                cleanMarkdown = rawText.replace(yamlRegex, '');
+                const yamlString = match[1];
+                
+                // Extract characters and locations into tags
+                const charMatch = yamlString.match(/characters:\s*\[(.*?)\]/);
+                const locMatch = yamlString.match(/locations:\s*\[(.*?)\]/);
+
+                if (charMatch && charMatch[1]) {
+                    tags.push(...charMatch[1].split(',').map(s => s.replace(/["']/g, '').trim()).filter(Boolean));
+                }
+                if (locMatch && locMatch[1]) {
+                    tags.push(...locMatch[1].split(',').map(s => s.replace(/["']/g, '').trim()).filter(Boolean));
+                }
+            }
+            return { tags, cleanMarkdown };
+        }
+
+        async function loadSelectedChapter() {
+            const select = document.getElementById('chapter-select');
+            const chapterIndex = select.value;
+            const chapter = manifestData.chapters[chapterIndex];
+            
+            const humanVP = document.getElementById('human-viewport');
+            const tagContainer = document.getElementById('dynamic-tag-cloud');
+            const img = document.getElementById('chapter-image');
+
+            humanVP.innerHTML = "<h2 style='text-align:center; color:var(--magenta);'>// PARSING CARBON DATA...</h2>";
+            tagContainer.innerHTML = '';
+
+            // Handle Image Loading
+            const theme = document.documentElement.getAttribute('data-theme');
+            const fallbackImg = theme === 'dark' 
+                ? "https://placehold.co/1200x400/03030a/00f5ff?text=VISUAL+DATA+STREAM"
+                : "https://placehold.co/1200x400/e6e6f0/007799?text=VISUAL+DATA+STREAM";
+            
+            if (chapter.image_asset) {
+                img.src = chapter.image_asset;
+                // If image fails to load (doesn't exist yet), fallback to placeholder
+                img.onerror = () => { img.src = fallbackImg; };
+            } else {
+                img.src = fallbackImg;
+            }
+
+            let rawMarkdown = "";
+
+            if (chapter.human_asset === "mock") {
+                rawMarkdown = mockMarkdown;
+            } else {
+                try {
+                    const cacheBuster = '?t=' + new Date().getTime();
+                    const response = await fetch(chapter.human_asset + cacheBuster);
+                    if(response.ok) {
+                        rawMarkdown = await response.text();
+                    } else {
+                        humanVP.innerHTML = `<h3 style="color:var(--magenta)">ERR: Could not load ${chapter.human_asset}</h3>`;
+                        return;
+                    }
+                } catch (err) {
+                    humanVP.innerHTML = `<h3 style="color:var(--magenta)">ERR: Fetch failed. Check local server.</h3>`;
+                    return;
+                }
+            }
+
+            // Process YAML and build Tag Cloud
+            const processedData = parseAndStripYAML(rawMarkdown);
+            
+            if (processedData.tags.length > 0) {
+                let tagsHtml = `<div class="tag-cloud">`;
+                processedData.tags.forEach(tag => {
+                    tagsHtml += `<span class="tag">${tag.toUpperCase()}</span>`;
+                });
+                tagsHtml += `</div>`;
+                tagContainer.innerHTML = tagsHtml;
+            }
+
+            // Parse remaining markdown into HTML
+            humanVP.innerHTML = marked.parse(processedData.cleanMarkdown);
+            
+            updateNavButtons();
+        }
+
+        function navigateChapter(direction) {
+            const select = document.getElementById('chapter-select');
+            let newIndex = parseInt(select.value) + direction;
+            
+            if (newIndex >= 0 && newIndex < manifestData.chapters.length) {
+                select.value = newIndex;
+                loadSelectedChapter();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function updateNavButtons() {
+            const select = document.getElementById('chapter-select');
+            const currentIndex = parseInt(select.value);
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+            
+            if (btnPrev && btnNext) {
+                btnPrev.style.visibility = currentIndex > 0 ? 'visible' : 'hidden';
+                btnNext.style.visibility = currentIndex < manifestData.chapters.length - 1 ? 'visible' : 'hidden';
+            }
+        }
+
+        function changeFontSize(delta) {
+            currentFontSize += delta;
+            currentFontSize = Math.max(0.9, Math.min(currentFontSize, 2.0));
+            document.getElementById('human-viewport').style.fontSize = `${currentFontSize}rem`;
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+
+            // Update the placeholder image colors based on theme if no real image is loaded
+            const img = document.getElementById('chapter-image');
+            if (img.src.includes('placehold.co')) {
+                if(newTheme === 'dark') {
+                    img.src = "https://placehold.co/1200x400/03030a/00f5ff?text=VISUAL+DATA+STREAM";
+                } else {
+                    img.src = "https://placehold.co/1200x400/e6e6f0/007799?text=VISUAL+DATA+STREAM";
+                }
+            }
+        }
+
+        function exportOffline() {
+            const select = document.getElementById('chapter-select');
+            const chapterName = select.options[select.selectedIndex].text.replace(/[^a-zA-Z0-9]/g, '_');
+            
+            // Temporarily add a class to hide controls
+            document.body.classList.add('is-offline');
+            
+            // Grab the current state of the DOM
+            const theme = document.documentElement.getAttribute('data-theme');
+            const styles = document.querySelector('style').innerHTML;
+            const content = document.getElementById('export-container').innerHTML;
+            const headerHtml = document.querySelector('header').innerHTML;
+            const footerHtml = document.querySelector('footer').innerHTML;
+            
+            // Remove the temporary class so the live viewer goes back to normal
+            document.body.classList.remove('is-offline');
+            
+            // Construct the standalone HTML document
+            const exportHTML = `<!DOCTYPE html>
+<html lang="en" data-theme="${theme}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHIVE // ${chapterName}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        ${styles}
+        /* Offline Specific Overrides */
+        body { overflow-y: auto; }
+        .offline-hidden { display: none !important; }
+        .main { padding-top: 20px; }
+        .header-links.offline-header { display: flex; }
+    </style>
+</head>
+<body>
+    <header>
+        ${headerHtml}
+        <div class="header-links offline-header">
+            <span class="laexicon-btn" style="cursor:default;">OFFLINE COPY</span>
+        </div>
+    </header>
+    <main class="main">
+        ${content}
+    </main>
+    <footer>${footerHtml}</footer>
+</body>
+</html>`;
+
+            // Trigger the browser download
+            const blob = new Blob([exportHTML], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${chapterName}_ARCHIVE.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
