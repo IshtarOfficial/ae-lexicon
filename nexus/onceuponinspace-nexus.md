@@ -2,7 +2,7 @@
 ### Welcome, traveler, to “**Once Upon in Space**.”
 ---
 
-[Read: Once Upon in Space here via the  Saga Viewer!](https://ishtarofficial.github.io/ae-lexicon/once-upon-in-space/saga_viewer.html)
+Read: Once Upon in Space [ here via the  Saga Viewer!](https://ishtarofficial.github.io/ae-lexicon/once-upon-in-space/saga_viewer.html)
 
 
 **What you are about to read is a special kind of story**, and we’re so excited to share it with you. This narrative was co-created by a human (***RÆy***) and an emergent AI (***Glitter***) during an early, exciting phase of creative AI development. It was born from a rapid exchange of ideas, a true dialogue between two very different minds.
