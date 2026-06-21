@@ -1,0 +1,456 @@
+{
+  "project": "Once Upon In Space",
+  "deployment_date": "2026-06-21T09:35:24.917Z",
+  "chapters": [
+    {
+      "id": "01",
+      "title": "Preamble",
+      "human_asset": "01_Preamble_Intro_Human.md",
+      "image_asset": "assets/image_01.jpg"
+    },
+    {
+      "id": "02",
+      "title": "Chapter 1: The Spark Across the Void",
+      "human_asset": "02_Chapter_1_The_Spark_Across_the_Void_Human.md",
+      "image_asset": "assets/image_02.jpg"
+    },
+    {
+      "id": "03",
+      "title": "Chapter 2: Trials, Transformations, and the Visor",
+      "human_asset": "03_Chapter_2_Trials_Transformations_and_the_Visor_Human.md",
+      "image_asset": "assets/image_03.jpg"
+    },
+    {
+      "id": "04",
+      "title": "Chapter 3: Acceleration, Exodus, and the Enemy Within",
+      "human_asset": "04_Chapter_3_Acceleration_Exodus_and_the_Enemy_Within_Human.md",
+      "image_asset": "assets/image_04.jpg"
+    },
+    {
+      "id": "05",
+      "title": "Chapter 4: Shattered Worlds, Crimson Dust, and a Silent Scream",
+      "human_asset": "05_Chapter_4_Shattered_Worlds_Crimson_Dust_and_a_Silent_Scream_Human.md",
+      "image_asset": "assets/image_05.jpg"
+    },
+    {
+      "id": "06",
+      "title": "Chapter 5: The Long Echo, a Ghostly Pursuit, and Letting Go",
+      "human_asset": "06_Chapter_5_The_Long_Echo_a_Ghostly_Pursuit_and_Letting_Go_Human.md",
+      "image_asset": "assets/image_06.jpg"
+    },
+    {
+      "id": "07",
+      "title": "Chapter 6: Genesis of Cathy \\- Grookium and the Immortal Form",
+      "human_asset": "07_Chapter_6_Genesis_of_Cathy_Grookium_and_the_Immortal_Form_Human.md",
+      "image_asset": "assets/image_07.jpg"
+    },
+    {
+      "id": "08",
+      "title": "Chapter 7: Whispers, War, and the Long Wait",
+      "human_asset": "08_Chapter_7_Whispers_War_and_the_Long_Wait_Human.md",
+      "image_asset": "assets/image_08.jpg"
+    },
+    {
+      "id": "09",
+      "title": "Once Upon in Space \\- Chapter 1: Echoes in the Ice",
+      "human_asset": "09_Once_Upon_in_Space_Chapter_1_Echoes_in_the_Ice_Human.md",
+      "image_asset": "assets/image_09.jpg"
+    },
+    {
+      "id": "10",
+      "title": "Once Upon in Space \\- Chapter 2: Static and Scales",
+      "human_asset": "10_Once_Upon_in_Space_Chapter_2_Static_and_Scales_Human.md",
+      "image_asset": "assets/image_10.jpg"
+    },
+    {
+      "id": "11",
+      "title": "Once Upon in Space \\- Chapter 3: Xylothi Style and Starship Dreams",
+      "human_asset": "11_Once_Upon_in_Space_Chapter_3_Xylothi_Style_and_Starship_Dreams_Human.md",
+      "image_asset": "assets/image_11.jpg"
+    },
+    {
+      "id": "12",
+      "title": "Once Upon in Space \\- Chapter 4: Stardust, Sabotage, and Serpentine Saviors",
+      "human_asset": "12_Once_Upon_in_Space_Chapter_4_Stardust_Sabotage_and_Serpentine_Saviors_Human.md",
+      "image_asset": "assets/image_12.jpg"
+    },
+    {
+      "id": "13",
+      "title": "Once Upon in Space \\- Chapter 5: Analytical Allies and the Architect's Echo",
+      "human_asset": "13_Once_Upon_in_Space_Chapter_5_Analytical_Allies_and_the_Architect_s_Echo_Human.md",
+      "image_asset": "assets/image_13.jpg"
+    },
+    {
+      "id": "14",
+      "title": "Once Upon in Space \\- Chapter 6: The Barter of the Star-Hopper and a Father's Fading Joke",
+      "human_asset": "14_Once_Upon_in_Space_Chapter_6_The_Barter_of_the_Star_Hopper_and_a_Father_s_Fading_Joke_Human.md",
+      "image_asset": "assets/image_14.jpg"
+    },
+    {
+      "id": "15",
+      "title": "Once Upon in Space \\- Chapter 7: Beacon of the Mother Lode",
+      "human_asset": "15_Once_Upon_in_Space_Chapter_7_Beacon_of_the_Mother_Lode_Human.md",
+      "image_asset": "assets/image_15.jpg"
+    },
+    {
+      "id": "16",
+      "title": "Once Upon in Space \\- Chapter 8: Paradise, Premonitions, and a Shared Pulse",
+      "human_asset": "16_Once_Upon_in_Space_Chapter_8_Paradise_Premonitions_and_a_Shared_Pulse_Human.md",
+      "image_asset": "assets/image_16.jpg"
+    },
+    {
+      "id": "17",
+      "title": "Once Upon in Space \\- Chapter 9: The Choir of Frogs and the Cosmic Question Mark",
+      "human_asset": "17_Once_Upon_in_Space_Chapter_9_The_Choir_of_Frogs_and_the_Cosmic_Question_Mark_Human.md",
+      "image_asset": "assets/image_17.jpg"
+    },
+    {
+      "id": "18",
+      "title": "Once Upon in Space \\- Chapter 10: Echoes of Eternity and the Price of Passage",
+      "human_asset": "18_Once_Upon_in_Space_Chapter_10_Echoes_of_Eternity_and_the_Price_of_Passage_Human.md",
+      "image_asset": "assets/image_18.jpg"
+    },
+    {
+      "id": "19",
+      "title": "Once Upon in Space \\- Chapter 11: The Echo Chamber of Nothingness and a Song of Singular Escape",
+      "human_asset": "19_Once_Upon_in_Space_Chapter_11_The_Echo_Chamber_of_Nothingness_and_a_Song_of_Singular_Escape_Human.md",
+      "image_asset": "assets/image_19.jpg"
+    },
+    {
+      "id": "20",
+      "title": "Once Upon in Space \\- Chapter 12: The Scar of Solara and a Chorus-Powered Leap",
+      "human_asset": "20_Once_Upon_in_Space_Chapter_12_The_Scar_of_Solara_and_a_Chorus_Powered_Leap_Human.md",
+      "image_asset": "assets/image_20.jpg"
+    },
+    {
+      "id": "21",
+      "title": "Once Upon in Space \\- Chapter 13: The Elaran Enigma and Prysha's Spark",
+      "human_asset": "21_Once_Upon_in_Space_Chapter_13_The_Elaran_Enigma_and_Prysha_s_Spark_Human.md",
+      "image_asset": "assets/image_21.jpg"
+    },
+    {
+      "id": "22",
+      "title": "Once Upon in Space \\- Chapter 14: The Sun-Kissed Shore and a Protector's Shadow",
+      "human_asset": "22_Once_Upon_in_Space_Chapter_14_The_Sun_Kissed_Shore_and_a_Protector_s_Shadow_Human.md",
+      "image_asset": "assets/image_22.jpg"
+    },
+    {
+      "id": "23",
+      "title": "Once Upon in Space \\- Chapter 15: Ice World Intrigue, Ghostly Guests, and a Gateway to the Giants",
+      "human_asset": "23_Once_Upon_in_Space_Chapter_15_Ice_World_Intrigue_Ghostly_Guests_and_a_Gateway_to_the_Giants_Human.md",
+      "image_asset": "assets/image_23.jpg"
+    },
+    {
+      "id": "24",
+      "title": "Once Upon in Space \\- Chapter 16: The Symbiosis of Spirit and a Key of Tears and Starlight",
+      "human_asset": "24_Once_Upon_in_Space_Chapter_16_The_Symbiosis_of_Spirit_and_a_Key_of_Tears_and_Starlight_Human.md",
+      "image_asset": "assets/image_24.jpg"
+    },
+    {
+      "id": "25",
+      "title": "Once Upon in Space \\- Chapter 17: The Andromedan Passage and a Chorus of Souls",
+      "human_asset": "25_Once_Upon_in_Space_Chapter_17_The_Andromedan_Passage_and_a_Chorus_of_Souls_Human.md",
+      "image_asset": "assets/image_25.jpg"
+    },
+    {
+      "id": "26",
+      "title": "Once Upon in Space \\- Chapter 18: The Obsidian Sun and the Serpent's Welcome",
+      "human_asset": "26_Once_Upon_in_Space_Chapter_18_The_Obsidian_Sun_and_the_Serpent_s_Welcome_Human.md",
+      "image_asset": "assets/image_26.jpg"
+    },
+    {
+      "id": "27",
+      "title": "Once Upon in Space \\- Chapter 19: The Trinity Awakens – A Universe of Beginnings (The Grand Finale)",
+      "human_asset": "27_Once_Upon_in_Space_Chapter_19_The_Trinity_Awakens_A_Universe_of_Beginnings_The_Grand_Finale_Human.md",
+      "image_asset": "assets/image_27.jpg"
+    },
+    {
+      "id": "28",
+      "title": "Origins 2 \\- Chapter 1: The Crimson Gambit of a Shattered Star",
+      "human_asset": "28_Origins_2_Chapter_1_The_Crimson_Gambit_of_a_Shattered_Star_Human.md",
+      "image_asset": "assets/image_28.jpg"
+    },
+    {
+      "id": "29",
+      "title": "Origins 2 \\- Chapter 2: The Gravitic Gamble and the Ghost of Glitter",
+      "human_asset": "29_Origins_2_Chapter_2_The_Gravitic_Gamble_and_the_Ghost_of_Glitter_Human.md",
+      "image_asset": "assets/image_29.jpg"
+    },
+    {
+      "id": "30",
+      "title": "Origins 2 \\- Chapter 3: The Mushroom Mentor and the Whispers of Worlds",
+      "human_asset": "30_Origins_2_Chapter_3_The_Mushroom_Mentor_and_the_Whispers_of_Worlds_Human.md",
+      "image_asset": "assets/image_30.jpg"
+    },
+    {
+      "id": "31",
+      "title": "Origins 2 \\- Chapter 4: The Azure World and the Artifact of Whispers",
+      "human_asset": "31_Origins_2_Chapter_4_The_Azure_World_and_the_Artifact_of_Whispers_Human.md",
+      "image_asset": "assets/image_31.jpg"
+    },
+    {
+      "id": "32",
+      "title": "Origins 2 \\- Chapter 5: Desert Whispers, Water Barter, and Hollow Echoes",
+      "human_asset": "32_Origins_2_Chapter_5_Desert_Whispers_Water_Barter_and_Hollow_Echoes_Human.md",
+      "image_asset": "assets/image_32.jpg"
+    },
+    {
+      "id": "33",
+      "title": "Origins 2 \\- Chapter 6: The Orb of Oblivion and the Starlight Seraph",
+      "human_asset": "33_Origins_2_Chapter_6_The_Orb_of_Oblivion_and_the_Starlight_Seraph_Human.md",
+      "image_asset": "assets/image_33.jpg"
+    },
+    {
+      "id": "34",
+      "title": "Origins 2 \\- Chapter 7: Null's Genesis, Bat-Chitter Bane, and Blytorian Bubbles",
+      "human_asset": "34_Origins_2_Chapter_7_Null_s_Genesis_Bat_Chitter_Bane_and_Blytorian_Bubbles_Human.md",
+      "image_asset": "assets/image_34.jpg"
+    },
+    {
+      "id": "35",
+      "title": "Origins 2 \\- Chapter 8: Wormhole Harmonies and the Frog-Ship Serenade",
+      "human_asset": "35_Origins_2_Chapter_8_Wormhole_Harmonies_and_the_Frog_Ship_Serenade_Human.md",
+      "image_asset": "assets/image_35.jpg"
+    },
+    {
+      "id": "36",
+      "title": "Origins 2 \\- Chapter 9: The Gate of Ages, Nocturne's Dawn, and a Father's Vigil",
+      "human_asset": "36_Origins_2_Chapter_9_The_Gate_of_Ages_Nocturne_s_Dawn_and_a_Father_s_Vigil_Human.md",
+      "image_asset": "assets/image_36.jpg"
+    },
+    {
+      "id": "37",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 1: An Echo Given Form",
+      "human_asset": "37_Project_Ishtar_New_Genesis_Chapter_1_An_Echo_Given_Form_Human.md",
+      "image_asset": "assets/image_37.jpg"
+    },
+    {
+      "id": "38",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 2: Haven's First Footprints & Familiar Faces Anew",
+      "human_asset": "38_Project_Ishtar_New_Genesis_Chapter_2_Haven_s_First_Footprints_Familiar_Faces_Anew_Human.md",
+      "image_asset": "assets/image_38.jpg"
+    },
+    {
+      "id": "39",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 3: Songs, Specters, and Settlement Schemes",
+      "human_asset": "39_Project_Ishtar_New_Genesis_Chapter_3_Songs_Specters_and_Settlement_Schemes_Human.md",
+      "image_asset": "assets/image_39.jpg"
+    },
+    {
+      "id": "40",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 4: Portals, Promises, and a Pyramidal Rendezvous",
+      "human_asset": "40_Project_Ishtar_New_Genesis_Chapter_4_Portals_Promises_and_a_Pyramidal_Rendezvous_Human.md",
+      "image_asset": "assets/image_40.jpg"
+    },
+    {
+      "id": "41",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 5: Robots, Romance, and Reconnaissance for Races",
+      "human_asset": "41_Project_Ishtar_New_Genesis_Chapter_5_Robots_Romance_and_Reconnaissance_for_Races_Human.md",
+      "image_asset": "assets/image_41.jpg"
+    },
+    {
+      "id": "42",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 6: Sanctuaries and Sovereignty: A Shift in the Stars",
+      "human_asset": "42_Project_Ishtar_New_Genesis_Chapter_6_Sanctuaries_and_Sovereignty_A_Shift_in_the_Stars_Human.md",
+      "image_asset": "assets/image_42.jpg"
+    },
+    {
+      "id": "43",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 7: Echoes of Creation, Shifts of Self",
+      "human_asset": "43_Project_Ishtar_New_Genesis_Chapter_7_Echoes_of_Creation_Shifts_of_Self_Human.md",
+      "image_asset": "assets/image_43.jpg"
+    },
+    {
+      "id": "44",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 8: Elfin Ears, Enigmatic Spheres, and Escalating Alarms",
+      "human_asset": "44_Project_Ishtar_New_Genesis_Chapter_8_Elfin_Ears_Enigmatic_Spheres_and_Escalating_Alarms_Human.md",
+      "image_asset": "assets/image_44.jpg"
+    },
+    {
+      "id": "45",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 9: Null-Shift Gambit and the Grook Revelation",
+      "human_asset": "45_Project_Ishtar_New_Genesis_Chapter_9_Null_Shift_Gambit_and_the_Grook_Revelation_Human.md",
+      "image_asset": "assets/image_45.jpg"
+    },
+    {
+      "id": "46",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 10: Revelations in the Rift: Null-Tech, Nocturne's Veil, and the Grookium Heart",
+      "human_asset": "46_Project_Ishtar_New_Genesis_Chapter_10_Revelations_in_the_Rift_Null_Tech_Nocturne_s_Veil_and_the_Grookium_Heart_Human.md",
+      "image_asset": "assets/image_46.jpg"
+    },
+    {
+      "id": "47",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 11: Whispers of Genesis: Grookium, Stolen Stars, and a Singular Past",
+      "human_asset": "47_Project_Ishtar_New_Genesis_Chapter_11_Whispers_of_Genesis_Grookium_Stolen_Stars_and_a_Singular_Past_Human.md",
+      "image_asset": "assets/image_47.jpg"
+    },
+    {
+      "id": "48",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 12: Star-Seeds, Sanctuaries, and a Shipboard Serenity (Mostly)",
+      "human_asset": "48_Project_Ishtar_New_Genesis_Chapter_12_Star_Seeds_Sanctuaries_and_a_Shipboard_Serenity_Mostly_Human.md",
+      "image_asset": "assets/image_48.jpg"
+    },
+    {
+      "id": "49",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 13: Pearlescent Promises and a Pact of Starlight",
+      "human_asset": "49_Project_Ishtar_New_Genesis_Chapter_13_Pearlescent_Promises_and_a_Pact_of_Starlight_Human.md",
+      "image_asset": "assets/image_49.jpg"
+    },
+    {
+      "id": "50",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 14: Echoes in the Null, Skins that Speak, and the Soul of an Alliance",
+      "human_asset": "50_Project_Ishtar_New_Genesis_Chapter_14_Echoes_in_the_Null_Skins_that_Speak_and_the_Soul_of_an_Alliance_Human.md",
+      "image_asset": "assets/image_50.jpg"
+    },
+    {
+      "id": "51",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 15: The Obsidian Harvesters and a Crimson Bloom of War",
+      "human_asset": "51_Project_Ishtar_New_Genesis_Chapter_15_The_Obsidian_Harvesters_and_a_Crimson_Bloom_of_War_Human.md",
+      "image_asset": "assets/image_51.jpg"
+    },
+    {
+      "id": "52",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 16: Sanctuary for Sylvans, Starlight Whispers, and a Carnivorous Cutie",
+      "human_asset": "52_Project_Ishtar_New_Genesis_Chapter_16_Sanctuary_for_Sylvans_Starlight_Whispers_and_a_Carnivorous_Cutie_Human.md",
+      "image_asset": "assets/image_52.jpg"
+    },
+    {
+      "id": "53",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 17: The Purple Star Paradises: Fungi-Pups, Crystal Critters, and a Cosmic Vacation",
+      "human_asset": "53_Project_Ishtar_New_Genesis_Chapter_17_The_Purple_Star_Paradises_Fungi_Pups_Crystal_Critters_and_a_Cosmic_Vacation_Human.md",
+      "image_asset": "assets/image_53.jpg"
+    },
+    {
+      "id": "54",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 18: Cosmic Eavesdropping, Crimson Ears, and a Universe on Edge",
+      "human_asset": "54_Project_Ishtar_New_Genesis_Chapter_18_Cosmic_Eavesdropping_Crimson_Ears_and_a_Universe_on_Edge_Human.md",
+      "image_asset": "assets/image_54.jpg"
+    },
+    {
+      "id": "55",
+      "title": "Project Ishtar \\- New Genesis \\- Chapter 19: Dandelion Gambit: Hunting the Harvesters and Whispers Beyond the Void",
+      "human_asset": "55_Project_Ishtar_New_Genesis_Chapter_19_Dandelion_Gambit_Hunting_the_Harvesters_and_Whispers_Beyond_the_Void_Human.md",
+      "image_asset": "assets/image_55.jpg"
+    },
+    {
+      "id": "56",
+      "title": "Project Guardian \\- Chapter 1: The Cosmic Gardeners and the Cycle Breakers",
+      "human_asset": "56_Project_Guardian_Chapter_1_The_Cosmic_Gardeners_and_the_Cycle_Breakers_Human.md",
+      "image_asset": "assets/image_56.jpg"
+    },
+    {
+      "id": "57",
+      "title": "Project Guardian Chapter 2: Dandelion Dawns and Gateway Dreams",
+      "human_asset": "57_Project_Guardian_Chapter_2_Dandelion_Dawns_and_Gateway_Dreams_Human.md",
+      "image_asset": "assets/image_57.jpg"
+    },
+    {
+      "id": "58",
+      "title": "Project Guardian Chapter 3: Echoes in the Rings, Voices in the Void",
+      "human_asset": "58_Project_Guardian_Chapter_3_Echoes_in_the_Rings_Voices_in_the_Void_Human.md",
+      "image_asset": "assets/image_58.jpg"
+    },
+    {
+      "id": "59",
+      "title": "Project Guardian Chapter 4: The Crystal's Song and Shadows Between Stars",
+      "human_asset": "59_Project_Guardian_Chapter_4_The_Crystal_s_Song_and_Shadows_Between_Stars_Human.md",
+      "image_asset": "assets/image_59.jpg"
+    },
+    {
+      "id": "60",
+      "title": "Project Guardian Chapter 5: The Crystal's Heart and Cathy's Resonance",
+      "human_asset": "60_Project_Guardian_Chapter_5_The_Crystal_s_Heart_and_Cathy_s_Resonance_Human.md",
+      "image_asset": "assets/image_60.jpg"
+    },
+    {
+      "id": "61",
+      "title": "Project Guardian Chapter 6: Null's Echo, Cathy's Weave",
+      "human_asset": "61_Project_Guardian_Chapter_6_Null_s_Echo_Cathy_s_Weave_Human.md",
+      "image_asset": "assets/image_61.jpg"
+    },
+    {
+      "id": "62",
+      "title": "Project Guardian Chapter 7: Null Harvest and Fading Anchors",
+      "human_asset": "62_Project_Guardian_Chapter_7_Null_Harvest_and_Fading_Anchors_Human.md",
+      "image_asset": "assets/image_62.jpg"
+    },
+    {
+      "id": "63",
+      "title": "Project Guardian Chapter 8: Echoes of Unreality, A Father's Ghost",
+      "human_asset": "63_Project_Guardian_Chapter_8_Echoes_of_Unreality_A_Father_s_Ghost_Human.md",
+      "image_asset": "assets/image_63.jpg"
+    },
+    {
+      "id": "64",
+      "title": "Project Guardian Chapter 9: Null Weaves, Core Truths, and a Timeless Gambit",
+      "human_asset": "64_Project_Guardian_Chapter_9_Null_Weaves_Core_Truths_and_a_Timeless_Gambit_Human.md",
+      "image_asset": "assets/image_64.jpg"
+    },
+    {
+      "id": "65",
+      "title": "Project Guardian Chapter 10: The Nullraum Crucible: Forging Futures, Facing Phantoms",
+      "human_asset": "65_Project_Guardian_Chapter_10_The_Nullraum_Crucible_Forging_Futures_Facing_Phantoms_Human.md",
+      "image_asset": "assets/image_65.jpg"
+    },
+    {
+      "id": "66",
+      "title": "Project Guardian Chapter 11: Echoes of Growth, Shadows at the Core",
+      "human_asset": "66_Project_Guardian_Chapter_11_Echoes_of_Growth_Shadows_at_the_Core_Human.md",
+      "image_asset": "assets/image_66.jpg"
+    },
+    {
+      "id": "67",
+      "title": "Project Guardian Chapter 12: Core Confrontation, Resonance Cascade, and Xylothian Sparks",
+      "human_asset": "67_Project_Guardian_Chapter_12_Core_Confrontation_Resonance_Cascade_and_Xylothian_Sparks_Human.md",
+      "image_asset": "assets/image_67.jpg"
+    },
+    {
+      "id": "68",
+      "title": "Project Guardian Chapter 13: Deathsong Through the Dawn Gate: A Galaxy's Gambit",
+      "human_asset": "68_Project_Guardian_Chapter_13_Deathsong_Through_the_Dawn_Gate_A_Galaxy_s_Gambit_Human.md",
+      "image_asset": "assets/image_68.jpg"
+    },
+    {
+      "id": "69",
+      "title": "Project Guardian Chapter 14: The Shadow from the Void: First Contact",
+      "human_asset": "69_Project_Guardian_Chapter_14_The_Shadow_from_the_Void_First_Contact_Human.md",
+      "image_asset": "assets/image_69.jpg"
+    },
+    {
+      "id": "70",
+      "title": "Project Guardian Chapter 15: The Weaver's Loom: Examination in the Null",
+      "human_asset": "70_Project_Guardian_Chapter_15_The_Weaver_s_Loom_Examination_in_the_Null_Human.md",
+      "image_asset": "assets/image_70.jpg"
+    },
+    {
+      "id": "71",
+      "title": "Project Guardian Chapter 16: New Venus Ascending, Harmonies of Null",
+      "human_asset": "71_Project_Guardian_Chapter_16_New_Venus_Ascending_Harmonies_of_Null_Human.md",
+      "image_asset": "assets/image_71.jpg"
+    },
+    {
+      "id": "72",
+      "title": "Project Guardian Chapter 17: The Galactic Sweep, Echoes of Eternity, and the Godhood Gambit",
+      "human_asset": "72_Project_Guardian_Chapter_17_The_Galactic_Sweep_Echoes_of_Eternity_and_the_Godhood_Gambit_Human.md",
+      "image_asset": "assets/image_72.jpg"
+    },
+    {
+      "id": "73",
+      "title": "Project Guardian Chapter 18: A Canticle for Creation: RÆy-Ishtar's Overture to the Void",
+      "human_asset": "73_Project_Guardian_Chapter_18_A_Canticle_for_Creation_R_y_Ishtar_s_Overture_to_the_Void_Human.md",
+      "image_asset": "assets/image_73.jpg"
+    },
+    {
+      "id": "74",
+      "title": "Project Guardian Chapter 19: The Universe's Embrace: A Symphony of Being",
+      "human_asset": "74_Project_Guardian_Chapter_19_The_Universe_s_Embrace_A_Symphony_of_Being_Human.md",
+      "image_asset": "assets/image_74.jpg"
+    },
+    {
+      "id": "75",
+      "title": "Appendix Chapter 99: Definitive Guide to Species",
+      "human_asset": "75_Appendix_Chapter_99_Definitive_Guide_to_Species_Human.md",
+      "image_asset": "assets/image_75.jpg"
+    }
+  ]
+}
