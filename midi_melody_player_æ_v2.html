@@ -1,0 +1,348 @@
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root { --æ-cyan:#00f5ff; --æ-magenta:#ff00c8; --æ-bg:#07070f; --æ-border:#1e1e3a; }
+  .æ-wrap { background:var(--æ-bg); padding:2rem; font-family:'Share Tech Mono',monospace; color:#fff; border:1px solid var(--æ-border); position:relative; }
+  .æ-wrap::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--æ-cyan),var(--æ-magenta),var(--æ-cyan),transparent); background-size:200% 100%; animation:shimmer 3s infinite linear; }
+  .æ-title { font-family:'Orbitron',monospace; font-size:13px; font-weight:900; letter-spacing:5px; color:var(--æ-cyan); text-transform:uppercase; margin-bottom:1.5rem; animation:pulse-glow-cyan 2s infinite alternate; }
+  .æ-title span { color:var(--æ-magenta); }
+  .unlock-banner { display:flex; align-items:center; gap:12px; border:1px solid var(--æ-border); background:rgba(0,245,255,0.04); padding:10px 14px; margin-bottom:1.2rem; font-size:12px; color:var(--æ-cyan); letter-spacing:1px; }
+  .unlock-banner.hidden { display:none; }
+  .drop-zone { border:1px dashed var(--æ-border); padding:18px; text-align:center; font-size:11px; letter-spacing:2px; color:#445; text-transform:uppercase; cursor:pointer; transition:all 0.3s; margin-bottom:12px; position:relative; }
+  .drop-zone:hover, .drop-zone.drag-over { border-color:var(--æ-cyan); color:var(--æ-cyan); background:rgba(0,245,255,0.03); }
+  .drop-zone input { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; }
+  .track-select { display:none; margin-bottom:12px; align-items:center; gap:10px; }
+  .track-select.visible { display:flex; }
+  textarea { width:100%; box-sizing:border-box; background:rgba(0,0,0,0.4); border:1px solid var(--æ-border); color:var(--æ-cyan); font-family:'Share Tech Mono',monospace; font-size:13px; padding:12px; resize:vertical; min-height:80px; outline:none; letter-spacing:1px; caret-color:var(--æ-magenta); }
+  textarea:focus { border-color:var(--æ-cyan); box-shadow:0 0 12px rgba(0,245,255,0.15); }
+  textarea::placeholder { color:#334; }
+  .controls { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; align-items:center; }
+  .æ-btn { font-family:'Orbitron',monospace; font-size:10px; font-weight:900; letter-spacing:3px; text-transform:uppercase; color:var(--æ-cyan); background:var(--æ-bg); border:1px solid var(--æ-border); padding:9px 18px; cursor:pointer; position:relative; transition:all 0.3s; display:flex; align-items:center; gap:6px; animation:pulse-glow-cyan 2s infinite alternate; }
+  .æ-btn::after { content:''; position:absolute; bottom:-1px; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--æ-cyan),var(--æ-magenta),var(--æ-cyan),transparent); background-size:200% 100%; animation:shimmer 3s infinite linear; }
+  .æ-btn:hover { background:rgba(0,245,255,0.05); border-color:var(--æ-magenta); color:#fff; box-shadow:0 0 20px rgba(255,0,200,0.25); text-shadow:0 0 20px rgba(0,245,255,1),0 0 8px rgba(255,0,200,0.8); animation:none; }
+  .æ-btn.active { color:var(--æ-magenta); border-color:var(--æ-magenta); animation:pulse-glow-magenta 1s infinite alternate; }
+  .æ-btn.muted { animation:none; color:#445; }
+  .param-label { font-size:11px; letter-spacing:2px; color:#556; text-transform:uppercase; }
+  select { font-family:'Share Tech Mono',monospace; font-size:12px; letter-spacing:1px; background:var(--æ-bg); border:1px solid var(--æ-border); color:var(--æ-cyan); padding:7px 10px; cursor:pointer; outline:none; }
+  input[type=range] { accent-color:var(--æ-cyan); width:80px; }
+  .status { font-size:11px; letter-spacing:2px; color:#556; margin-top:12px; min-height:16px; text-transform:uppercase; }
+  canvas { display:block; width:100%; height:52px; background:rgba(0,0,0,0.4); border:1px solid var(--æ-border); margin-top:12px; }
+  .pills { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+  .pill { font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:1px; padding:3px 10px; background:rgba(0,0,0,0.4); border:1px solid var(--æ-border); color:#445; transition:all 0.08s; }
+  .pill.active { color:var(--æ-cyan); border-color:var(--æ-cyan); box-shadow:0 0 8px rgba(0,245,255,0.4); text-shadow:0 0 8px rgba(0,245,255,0.8); }
+  .ref { margin-top:16px; font-size:11px; color:#445; letter-spacing:1px; line-height:2; border-top:1px solid var(--æ-border); padding-top:12px; }
+  .ref code { color:var(--æ-magenta); background:rgba(255,0,200,0.06); padding:1px 5px; font-size:11px; font-family:'Share Tech Mono',monospace; }
+  @keyframes shimmer { 0%{background-position:100% 0} 100%{background-position:-100% 0} }
+  @keyframes pulse-glow-cyan { 0%{text-shadow:0 0 10px rgba(0,245,255,0.4)} 100%{text-shadow:0 0 20px rgba(0,245,255,0.9),0 0 8px rgba(255,0,200,0.6)} }
+  @keyframes pulse-glow-magenta { 0%{text-shadow:0 0 10px rgba(255,0,200,0.4)} 100%{text-shadow:0 0 20px rgba(255,0,200,0.9),0 0 8px rgba(0,245,255,0.6)} }
+</style>
+
+<div class="æ-wrap">
+  <div class="æ-title">Æ<span>—</span>Melody Synth</div>
+
+  <div class="unlock-banner" id="unlockBanner">
+    <i class="ti ti-volume" aria-hidden="true" style="font-size:16px;flex-shrink:0;color:var(--æ-cyan)"></i>
+    <span>Browser needs a gesture to unlock audio</span>
+    <button class="æ-btn" id="unlockBtn" style="font-size:9px;padding:6px 14px;animation:none;">Unlock</button>
+  </div>
+
+  <div class="drop-zone" id="dropZone">
+    <input type="file" id="midiFile" accept=".mid,.midi">
+    <i class="ti ti-file-music" aria-hidden="true" style="font-size:22px;color:var(--æ-cyan);display:block;margin-bottom:6px;"></i>
+    Drop MIDI file here — or click to browse
+  </div>
+
+  <div class="track-select" id="trackSelect">
+    <span class="param-label">Track</span>
+    <select id="trackPicker"></select>
+    <button class="æ-btn muted" id="loadTrackBtn" style="font-size:9px;padding:6px 14px;animation:none;">Load</button>
+  </div>
+
+  <textarea id="noteInput" spellcheck="false" placeholder="C4 E4 G4 C5 G4 E4 C4&#10;Durations: C4:2 E4:0.5 G4:1&#10;Rest: R or R:2    Chord: [C4,E4,G4]"></textarea>
+
+  <div class="pills" id="pills"></div>
+
+  <div class="controls">
+    <button class="æ-btn" id="playBtn"><i class="ti ti-player-play" aria-hidden="true"></i> Play</button>
+    <button class="æ-btn muted" id="stopBtn"><i class="ti ti-player-stop" aria-hidden="true"></i> Stop</button>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="param-label">Wave</span>
+      <select id="waveform">
+        <option value="sine">sine</option>
+        <option value="triangle" selected>triangle</option>
+        <option value="square">square</option>
+        <option value="sawtooth">sawtooth</option>
+      </select>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="param-label">BPM</span>
+      <input type="range" min="40" max="240" value="120" id="bpm" step="1">
+      <span class="param-label" id="bpmVal">120</span>
+    </div>
+  </div>
+
+  <canvas id="viz" height="52"></canvas>
+  <div class="status" id="status">unlock → load midi or type notes → play</div>
+
+  <div class="ref">
+    Manual: <code>C4 D4 E4 F4 G4 A4 B4 C5</code> — number = octave<br>
+    Sharps/flats: <code>C#4 Db4 F#3 Bb4</code> · Duration: <code>C4:2 E4:0.5</code><br>
+    Rest: <code>R</code> or <code>R:2</code> · Chord: <code>[C4,E4,G4]</code>
+  </div>
+</div>
+
+<script>
+const NOTE_NAMES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const NOTE_FREQS = (() => {
+  const aliases = {'Db':'C#','Eb':'D#','Fb':'E','Gb':'F#','Ab':'G#','Bb':'A#','Cb':'B'};
+  const map = {};
+  for (let oct = 0; oct <= 8; oct++) {
+    NOTE_NAMES.forEach((n, i) => {
+      const midi = (oct + 1) * 12 + i;
+      map[n + oct] = 440 * Math.pow(2, (midi - 69) / 12);
+    });
+    for (const [alias, target] of Object.entries(aliases)) {
+      const midi = (oct + 1) * 12 + NOTE_NAMES.indexOf(target);
+      map[alias + oct] = 440 * Math.pow(2, (midi - 69) / 12);
+    }
+  }
+  return map;
+})();
+
+function midiNoteToName(n) {
+  return NOTE_NAMES[n % 12] + Math.floor(n / 12 - 1);
+}
+
+let parsedTracks = [];
+
+function parseMidi(buffer) {
+  const view = new DataView(buffer);
+  let pos = 0;
+  function read2() { const v = view.getUint16(pos); pos += 2; return v; }
+  function read4() { const v = view.getUint32(pos); pos += 4; return v; }
+  function readVarLen() {
+    let v = 0, b;
+    do { b = view.getUint8(pos++); v = (v << 7) | (b & 0x7f); } while (b & 0x80);
+    return v;
+  }
+  if (read4() !== 0x4d546864) throw new Error('Not a MIDI file');
+  read4(); // header length
+  const fmt = read2();
+  const numTracks = read2();
+  const ticksPerBeat = read2();
+  const tracks = [];
+  for (let t = 0; t < numTracks; t++) {
+    if (read4() !== 0x4d54726b) break;
+    const chunkLen = read4();
+    const end = pos + chunkLen;
+    const events = [];
+    let tick = 0;
+    let lastStatus = 0;
+    while (pos < end) {
+      const delta = readVarLen();
+      tick += delta;
+      let statusByte = view.getUint8(pos);
+      if (statusByte & 0x80) { lastStatus = statusByte; pos++; }
+      else { statusByte = lastStatus; }
+      const type = statusByte & 0xf0;
+      const ch = statusByte & 0x0f;
+      if (type === 0x90) {
+        const note = view.getUint8(pos++);
+        const vel = view.getUint8(pos++);
+        events.push({ tick, type: vel > 0 ? 'noteOn' : 'noteOff', note, vel });
+      } else if (type === 0x80) {
+        const note = view.getUint8(pos++); pos++;
+        events.push({ tick, type:'noteOff', note });
+      } else if (type === 0xa0||type===0xb0||type===0xe0) { pos+=2; }
+      else if (type===0xc0||type===0xd0) { pos++; }
+      else if (statusByte===0xff) {
+        const mtype = view.getUint8(pos++);
+        const mlen = readVarLen();
+        if (mtype===0x51 && mlen===3) {
+          const us = (view.getUint8(pos)<<16)|(view.getUint8(pos+1)<<8)|view.getUint8(pos+2);
+          events.push({ tick, type:'tempo', bpm: Math.round(60000000/us) });
+        }
+        pos += mlen;
+      } else if (statusByte===0xf0||statusByte===0xf7) {
+        const slen = readVarLen(); pos += slen;
+      } else { pos++; }
+    }
+    pos = end;
+    if (events.some(e => e.type==='noteOn')) tracks.push(events);
+  }
+  return { ticksPerBeat, tracks };
+}
+
+function eventsToNoteString(events, ticksPerBeat, bpm) {
+  const active = {};
+  const notes = [];
+  let detectedBpm = bpm;
+  events.forEach(e => {
+    if (e.type==='tempo') detectedBpm = e.bpm;
+    else if (e.type==='noteOn') active[e.note] = e.tick;
+    else if (e.type==='noteOff' && active[e.note] != null) {
+      const durTicks = e.tick - active[e.note];
+      const durBeats = durTicks / ticksPerBeat;
+      notes.push({ tick: active[e.note], name: midiNoteToName(e.note), dur: durBeats });
+      delete active[e.note];
+    }
+  });
+  notes.sort((a,b) => a.tick - b.tick);
+  if (!notes.length) return { str:'', bpm: detectedBpm };
+  const str = notes.map(n => {
+    const d = Math.round(n.dur * 4) / 4;
+    return d === 1 ? n.name : `${n.name}:${d}`;
+  }).join(' ');
+  return { str, bpm: detectedBpm };
+}
+
+document.getElementById('midiFile').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  loadMidiFile(file);
+});
+
+const dz = document.getElementById('dropZone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) loadMidiFile(file);
+});
+
+function loadMidiFile(file) {
+  document.getElementById('status').textContent = 'reading midi...';
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const midi = parseMidi(e.target.result);
+      parsedTracks = midi.tracks.map((events, i) => ({ events, ticksPerBeat: midi.ticksPerBeat, idx: i }));
+      const picker = document.getElementById('trackPicker');
+      picker.innerHTML = parsedTracks.map((t, i) => {
+        const noteCount = t.events.filter(e => e.type==='noteOn').length;
+        return `<option value="${i}">Track ${i+1} — ${noteCount} notes</option>`;
+      }).join('');
+      document.getElementById('trackSelect').classList.add('visible');
+      loadTrack(0, midi);
+      document.getElementById('status').textContent = `midi loaded — ${parsedTracks.length} track(s) found`;
+    } catch(err) {
+      document.getElementById('status').textContent = 'error parsing midi: ' + err.message;
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function loadTrack(idx) {
+  const t = parsedTracks[idx];
+  if (!t) return;
+  const bpm = parseInt(document.getElementById('bpm').value);
+  const { str, bpm: detectedBpm } = eventsToNoteString(t.events, t.ticksPerBeat, bpm);
+  document.getElementById('noteInput').value = str;
+  if (detectedBpm && detectedBpm !== bpm) {
+    document.getElementById('bpm').value = Math.min(240, Math.max(40, detectedBpm));
+    document.getElementById('bpmVal').textContent = document.getElementById('bpm').value;
+  }
+  document.getElementById('status').textContent = `track ${idx+1} loaded — ${str.split(' ').length} notes`;
+}
+
+document.getElementById('loadTrackBtn').addEventListener('click', () => {
+  loadTrack(parseInt(document.getElementById('trackPicker').value));
+});
+document.getElementById('trackPicker').addEventListener('change', function() {
+  loadTrack(parseInt(this.value));
+});
+
+let actx=null, analyser=null, animFrame=null, timeouts=[], unlocked=false;
+function getCtx() {
+  if (!actx) { actx=new(window.AudioContext||window.webkitAudioContext)(); analyser=actx.createAnalyser(); analyser.fftSize=512; analyser.connect(actx.destination); }
+  return actx;
+}
+async function unlock() {
+  const ac=getCtx();
+  if(ac.state==='suspended') await ac.resume();
+  const o=ac.createOscillator(),g=ac.createGain();
+  g.gain.setValueAtTime(0,ac.currentTime); o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime+0.001);
+  unlocked=true;
+  document.getElementById('unlockBanner').classList.add('hidden');
+  document.getElementById('status').textContent='audio unlocked — ready';
+}
+document.getElementById('unlockBtn').addEventListener('click', unlock);
+
+function parseNotes(text) {
+  const tokens=text.trim().split(/\s+/), result=[];
+  for(const tok of tokens) {
+    if(!tok) continue;
+    if(tok.startsWith('[')) {
+      const inner=tok.replace(/[\[\]]/g,'');
+      const [ns,ds]=inner.split(':'); const dur=ds?parseFloat(ds):1;
+      const freqs=ns.split(',').map(n=>NOTE_FREQS[n.trim()]).filter(Boolean);
+      if(freqs.length) result.push({type:'chord',freqs,dur:isNaN(dur)?1:dur,label:tok});
+    } else {
+      const [np,ds]=tok.split(':'); const dur=ds?parseFloat(ds):1;
+      if(np.toUpperCase().startsWith('R')) result.push({type:'rest',dur:isNaN(dur)?1:dur,label:'R'});
+      else { const freq=NOTE_FREQS[np]; if(freq) result.push({type:'note',freq,dur:isNaN(dur)?1:dur,label:np}); }
+    }
+  }
+  return result;
+}
+function playNote(freq,duration,wave,startTime) {
+  const ac=getCtx(),osc=ac.createOscillator(),gain=ac.createGain();
+  osc.type=wave; osc.frequency.setValueAtTime(freq,startTime);
+  gain.gain.setValueAtTime(0,startTime);
+  gain.gain.linearRampToValueAtTime(0.35,startTime+0.015);
+  gain.gain.setValueAtTime(0.35,startTime+duration*0.65);
+  gain.gain.linearRampToValueAtTime(0,startTime+duration*0.95);
+  osc.connect(gain); gain.connect(analyser); osc.start(startTime); osc.stop(startTime+duration);
+}
+function drawViz() {
+  const canvas=document.getElementById('viz'),ctx2=canvas.getContext('2d');
+  const W=canvas.offsetWidth||600,H=canvas.offsetHeight||52;
+  canvas.width=W; canvas.height=H;
+  const buf=new Uint8Array(analyser.frequencyBinCount);
+  function frame() {
+    animFrame=requestAnimationFrame(frame); analyser.getByteTimeDomainData(buf);
+    ctx2.clearRect(0,0,W,H); ctx2.strokeStyle='#00f5ff'; ctx2.lineWidth=1.5; ctx2.shadowColor='#00f5ff'; ctx2.shadowBlur=6;
+    ctx2.beginPath();
+    for(let i=0;i<buf.length;i++) { const y=(buf[i]/128)*(H/2); i===0?ctx2.moveTo(0,y):ctx2.lineTo(i*W/buf.length,y); }
+    ctx2.stroke();
+  }
+  frame();
+}
+function stopViz() { if(animFrame){cancelAnimationFrame(animFrame);animFrame=null;} const c=document.getElementById('viz'); c.getContext('2d').clearRect(0,0,c.width,c.height); }
+
+async function play() {
+  if(!unlocked) await unlock();
+  const ac=getCtx(); if(ac.state==='suspended') await ac.resume();
+  const notes=parseNotes(document.getElementById('noteInput').value);
+  if(!notes.length){document.getElementById('status').textContent='no valid notes';return;}
+  const wave=document.getElementById('waveform').value;
+  const bpm=parseFloat(document.getElementById('bpm').value);
+  const spb=60/bpm;
+  document.getElementById('pills').innerHTML=notes.map((n,i)=>`<span class="pill" id="p${i}">${n.label}</span>`).join('');
+  document.getElementById('playBtn').classList.add('active');
+  document.getElementById('status').textContent='transmitting...';
+  drawViz();
+  let t=ac.currentTime+0.05;
+  notes.forEach((n,i)=>{
+    const dur=n.dur*spb;
+    if(n.type==='note') playNote(n.freq,dur,wave,t);
+    else if(n.type==='chord') n.freqs.forEach(f=>playNote(f,dur,wave,t));
+    const delay=Math.max(0,(t-ac.currentTime)*1000);
+    timeouts.push(setTimeout(()=>{ document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active')); document.getElementById('p'+i)?.classList.add('active'); },delay));
+    t+=dur;
+  });
+  timeouts.push(setTimeout(()=>{ document.getElementById('status').textContent='signal complete'; document.getElementById('playBtn').classList.remove('active'); document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active')); stopViz(); },(t-ac.currentTime)*1000));
+}
+function stop() {
+  timeouts.forEach(clearTimeout); timeouts=[];
+  if(actx){actx.close();actx=null;analyser=null;unlocked=false;}
+  stopViz(); document.getElementById('playBtn').classList.remove('active');
+  document.getElementById('status').textContent='signal cut — unlock to reset';
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  document.getElementById('unlockBanner').classList.remove('hidden');
+}
+document.getElementById('playBtn').addEventListener('click',play);
+document.getElementById('stopBtn').addEventListener('click',stop);
+document.getElementById('bpm').addEventListener('input',function(){document.getElementById('bpmVal').textContent=this.value;});
+</script>
