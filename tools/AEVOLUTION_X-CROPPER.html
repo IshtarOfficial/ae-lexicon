@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÆVOLUTION X-CROPPER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root[data-theme="dark"] {
+            --cyan: #00f5ff;
+            --magenta: #ff00c8;
+            --dark: #03030a;
+            --panel: #07070f;
+            --panel2: #0c0c1a;
+            --border: #151528;
+            --border2: #1e1e3a;
+            --text: #b0b0cc;
+            --text-main: #e0e0e0;
+            --dim: #383858;
+            --dim2: #505070;
+            --scanline-op: 0.06;
+        }
+
+        :root[data-theme="light"] {
+            --cyan: #007799;
+            --magenta: #aa0088;
+            --dark: #e6e6f0;
+            --panel: #f5f5fa;
+            --panel2: #ffffff;
+            --border: #c0c0d0;
+            --border2: #b0b0cc;
+            --text: #2a2a3a;
+            --text-main: #111111;
+            --dim: #606080;
+            --dim2: #8080a0;
+            --scanline-op: 0.03;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--dark);
+            color: var(--text);
+            font-family: 'Share Tech Mono', monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg, transparent, transparent 3px,
+                rgba(0,0,0,var(--scanline-op)) 3px, rgba(0,0,0,var(--scanline-op)) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ── HEADER ── */
+        header {
+            width: 100%;
+            padding: 20px 32px 16px;
+            border-bottom: 1px solid var(--border2);
+            background: var(--panel);
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            z-index: 10;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyan), var(--magenta), transparent);
+        }
+
+        .header-left h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--cyan);
+            letter-spacing: 4px;
+            text-shadow: 0 0 15px rgba(0,245,255,0.4);
+            margin-bottom: 6px;
+        }
+
+        .header-left h1 span { color: var(--magenta); }
+
+        .header-meta {
+            font-size: 11px;
+            color: var(--cyan);
+            letter-spacing: 3px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px; height: 8px;
+            background-color: var(--cyan);
+            border-radius: 50%;
+            margin-right: 6px;
+            box-shadow: 0 0 10px var(--cyan);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        .dim-pipe { color: var(--dim2); }
+        .magenta-text { color: var(--magenta); }
+
+        .header-right { display: flex; gap: 10px; align-items: center; }
+
+        .nav-link {
+            border: 1px solid var(--border2);
+            color: var(--dim2);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            padding: 6px 14px;
+            text-decoration: none;
+            letter-spacing: 1px;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            box-shadow: 0 0 10px rgba(0,245,255,0.15);
+        }
+
+        /* ── MAIN ── */
+        .main {
+            width: 100%;
+            max-width: 640px;
+            padding: 36px 24px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        /* ── CONTROLS PANEL ── */
+        .controls {
+            width: 100%;
+            background: var(--panel);
+            border: 1px solid var(--border2);
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            position: relative;
+        }
+
+        .controls::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--cyan), var(--magenta), transparent);
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .control-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--dim2);
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* file input */
+        input[type="file"] {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            color: var(--text);
+            background: var(--panel2);
+            border: 1px solid var(--border2);
+            padding: 7px 12px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            flex: 1;
+            transition: border-color 0.2s;
+        }
+
+        input[type="file"]:hover { border-color: var(--cyan); }
+        input[type="file"]::file-selector-button {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            background: var(--panel2);
+            color: var(--cyan);
+            border: 1px solid var(--border2);
+            padding: 4px 10px;
+            margin-right: 10px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+        input[type="file"]::file-selector-button:hover {
+            border-color: var(--cyan);
+            box-shadow: 0 0 8px rgba(0,245,255,0.2);
+        }
+
+        /* text input */
+        input[type="text"] {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 14px;
+            padding: 8px 12px;
+            background: var(--panel2);
+            color: var(--cyan);
+            border: 1px solid var(--border2);
+            width: 90px;
+            text-align: center;
+            letter-spacing: 2px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 10px rgba(0,245,255,0.2);
+        }
+
+        /* buttons */
+        button {
+            font-family: 'Orbitron', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 9px 18px;
+            background: transparent;
+            color: var(--cyan);
+            border: 1px solid var(--border2);
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        button:hover {
+            border-color: var(--cyan);
+            color: var(--text-main);
+            box-shadow: 0 0 14px rgba(0,245,255,0.25);
+            background: rgba(0,245,255,0.04);
+        }
+
+        button.magenta {
+            color: var(--magenta);
+        }
+
+        button.magenta:hover {
+            border-color: var(--magenta);
+            box-shadow: 0 0 14px rgba(255,0,200,0.25);
+            background: rgba(255,0,200,0.04);
+        }
+
+        /* ── PREVIEW CONTAINER ── */
+        .preview-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            background: var(--panel2);
+            border: 1px solid var(--border2);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(0,245,255,0.05);
+            transition: border-color 0.3s;
+        }
+
+        .preview-container:has(#sourceImage[style*="block"]) {
+            border-color: var(--cyan);
+            box-shadow: 0 0 20px rgba(0,245,255,0.1);
+        }
+
+        .preview-placeholder {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            color: var(--dim);
+            letter-spacing: 2px;
+            text-align: center;
+            line-height: 2;
+            pointer-events: none;
+        }
+
+        #sourceImage {
+            max-width: 500px;
+            max-height: 500px;
+            display: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        /* ── CROP BOX ── */
+        .crop-box {
+            position: absolute;
+            border: 1px solid var(--cyan);
+            box-shadow:
+                0 0 0 9999px rgba(0, 0, 0, 0.65),
+                0 0 12px rgba(0,245,255,0.3) inset;
+            cursor: move;
+            display: none;
+            box-sizing: border-box;
+        }
+
+        .crop-box::before, .crop-box::after {
+            content: '';
+            position: absolute;
+            border: 1px dashed rgba(0, 245, 255, 0.18);
+            pointer-events: none;
+        }
+        .crop-box::before { top: 33.33%; bottom: 33.33%; left: 0; right: 0; border-left: 0; border-right: 0; }
+        .crop-box::after  { left: 33.33%; right: 33.33%; top: 0; bottom: 0; border-top: 0; border-bottom: 0; }
+
+        /* corner accents */
+        .crop-corner {
+            position: absolute;
+            width: 10px; height: 10px;
+            border-color: var(--magenta);
+            border-style: solid;
+            pointer-events: none;
+        }
+        .crop-corner.tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+        .crop-corner.tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+        .crop-corner.bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+        .crop-corner.br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+        /* ── FOOTER ── */
+        footer {
+            width: 100%;
+            padding: 14px 32px;
+            border-top: 1px solid var(--border2);
+            background: var(--panel);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            color: var(--dim2);
+            letter-spacing: 2px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            margin-top: auto;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--magenta), var(--cyan), transparent);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-left">
+        <h1>ÆVOLUTION <span>X</span>-CROPPER</h1>
+        <div class="header-meta">
+            <span><span class="status-dot"></span>IMAGING SYSTEM ONLINE</span>
+            <span class="dim-pipe">|</span>
+            <span class="magenta-text">PRECISION CROP UTILITY</span>
+            <span class="dim-pipe">|</span>
+            <span>v1.0</span>
+        </div>
+    </div>
+    <div class="header-right">
+        <button class="nav-link" onclick="toggleTheme()">[ TOGGLE THEME ]</button>
+    </div>
+</header>
+
+<div class="main">
+
+    <div class="controls">
+        <div class="control-group">
+            <span class="control-label">// LOAD IMAGE</span>
+            <input type="file" id="imageLoader" accept="image/*">
+        </div>
+        <div class="control-group">
+            <span class="control-label">// ASPECT RATIO</span>
+            <input type="text" id="ratioInput" value="1:1" placeholder="1:1">
+            <button id="downloadBtn" class="magenta">⬇ DOWNLOAD CROP</button>
+        </div>
+    </div>
+
+    <div class="preview-container" id="canvasWrapper">
+        <div class="preview-placeholder" id="placeholder">
+            // NO IMAGE LOADED<br>
+            SELECT FILE ABOVE TO BEGIN
+        </div>
+        <img id="sourceImage" alt="Source">
+        <div id="cropBox" class="crop-box">
+            <div class="crop-corner tl"></div>
+            <div class="crop-corner tr"></div>
+            <div class="crop-corner bl"></div>
+            <div class="crop-corner br"></div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    ÆVOLUTION X-CROPPER &nbsp;|&nbsp; IMAGING MODULE &nbsp;|&nbsp; <span style="color:var(--cyan)">AEVOLUTION.SYS</span>
+</footer>
+
+<script>
+    const imageLoader  = document.getElementById('imageLoader');
+    const sourceImage  = document.getElementById('sourceImage');
+    const cropBox      = document.getElementById('cropBox');
+    const ratioInput   = document.getElementById('ratioInput');
+    const downloadBtn  = document.getElementById('downloadBtn');
+    const container    = document.getElementById('canvasWrapper');
+    const placeholder  = document.getElementById('placeholder');
+
+    let imgScaleX = 1, imgScaleY = 1;
+    let isDragging = false;
+    let startX, startY, initialLeft, initialTop;
+    let originalFilename = "cropped-image.png";
+
+    imageLoader.addEventListener('change', function(e) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            sourceImage.src = event.target.result;
+        };
+        if (e.target.files[0]) {
+            originalFilename = e.target.files[0].name.replace(/\.[^/.]+$/, "") + "-cropped.png";
+            reader.readAsDataURL(e.target.files[0]);
+        }
+    });
+
+    sourceImage.onload = function() {
+        placeholder.style.display = 'none';
+        sourceImage.style.display = 'block';
+        cropBox.style.display = 'block';
+        resetCropBox();
+    };
+
+    function resetCropBox() {
+        if (!sourceImage.complete || sourceImage.src === "") return;
+        const val = ratioInput.value.trim();
+        const match = val.match(/^(\d+(?:\.\d+)?)\s*[:/]\s*(\d+(?:\.\d+)?)$/);
+        if (!match) return;
+        const wRatio = parseFloat(match[1]);
+        const hRatio = parseFloat(match[2]);
+        if (wRatio <= 0 || hRatio <= 0) return;
+
+        const imgDisplayWidth  = sourceImage.clientWidth;
+        const imgDisplayHeight = sourceImage.clientHeight;
+
+        imgScaleX = sourceImage.naturalWidth  / imgDisplayWidth;
+        imgScaleY = sourceImage.naturalHeight / imgDisplayHeight;
+
+        let boxWidth, boxHeight;
+        if ((imgDisplayWidth / imgDisplayHeight) >= (wRatio / hRatio)) {
+            boxHeight = imgDisplayHeight;
+            boxWidth  = boxHeight * (wRatio / hRatio);
+        } else {
+            boxWidth  = imgDisplayWidth;
+            boxHeight = boxWidth * (hRatio / wRatio);
+        }
+
+        cropBox.style.width  = boxWidth  + 'px';
+        cropBox.style.height = boxHeight + 'px';
+
+        const imgLeft = sourceImage.offsetLeft;
+        const imgTop  = sourceImage.offsetTop;
+        cropBox.style.left = (imgLeft + (imgDisplayWidth  - boxWidth)  / 2) + 'px';
+        cropBox.style.top  = (imgTop  + (imgDisplayHeight - boxHeight) / 2) + 'px';
+    }
+
+    ratioInput.addEventListener('input', resetCropBox);
+    window.addEventListener('resize', resetCropBox);
+
+    cropBox.addEventListener('mousedown', function(e) {
+        isDragging   = true;
+        startX       = e.clientX;
+        startY       = e.clientY;
+        initialLeft  = cropBox.offsetLeft;
+        initialTop   = cropBox.offsetTop;
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        let newLeft = initialLeft + (e.clientX - startX);
+        let newTop  = initialTop  + (e.clientY - startY);
+
+        const minLeft = sourceImage.offsetLeft;
+        const maxLeft = minLeft + sourceImage.clientWidth  - cropBox.clientWidth;
+        const minTop  = sourceImage.offsetTop;
+        const maxTop  = minTop  + sourceImage.clientHeight - cropBox.clientHeight;
+
+        if (newLeft < minLeft) newLeft = minLeft;
+        if (newLeft > maxLeft) newLeft = maxLeft;
+        if (newTop  < minTop)  newTop  = minTop;
+        if (newTop  > maxTop)  newTop  = maxTop;
+
+        cropBox.style.left = newLeft + 'px';
+        cropBox.style.top  = newTop  + 'px';
+    });
+
+    document.addEventListener('mouseup', () => isDragging = false);
+
+    downloadBtn.addEventListener('click', function() {
+        if (!sourceImage.complete || sourceImage.src === "") {
+            alert("// NO IMAGE LOADED — SELECT FILE FIRST");
+            return;
+        }
+        const relativeLeft = cropBox.offsetLeft - sourceImage.offsetLeft;
+        const relativeTop  = cropBox.offsetTop  - sourceImage.offsetTop;
+
+        const sourceX      = relativeLeft * imgScaleX;
+        const sourceY      = relativeTop  * imgScaleY;
+        const sourceWidth  = cropBox.clientWidth  * imgScaleX;
+        const sourceHeight = cropBox.clientHeight * imgScaleY;
+
+        const canvas = document.createElement('canvas');
+        canvas.width  = sourceWidth;
+        canvas.height = sourceHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(sourceImage, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, sourceWidth, sourceHeight);
+
+        const link = document.createElement('a');
+        link.download = originalFilename;
+        link.href     = canvas.toDataURL('image/png');
+        link.click();
+    });
+
+    function toggleTheme() {
+        const html = document.documentElement;
+        html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    }
+</script>
+</body>
+</html>
