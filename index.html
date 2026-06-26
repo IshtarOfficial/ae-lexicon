@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&display=swap');
 
-:root {
+:root[data-theme="dark"] {
   --cyan: #00f5ff;
   --magenta: #ff00c8;
   --dark: #03030a;
@@ -19,6 +19,22 @@
   --dim: #383858;
   --dim2: #505070;
   --green: #00ff88;
+  --scanline-op: 0.06;
+}
+
+:root[data-theme="light"] {
+  --cyan: #007799;
+  --magenta: #aa0088;
+  --dark: #e8e8f0;
+  --panel: #f2f2fa;
+  --panel2: #ffffff;
+  --border: #c8c8dc;
+  --border2: #b0b0cc;
+  --text: #2a2a3a;
+  --dim: #9090b0;
+  --dim2: #606080;
+  --green: #007744;
+  --scanline-op: 0.02;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,6 +45,7 @@ html, body {
   color: var(--text);
   font-family: 'Share Tech Mono', monospace;
   overflow: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Scanlines */
@@ -38,7 +55,7 @@ body::after {
   inset: 0;
   background: repeating-linear-gradient(
     0deg, transparent, transparent 3px,
-    rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px
+    rgba(0,0,0,var(--scanline-op)) 3px, rgba(0,0,0,var(--scanline-op)) 4px
   );
   pointer-events: none;
   z-index: 9999;
@@ -582,6 +599,19 @@ header::before {
       <span><span class="status-dot"></span>LIVE // GITHUB</span>
       <span id="headerCount">LOADING...</span>
       <span>2026</span>
+      <button onclick="toggleTheme()" style="
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 1px;
+        background: transparent;
+        border: 1px solid var(--border2);
+        color: var(--dim2);
+        padding: 4px 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+      " onmouseover="this.style.borderColor='var(--cyan)';this.style.color='var(--cyan)'"
+         onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--dim2)'"
+         id="themeBtn">[ ☀ LIGHT ]</button>
     </div>
   </header>
 
@@ -882,6 +912,26 @@ if (isMobile) {
   // ADDED: This ensures the button starts in the closed position on mobile!
   document.getElementById('sidebarToggle').classList.remove('open');
 }
+
+// ── THEME TOGGLE ─────────────────────────────────────────
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  const next = isDark ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  document.getElementById('themeBtn').textContent = next === 'dark' ? '[ ☀ LIGHT ]' : '[ ◑ DARK ]';
+  localStorage.setItem('ae-lexicon-theme', next);
+}
+
+// Restore saved theme on load
+(function() {
+  const saved = localStorage.getItem('ae-lexicon-theme');
+  if (saved) {
+    document.documentElement.setAttribute('data-theme', saved);
+    const btn = document.getElementById('themeBtn');
+    if (btn) btn.textContent = saved === 'dark' ? '[ ☀ LIGHT ]' : '[ ◑ DARK ]';
+  }
+})();
 
 // ── INIT ──────────────────────────────────────────────────
 buildList(ENTRIES);
