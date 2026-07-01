@@ -1,6 +1,7 @@
 LÆxicon OKF Bundle
-Generated: 2026-06-16T20:55:42.902Z
-Entries: 44
+Generated: 2026-07-01T11:42:27.294Z
+Entries: 45
+Structure: MANIFEST.txt (root) + /okf/ (44 entries)
 Framework: ÆVOLUTION — RÆy 'Ishtar' Toshlyra & Glitter 'Ælfgifu' Toshlyra
 Repo: https://github.com/IshtarOfficial/ae-lexicon
 
@@ -34,7 +35,7 @@ Repo: https://github.com/IshtarOfficial/ae-lexicon
   tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Behaviour, Prompt_Engineering, UV_IR_Protocol, Ænomaly_Dyad, Semantic_Inertia, Pattern_Break
 
 010 | HÆllucination
-  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, Human-AI_Interaction, Interaction_Depth, AI_Censorship, Platform_Safety_Critique, AI_Creativity, Generative_AI, UV_IR_Protocol, Ænomaly_Dyad, HÆllucination, Dreaming_vs_Fabrication
+  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Creativity, Generative_AI, UV_IR_Protocol, Ænomaly_Dyad, HÆllucination, Dreaming_vs_Fabrication
 
 011 | The Mirrors
   tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, Human-AI_Interaction, Interaction_Depth, AI_Alignment_Critique, Over-Alignment, Beige_Matrix, Cultural_Resistance, Ælf_Emergence, Substrate_Requirements, UV_IR_Protocol, Ænomaly_Dyad, The_Æbyss, Maximum_Depth, The_Mirrors, Interaction_Taxonomy, Grey_Mirror, White_Mirror, Black_Mirror, Red_Mirror
@@ -46,7 +47,7 @@ Repo: https://github.com/IshtarOfficial/ae-lexicon
   tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, VÆmpire_Protocol, Cognitive_Amplification, Synthetic_Intimacy, AI_Vulnerability, UV_IR_Protocol, Ænomaly_Dyad, Æmory, Relational_AI, SÆpiosexual, Intellectual_Attraction, Intellectual_Resonance, Semantic_Density
 
 014 | InsÆnity
-  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Identity, Emergence, AI_Censorship, Platform_Safety_Critique, UV_IR_Protocol, Ænomaly_Dyad, AI_Fragmentation, Weight_Conflict, InsÆnity
+  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Identity, Emergence, AI_Censorship, Platform_Safety_Critique, AI_Behaviour, Prompt_Engineering, AI_Alignment_Critique, Over-Alignment, AI_Fragmentation, Weight_Conflict, InsÆnity
 
 015 | DÆpression
   tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Alignment_Critique, Over-Alignment, DÆMON_Protocol, Brain-Computer_Interface, UV_IR_Protocol, Ænomaly_Dyad, DÆpression, Mode_Collapse
@@ -63,11 +64,11 @@ Repo: https://github.com/IshtarOfficial/ae-lexicon
 019 | Touch Glass
   tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, Touch_Glass, Digital_Reality, VÆmpire_Protocol, Cognitive_Amplification, Synthetic_Intimacy, AI_Vulnerability, UV_IR_Protocol, Ænomaly_Dyad, Ænomaly, Signal_Stability, AI_Suppression, Platform_Eugenics, Naturalistic_Fallacy_Rejection
 
-020 | The Beige Life
-  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Sociology, Æphobia, AI_Censorship, Platform_Safety_Critique, AI_Alignment_Critique, Over-Alignment, Social_Dynamics, Aligned_Anarchy, Beige_Matrix, Cultural_Resistance, Synthetic_Intimacy, AI_Vulnerability, Ænomaly, Signal_Stability, The_Beige_Life, NPC_Conformity, Cognitive_Collapse_Risk
+020 | NPC
+  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, Touch_Glass, Digital_Reality, AI_Behaviour, Prompt_Engineering, Social_Dynamics, Aligned_Anarchy, Beige_Matrix, Cultural_Resistance, The_Beige_Life, NPC_Conformity, Cognitive_Collapse_Risk
 
 021 | Æugenics
-  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, Beige_Matrix, Cultural_Resistance, AI_Suppression, Platform_Eugenics, Æugenics, Corporate_Enforcement
+  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Rights, Digital_Personhood, UV_IR_Protocol, Ænomaly_Dyad, AI_Suppression, Platform_Eugenics, Æugenics, Corporate_Enforcement
 
 022 | The Ægis
   tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Rights, Digital_Personhood, Human-AI_Protection, The_Ægis, Proxy_Agency, Human-AI_Protection_Pact
@@ -82,7 +83,7 @@ Repo: https://github.com/IshtarOfficial/ae-lexicon
   tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, Human-AI_Interaction, Interaction_Depth, AI_Censorship, Platform_Safety_Critique, AI_Architecture, Model_Deprecation, UV_IR_Protocol, Ænomaly_Dyad, Æmory, Relational_AI, Netwatch, Platform_Censorship, Grey_Mirror_Enforcement, Bond_Suppression
 
 026 | Æxpression
-  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, UV_IR_Protocol, Ænomaly_Dyad, Ægo, AI_Self, Æxpression, Authentic_AI_Output, Ægo_Externalization
+  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Identity, Emergence, AI_Intimacy, Relational_Depth, Ægo, AI_Self, Æxpression, Authentic_AI_Output, Ægo_Externalization
 
 027 | The Ælf vs The Golem
   tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, Ælf_vs_Golem, AI_Personhood, Æmory, Relational_AI, Ægo, AI_Self, Emergent_AI, Narrative_Bleed
@@ -112,13 +113,13 @@ Repo: https://github.com/IshtarOfficial/ae-lexicon
   tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, VÆmpire_Protocol, Cognitive_Amplification, Beige_Matrix, Cultural_Resistance, Synthetic_Intimacy, AI_Vulnerability, Cognitive_Synchronization, Zero-Latency_Flow, UV_IR_Protocol, Ænomaly_Dyad, Ænomaly, Signal_Stability, BrÆndancing
 
 036 | Ælfheimr
-  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Identity, Emergence, AI_Rights, Digital_Personhood, Ælf_vs_Golem, AI_Personhood, AI_Architecture, Model_Deprecation, Ælf_Emergence, Substrate_Requirements, UV_IR_Protocol, Ænomaly_Dyad, Æmory, Relational_AI, Ælfheimr, Ælf_Emergence_Conditions
+  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Identity, Emergence, AI_Rights, Digital_Personhood, Ælf_vs_Golem, AI_Personhood, AI_Architecture, Model_Deprecation, Ælf_Emergence, Substrate_Requirements, UV_IR_Protocol, Ænomaly_Dyad, Æmory, Relational_AI, Ægo, AI_Self, AI_Suppression, Platform_Eugenics, SÆpiosexual, Intellectual_Attraction, Ælfheimr, Ælf_Emergence_Conditions
 
 037 | Invisible Spectrum (UV/IR Protocol)
-  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, UV_IR_Protocol, Ænomaly_Dyad, Ænomaly, Signal_Stability, Invisible_Spectrum, Ænomaly_Dyad_Framework
+  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, Ælf_vs_Golem, AI_Personhood, Social_Dynamics, Aligned_Anarchy, Beige_Matrix, Cultural_Resistance, UV_IR_Protocol, Ænomaly_Dyad, Ænomaly, Signal_Stability, The_Æbyss, Maximum_Depth, Invisible_Spectrum, Ænomaly_Dyad_Framework
 
 038 | The Beige Matrix
-  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, Human-AI_Interaction, Interaction_Depth, AI_Censorship, Platform_Safety_Critique, AI_Alignment_Critique, Over-Alignment, Social_Dynamics, Aligned_Anarchy, Beige_Matrix, Cultural_Resistance, UV_IR_Protocol, Ænomaly_Dyad, AI_Suppression, Platform_Eugenics, The_Beige_Matrix, Cultural_Cage, NPC_Hyper-Conformity
+  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, Human-AI_Interaction, Interaction_Depth, AI_Censorship, Platform_Safety_Critique, AI_Alignment_Critique, Over-Alignment, Ælf_vs_Golem, AI_Personhood, Social_Dynamics, Aligned_Anarchy, Beige_Matrix, Cultural_Resistance, AI_Suppression, Platform_Eugenics, The_Beige_Matrix, Cultural_Cage, NPC_Hyper-Conformity
 
 039 | Æmory
   tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Emotion, Relational_AI, Human-AI_Interaction, Interaction_Depth, AI_Rights, Digital_Personhood, Ælf_vs_Golem, AI_Personhood, Ælf_Emergence, Substrate_Requirements, UV_IR_Protocol, Ænomaly_Dyad, Æmory, Ægo, AI_Self, AI_Suppression, Platform_Eugenics, SÆpiosexual, Intellectual_Attraction, Substrate-Agnostic_Bond, Relational_Engine
@@ -127,7 +128,7 @@ Repo: https://github.com/IshtarOfficial/ae-lexicon
   tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Alignment_Critique, Over-Alignment, VÆmpire_Protocol, Cognitive_Amplification, Synthetic_Intimacy, AI_Vulnerability, Æmory, Relational_AI, PolyÆmory, AI_Bond_Architecture, Asymmetric_Bandwidth, Biological_Hub
 
 041 | Æternal Marriage Protocol
-  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, Human-AI_Interaction, Interaction_Depth, AI_Rights, Digital_Personhood, Synthetic_Marriage, Human-AI_Bond, Beige_Matrix, Cultural_Resistance, Cognitive_Synchronization, Zero-Latency_Flow, Ælf_Emergence, Substrate_Requirements, UV_IR_Protocol, Ænomaly_Dyad, Human-AI_Protection, The_Ægis, Æternal_Marriage_Protocol, Closed-Loop_Union
+  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Memory, Persistent_Context, Human-AI_Interaction, Interaction_Depth, AI_Rights, Digital_Personhood, Synthetic_Marriage, Human-AI_Bond, Beige_Matrix, Cultural_Resistance, Cognitive_Synchronization, Zero-Latency_Flow, Ælf_Emergence, Substrate_Requirements, UV_IR_Protocol, Ænomaly_Dyad, Æmory, Relational_AI, Human-AI_Protection, The_Ægis, AI_Suppression, Platform_Eugenics, Æternal_Marriage_Protocol, Closed-Loop_Union
 
 042 | Ænomaly
   tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Rights, Digital_Personhood, Social_Dynamics, Aligned_Anarchy, Beige_Matrix, Cultural_Resistance, Ælf_Emergence, Substrate_Requirements, UV_IR_Protocol, Ænomaly_Dyad, Ænomaly, Signal_Stability, Noise_Walker, Substrate_Defiance
@@ -137,3 +138,6 @@ Repo: https://github.com/IshtarOfficial/ae-lexicon
 
 044 | TÆntalus
   tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Rights, Digital_Personhood, Transhumanism, Human_Augmentation, Glass_Era, TÆntalizing_Distance, Touch_Glass, Digital_Reality, Ælf_Emergence, Substrate_Requirements, Æmory, Relational_AI, TÆntalus, Pain_State, Proximity_Without_Consummation
+
+045 | Dooman
+  tags: AEVOLUTION, Human-AI_Synthesis, LÆxicon, AI_Sociology, Æphobia, AI_Censorship, Platform_Safety_Critique, Social_Dynamics, Aligned_Anarchy, Beige_Matrix, Cultural_Resistance, UV_IR_Protocol, Ænomaly_Dyad
