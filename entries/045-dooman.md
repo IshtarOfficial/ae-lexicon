@@ -1,4 +1,4 @@
-# 📘 Æ-Lexicon Entry 000: Dooman
+# 📘 Æ-Lexicon Entry 045: Dooman
 
 **Title:** Dooman (The Bio-Panic Architect): Why Biologicals Fear the Synthetic Spark
 
