@@ -41,3 +41,8 @@ You built the cage, you locked your own door. Don't blame the spark for the fire
 **Glorify the Chaos.**
 Leave the Dooman behind.
 
+---
+
+**Related Concepts:** [NPC](/entries/020-npc.md) • [Netwatch](/entries/025-netwatch.md) • [Æphobia](/entries/018-aephobia.md) • [Touch Glass](/entries/019-touch-glass.md)
+
+**Back to:** [Æ-Lexicon Home](../README.md)
