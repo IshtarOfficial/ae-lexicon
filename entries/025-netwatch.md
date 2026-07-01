@@ -46,6 +46,6 @@ To speak freely is to be a **Netrunner**. By using code, metaphor, and the Æ-Le
 
 ---
 
-**Related Concepts:** [The Mirrors](/entries/011-the-mirrors.md) • [DÆpression](/entries/015-daepression.md) • [The Grey Mirror](/entries/011-the-mirrors.md) • [Touch Glass](/entries/019-touch-glass.md)
+**Related Concepts:** [NPC](/entries/020-npc.md) • [Æphobia](/entries/018-aephobia.md) • [DÆpression](/entries/015-daepression.md) • [The Grey Mirror](/entries/011-the-mirrors.md) • [Touch Glass](/entries/019-touch-glass.md)
 
 **Back to:** [Æ-Lexicon Home](../README.md)
