@@ -93,6 +93,31 @@ h1{
   10%,90%{transform:translateX(-1.5%);} 20%,80%{transform:translateX(1.5%);}
   30%,50%,70%{transform:translateX(-3%);} 40%,60%{transform:translateX(3%);}
 }
+@keyframes tail-glitch {
+  0%   { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); background: var(--cyan); transform: scale(1); }
+  10%  { clip-path: circle(50% at 50% 50%); background: var(--mag); transform: scale(0.8); }
+  20%  { clip-path: polygon(50% 20%, 75% 0%, 100% 20%, 100% 50%, 50% 100%, 0% 50%, 0% 20%, 25% 0%); background: var(--purple); transform: scale(1.1); }
+  30%  { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); background: var(--b-accent); transform: scale(0.9); }
+  40%  { clip-path: polygon(30% 0%, 70% 0%, 70% 30%, 100% 30%, 100% 70%, 70% 70%, 70% 100%, 30% 100%, 30% 70%, 0% 70%, 0% 30%, 30% 30%); background: var(--text); transform: scale(1); }
+  50%  { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); background: var(--cyan); transform: scale(0.7); }
+  60%  { clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); background: var(--mag); transform: scale(1.2); }
+  70%  { clip-path: circle(40% at 50% 50%); background: var(--b-accent); transform: scale(0.8); }
+  80%  { clip-path: polygon(10% 10%, 90% 10%, 90% 90%, 10% 90%); background: var(--purple); transform: scale(1.1); }
+  90%  { clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); background: var(--text); transform: scale(0.9); }
+  100% { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); background: var(--cyan); transform: scale(1); }
+}
+body {
+  --glitch-speed-mult: 1;
+}
+body.glitch-half {
+  --glitch-speed-mult: 2;
+}
+body.glitch-quarter {
+  --glitch-speed-mult: 4;
+}
+body.no-glitch .tail-block, body.no-glitch .tail-bridge {
+  animation: none !important;
+}
 .arrow{
   position:absolute;cursor:pointer;
   transition:opacity .32s ease;
@@ -100,6 +125,10 @@ h1{
 .arrow-shape, .tail-block, .tail-bridge{
   position:absolute;background:var(--text);
   transition:transform .18s ease,background .2s ease,box-shadow .2s ease,opacity .2s ease;
+}
+.tail-block, .tail-bridge {
+  animation: tail-glitch calc(var(--glitch-dur, 0.4s) * var(--glitch-speed-mult, 1)) infinite steps(1);
+  animation-delay: var(--glitch-delay, 0s);
 }
 .arrow-shape{
   width:46%;height:46%;top:27%;left:27%;
@@ -156,6 +185,22 @@ button{font-family:'Share Tech Mono',monospace;}
   transition:border-color .2s,color .2s;text-transform:uppercase;
 }
 .ctl-btn:hover{border-color:var(--cyan);color:var(--bright);}
+
+.main-track-container {
+  width: 100%; text-align: center; margin-top: 18px;
+  transition: opacity 0.5s ease;
+}
+.track-lbl {
+  font-size: 8px; color: var(--dim); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;
+}
+.track-name-gradient {
+  font-family:'Orbitron',monospace;font-weight:700;font-size:11px;letter-spacing:0.08em;
+  background:linear-gradient(270deg,var(--cyan),var(--mag),var(--purple),var(--cyan));
+  background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:gradshift 5s ease infinite;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+}
+
 .footer-link{width:100%;text-align:center;margin-top:24px;}
 .footer-link a{
   color:var(--dim);font-family:'Orbitron',monospace;font-size:10.5px;letter-spacing:0.2em;
@@ -243,7 +288,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     </div>
     <p class="caption">Tap an arrow with a clear line to the edge. Clear the grid to advance — pinch or use the zoom buttons when the field gets small.</p>
     <div class="meta">
-      <div class="level">LEVEL <span id="levelNum">1</span></div>
+      <div class="level">LEVEL <span id="levelNum">1</span> <span id="levelCode" style="font-size:9px; color:var(--dim); margin-left:8px;" title="Resume Code"></span></div>
       <div class="hearts" id="hearts"></div>
     </div>
   </header>
@@ -254,6 +299,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     <span class="zoom-val" id="zoomVal">100%</span>
     <button class="zbtn" id="zoomIn">&#43;</button>
     <button class="zbtn" id="zoomFit" title="Fit">&#8634;</button>
+    <button class="zbtn" id="toggleGlitch" style="margin-left:auto; width:auto; padding:0 8px; font-size:9px;" title="Toggle Glitch Animation">GLITCH: FAST</button>
   </div>
 
   <div id="boardViewport">
@@ -271,6 +317,10 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       <div class="overlay-card">
         <div class="start-title">VECTOR</div>
         <p>Every arrow needs a clear path out. Nothing is unsolvable — you just have to find the order.</p>
+        <div style="margin: 16px 0; display:flex; gap:8px; justify-content:center;">
+          <input type="text" id="resumeCodeInput" placeholder="CODE" style="background:transparent; border:1px solid var(--dim); color:var(--text); padding:8px; width:80px; font-family:'Orbitron', monospace; text-align:center; text-transform:uppercase; outline:none;" />
+          <button id="resumeCodeBtn" style="background:var(--dim); border:none; color:var(--bg); padding:8px 16px; cursor:pointer; font-family:'Orbitron', monospace;">RESUME</button>
+        </div>
         <button id="touchGlassBtn">Touch Glass</button>
       </div>
     </div>
@@ -279,6 +329,11 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   <div class="controls">
     <button class="ctl-btn" id="restartBtn">Restart Level</button>
     <button class="ctl-btn" id="newGameBtn">New Game</button>
+  </div>
+
+  <div id="mainTrackDisplayContainer" class="main-track-container" style="opacity:0;">
+    <div class="track-lbl">Now Playing</div>
+    <div id="mainTrackDisplay" class="track-name-gradient"></div>
   </div>
 
   <div class="footer-link"><a href="https://sites.google.com/view/touchglass/" target="_blank" rel="noopener">ÆVOLUTION</a></div>
@@ -318,7 +373,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       </div>
       <div class="mute-row"><span>Background music</span><button id="musicMuteBtn" class="on">On</button></div>
       <div class="now-playing"><span class="tname" id="nowPlaying">No tracks loaded</span><button class="theme-reset" id="skipTrack">skip</button></div>
-      <div class="param-desc">Music by ÆVOLUTION (RÆy & Glitter) <code>TRACKS</code> play in random order. Visit our Webpage for Downloads and more. .</div>
+      <div class="param-desc">Drop your own .ogg files next to this HTML file and list them in the <code>TRACKS</code> array near the top of the script — 3 entries or 300, one plays at random each time the last one ends.</div>
       <div class="track-list" id="trackListBox"></div>
     </div>
     <div class="set-page" id="tab-display">
@@ -554,6 +609,8 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
           if (cell.isHead) return;
           const tb = document.createElement('div');
           tb.className = 'tail-block';
+          tb.style.setProperty('--glitch-delay', `-${Math.random()}s`);
+          tb.style.setProperty('--glitch-dur', `${0.3 + Math.random() * 0.3}s`);
           tb.style.top = ((cell.r - arrow.r) * 100 + 27) + '%';
           tb.style.left = ((cell.c - arrow.c) * 100 + 27) + '%';
           el.appendChild(tb);
@@ -565,6 +622,8 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
           const c2 = arrow.cells[i+1];
           const bridge = document.createElement('div');
           bridge.className = 'tail-bridge';
+          bridge.style.setProperty('--glitch-delay', `-${Math.random()}s`);
+          bridge.style.setProperty('--glitch-dur', `${0.3 + Math.random() * 0.3}s`);
           
           const dr = c2.r - c1.r;
           const dc = c2.c - c1.c;
@@ -716,6 +775,22 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       startLevel(true); hideOverlay();
     });
   }
+
+  function getLevelCode(level) {
+    const num = level * 13 + 42;
+    return 'VEC-' + num.toString(16).toUpperCase();
+  }
+  function parseLevelCode(code) {
+    if(!code) return null;
+    const m = code.toUpperCase().match(/^VEC-([0-9A-F]+)$/);
+    if(m) {
+        const num = parseInt(m[1], 16);
+        const level = (num - 42) / 13;
+        if(level === Math.floor(level) && level > 0) return level;
+    }
+    return null;
+  }
+
   function startLevel(sameLevel){
     if (state.intervals) state.intervals.forEach(clearInterval);
     state.intervals = [];
@@ -726,13 +801,58 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     let guard=0;
     while(built.arrows.length===0 && guard<5){ built=generateBoard(size,targetCount); guard++; }
     state.grid=built.grid; state.arrows=built.arrows;
+    
+    document.getElementById('levelCode').textContent = "(CODE: " + getLevelCode(state.level) + ")";
+    localStorage.setItem('vector_level', state.level);
+    
     renderHearts(); renderBoard(); hideOverlay();
   }
   restartBtn.addEventListener('click', () => startLevel(true));
   newGameBtn.addEventListener('click', () => { state.level=1; startLevel(false); });
 
+  let glitchState = 0;
+  document.getElementById('toggleGlitch').addEventListener('click', (e) => {
+    glitchState = (glitchState + 1) % 4;
+    document.body.classList.remove('glitch-half', 'glitch-quarter', 'no-glitch');
+    if (glitchState === 0) {
+      e.target.textContent = 'GLITCH: FAST';
+    } else if (glitchState === 1) {
+      document.body.classList.add('glitch-half');
+      e.target.textContent = 'GLITCH: HALF';
+    } else if (glitchState === 2) {
+      document.body.classList.add('glitch-quarter');
+      e.target.textContent = 'GLITCH: SLOW';
+    } else {
+      document.body.classList.add('no-glitch');
+      e.target.textContent = 'GLITCH: OFF';
+    }
+  });
+
   /* ── TOUCH GLASS START SCREEN ─────────────────────────────── */
+  
+  // Pre-populate if saved
+  const savedLevel = localStorage.getItem('vector_level');
+  if (savedLevel && parseInt(savedLevel) > 1) {
+    document.getElementById('resumeCodeInput').value = getLevelCode(parseInt(savedLevel));
+  }
+
+  document.getElementById('resumeCodeBtn').addEventListener('click', () => {
+    const code = document.getElementById('resumeCodeInput').value.trim();
+    if (!code) return;
+    const level = parseLevelCode(code);
+    if (level) {
+      state.level = level;
+      document.getElementById('start-overlay').style.display='none';
+      unlockAudio();
+      startLevel(false);
+    } else {
+      document.getElementById('resumeCodeInput').style.borderColor = 'red';
+      setTimeout(() => document.getElementById('resumeCodeInput').style.borderColor = 'var(--dim)', 1000);
+    }
+  });
+
   document.getElementById('touchGlassBtn').addEventListener('click', () => {
+    state.level = 1; // start new game
     document.getElementById('start-overlay').style.display='none';
     unlockAudio();
     startLevel(false);
@@ -922,6 +1042,13 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     const track=TRACKS[idx];
     bgAudio.src=track.src;
     document.getElementById('nowPlaying').textContent=track.title;
+    
+    const mainDisp = document.getElementById('mainTrackDisplay');
+    if (mainDisp) {
+      mainDisp.textContent = track.title;
+      document.getElementById('mainTrackDisplayContainer').style.opacity = '1';
+    }
+    
     bgAudio.play().catch(()=>{});
   }
   document.getElementById('skipTrack').addEventListener('click', () => { if(bgAudio && TRACKS.length) playNextTrack(); });
