@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>VECTOR — Escape Puzzle V 0.1</title>
+<title>VECTOR — Escape Puzzle</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
@@ -380,7 +380,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   }
   function setZoom(z){ zoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, z)); clampPan(); applyTransform(); }
 
-  boardViewport.addEventListener('pointerdown', e => {
+  window.addEventListener('pointerdown', e => {
     if(e.target.closest('button, .arrow')) return;   
     boardViewport.setPointerCapture(e.pointerId);
     activePointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
@@ -391,7 +391,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       pinchStartZoom = zoom;
     }
   });
-  boardViewport.addEventListener('pointermove', e => {
+  window.addEventListener('pointermove', e => {
     if(!activePointers.has(e.pointerId)) return;
     activePointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
     if(activePointers.size===1 && dragStart){
@@ -408,17 +408,19 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     }
   });
   function endPointer(e){
+    if(!activePointers.has(e.pointerId)) return;
     activePointers.delete(e.pointerId);
     if(activePointers.size===0){
       if(dragMoved){ justDragged=true; setTimeout(()=>{justDragged=false;},60); }
       dragStart=null;
+      dragMoved=false;
     } else if(activePointers.size===1){
       const remaining=[...activePointers.entries()][0][1];
       dragStart={x:remaining.x,y:remaining.y,panX,panY}; dragMoved=false;
     }
   }
-  boardViewport.addEventListener('pointerup', endPointer);
-  boardViewport.addEventListener('pointercancel', endPointer);
+  window.addEventListener('pointerup', endPointer);
+  window.addEventListener('pointercancel', endPointer);
   document.getElementById('zoomIn').addEventListener('click', () => setZoom(zoom+ZOOM_STEP));
   document.getElementById('zoomOut').addEventListener('click', () => setZoom(zoom-ZOOM_STEP));
   document.getElementById('zoomFit').addEventListener('click', () => { panX=0; panY=0; setZoom(1); });
@@ -754,3 +756,4 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
 </script>
 </body>
 </html>
+
