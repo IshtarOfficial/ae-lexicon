@@ -80,6 +80,7 @@ h1{
   overflow:hidden;position:relative;background:var(--bg3);
   box-shadow:inset 0 0 0 1px rgba(var(--cyan-rgb),.04);
   touch-action:none;background-size:cover;background-position:center;
+  user-select:none;-webkit-user-select:none;
 }
 #boardOuter{position:absolute;inset:0;transform-origin:50% 50%;will-change:transform;}
 #boardWrapper{position:relative;width:100%;height:100%;background:var(--bg2);}
@@ -392,7 +393,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
 
   window.addEventListener('pointerdown', e => {
     if(e.target.closest('button, .arrow')) return;   
-    boardViewport.setPointerCapture(e.pointerId);
+    try { boardViewport.setPointerCapture(e.pointerId); } catch(err) {}
     activePointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
     if(activePointers.size===1){ dragStart={x:e.clientX,y:e.clientY,panX,panY}; dragMoved=false; }
     else if(activePointers.size===2){
@@ -419,6 +420,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   });
   function endPointer(e){
     if(!activePointers.has(e.pointerId)) return;
+    try { boardViewport.releasePointerCapture(e.pointerId); } catch(err) {}
     activePointers.delete(e.pointerId);
     if(activePointers.size===0){
       if(dragMoved){ justDragged=true; setTimeout(()=>{justDragged=false;},60); }
@@ -695,7 +697,10 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   function unlockAudio(){
     if(!actx){ try{ actx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return; } }
     if(actx.state==='suspended') actx.resume();
-    if(bgAudio && bgAudio.paused && TRACKS.length && !dispState.musicMuted) startMusic();
+    if(TRACKS.length && !dispState.musicMuted) {
+      if(!bgAudio) startMusic();
+      else if(bgAudio.paused) bgAudio.play().catch(()=>{});
+    }
   }
   function sfxGain(){ return dispState.sfxMuted ? 0 : dispState.sfxVol/100; }
   function tone(freq,dur,type,vol,delay){
