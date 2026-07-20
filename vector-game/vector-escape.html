@@ -215,7 +215,7 @@ button{font-family:'Share Tech Mono',monospace;}
   position:fixed;top:0;right:0;height:100%;width:min(340px,88vw);
   background:var(--bg2);border-left:1px solid var(--border);z-index:201;
   transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);
-  display:flex;flex-direction:column;
+  display:flex;flex-direction:column;pointer-events:auto;
 }
 #settings-panel.open{transform:translateX(0);}
 .set-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);}
@@ -239,7 +239,13 @@ button{font-family:'Share Tech Mono',monospace;}
 .theme-row{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid var(--border);}
 .theme-row:last-child{border-bottom:none;}
 .theme-lbl{flex:1;font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:0.5px;}
-.theme-swatch{width:34px;height:22px;border:1px solid var(--border);background:none;padding:0;cursor:pointer;border-radius:3px;}
+.theme-swatch{
+  -webkit-appearance:none;-moz-appearance:none;appearance:none;
+  background-color:transparent;width:34px;height:22px;border:none;padding:0;cursor:pointer;
+}
+.theme-swatch::-webkit-color-swatch-wrapper{padding:0;}
+.theme-swatch::-webkit-color-swatch{border:1px solid var(--border);border-radius:3px;}
+.theme-swatch::-moz-color-swatch{border:1px solid var(--border);border-radius:3px;}
 .theme-reset{font-size:9px;color:var(--dim);background:none;border:1px solid var(--border);cursor:pointer;padding:3px 7px;flex-shrink:0;border-radius:4px;}
 .theme-reset:hover{color:var(--mag);border-color:var(--mag);}
 .reset-all-btn{
@@ -451,7 +457,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   function setZoom(z){ zoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, z)); clampPan(); applyTransform(); }
 
   window.addEventListener('pointerdown', e => {
-    if(e.target.closest('button, .arrow')) return;   
+    if(e.target.closest('button, .arrow, input, #settings-panel, .controls, .zoom-bar')) return;   
     try { boardViewport.setPointerCapture(e.pointerId); } catch(err) {}
     activePointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
     if(activePointers.size===1){ dragStart={x:e.clientX,y:e.clientY,panX,panY}; dragMoved=false; }
@@ -882,7 +888,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   let dispState = { theme:'dark', customColors:{}, sfxVol:60, sfxMuted:false, musicVol:45, musicMuted:false, hardMode:false, bgImage:'' };
 
   function hexFromVar(key){
-    const v = getComputedStyle(document.documentElement).getPropertyValue('--'+key).trim();
+    const v = getComputedStyle(document.body).getPropertyValue('--'+key).trim();
     if(/^#[0-9a-f]{6}$/i.test(v)) return v;
     const probe=document.createElement('div'); probe.style.color=v; document.body.appendChild(probe);
     const rgb=getComputedStyle(probe).color.match(/\d+/g); document.body.removeChild(probe);
@@ -923,7 +929,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   }
 
   function applyDisp(){
-    const r=document.documentElement;
+    const r=document.body;
     document.body.classList.toggle('light', dispState.theme==='light');
     document.getElementById('mode-dark').classList.toggle('active', dispState.theme==='dark');
     document.getElementById('mode-light').classList.toggle('active', dispState.theme==='light');
