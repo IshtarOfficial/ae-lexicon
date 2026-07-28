@@ -869,12 +869,10 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     }
   });
   newGameBtn.addEventListener('click', () => {
-    if (state.isSlot || state.isSnake) {
-       document.getElementById('dpad').style.display = 'none';
-       document.getElementById('start-overlay').style.display='flex';
-    } else {
-       state.level=1; startLevel(false);
-    }
+    if (state.intervals) state.intervals.forEach(clearInterval);
+    if (typeof snakeInterval !== 'undefined' && snakeInterval) clearInterval(snakeInterval);
+    document.getElementById('dpad').style.display = 'none';
+    document.getElementById('start-overlay').style.display='flex';
   });
 
   let glitchState = 0;
