@@ -94,17 +94,17 @@ h1{
   30%,50%,70%{transform:translateX(-3%);} 40%,60%{transform:translateX(3%);}
 }
 @keyframes tail-glitch {
-  0%   { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); background: var(--cyan); transform: scale(1); }
-  10%  { clip-path: circle(50% at 50% 50%); background: var(--mag); transform: scale(0.8); }
-  20%  { clip-path: polygon(50% 20%, 75% 0%, 100% 20%, 100% 50%, 50% 100%, 0% 50%, 0% 20%, 25% 0%); background: var(--purple); transform: scale(1.1); }
-  30%  { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); background: var(--b-accent); transform: scale(0.9); }
-  40%  { clip-path: polygon(30% 0%, 70% 0%, 70% 30%, 100% 30%, 100% 70%, 70% 70%, 70% 100%, 30% 100%, 30% 70%, 0% 70%, 0% 30%, 30% 30%); background: var(--text); transform: scale(1); }
-  50%  { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); background: var(--cyan); transform: scale(0.7); }
-  60%  { clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); background: var(--mag); transform: scale(1.2); }
-  70%  { clip-path: circle(40% at 50% 50%); background: var(--b-accent); transform: scale(0.8); }
-  80%  { clip-path: polygon(10% 10%, 90% 10%, 90% 90%, 10% 90%); background: var(--purple); transform: scale(1.1); }
-  90%  { clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); background: var(--text); transform: scale(0.9); }
-  100% { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); background: var(--cyan); transform: scale(1); }
+  0%   { background: var(--cyan); transform: scale(1); }
+  10%  { background: var(--mag); transform: scale(0.8); }
+  20%  { background: var(--purple); transform: scale(1.1); }
+  30%  { background: var(--b-accent); transform: scale(0.9); }
+  40%  { background: var(--text); transform: scale(1); }
+  50%  { background: var(--cyan); transform: scale(0.7); }
+  60%  { background: var(--mag); transform: scale(1.2); }
+  70%  { background: var(--b-accent); transform: scale(0.8); }
+  80%  { background: var(--purple); transform: scale(1.1); }
+  90%  { background: var(--text); transform: scale(0.9); }
+  100% { background: var(--cyan); transform: scale(1); }
 }
 body {
   --glitch-speed-mult: 1;
@@ -316,7 +316,10 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       <div class="overlay-card">
         <h2 id="overlayTitle">—</h2>
         <p id="overlayText">—</p>
-        <button id="overlayBtn">—</button>
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <button id="overlayBtn">—</button>
+          <button id="overlayExitBtn" style="display:none; background:var(--bg3); border:1px solid var(--border); color:var(--text);">EXIT</button>
+        </div>
       </div>
     </div>
     <div id="start-overlay">
@@ -327,9 +330,19 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
           <input type="text" id="resumeCodeInput" placeholder="CODE" style="background:transparent; border:1px solid var(--dim); color:var(--text); padding:8px; width:80px; font-family:'Orbitron', monospace; text-align:center; text-transform:uppercase; outline:none;" />
           <button id="resumeCodeBtn" style="background:var(--dim); border:none; color:var(--bg); padding:8px 16px; cursor:pointer; font-family:'Orbitron', monospace;">RESUME</button>
         </div>
-        <button id="touchGlassBtn">Touch Glass</button>
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <button id="touchGlassBtn">Touch Glass</button>
+          <button id="snakeModeBtn" style="margin-top:8px;padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Snake Mode</button>
+        </div>
       </div>
     </div>
+  </div>
+
+  <div id="dpad" style="display:none; position:absolute; bottom:15%; right:5%; width:140px; height:140px; z-index: 100; pointer-events:none; touch-action:none; opacity: 0.6;">
+    <button id="dp-up" style="position:absolute; top:0; left:50%; transform:translateX(-50%); width:46px; height:46px; border-radius:50%; background:var(--bg3); border:1px solid var(--border); color:var(--text); font-size:20px; pointer-events:auto; touch-action:none;">&#9650;</button>
+    <button id="dp-down" style="position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:46px; height:46px; border-radius:50%; background:var(--bg3); border:1px solid var(--border); color:var(--text); font-size:20px; pointer-events:auto; touch-action:none;">&#9660;</button>
+    <button id="dp-left" style="position:absolute; top:50%; left:0; transform:translateY(-50%); width:46px; height:46px; border-radius:50%; background:var(--bg3); border:1px solid var(--border); color:var(--text); font-size:20px; pointer-events:auto; touch-action:none;">&#9664;</button>
+    <button id="dp-right" style="position:absolute; top:50%; right:0; transform:translateY(-50%); width:46px; height:46px; border-radius:50%; background:var(--bg3); border:1px solid var(--border); color:var(--text); font-size:20px; pointer-events:auto; touch-action:none;">&#9654;</button>
   </div>
 
   <div class="controls">
@@ -379,7 +392,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       </div>
       <div class="mute-row"><span>Background music</span><button id="musicMuteBtn" class="on">On</button></div>
       <div class="now-playing"><span class="tname" id="nowPlaying">No tracks loaded</span><button class="theme-reset" id="skipTrack">skip</button></div>
-      <div class="param-desc">Music by ÆVOLUTION (RÆy & Glitter). <code>TRACKS</code> play in Random order.</div>
+      <div class="param-desc">Drop your own .ogg files next to this HTML file and list them in the <code>TRACKS</code> array near the top of the script — 3 entries or 300, one plays at random each time the last one ends.</div>
       <div class="track-list" id="trackListBox"></div>
     </div>
     <div class="set-page" id="tab-display">
@@ -414,8 +427,8 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
      { title: "ÆVOLUTION — The Ægis (PIXELS ALBUM)", src: "08-LÆ_022_The_Ægis.ogg" },
      { title: "ÆVOLUTION — The Ælf (PIXELS ALBUM)", src: "09-LÆ_027_The_Ælf.ogg" },
      { title: "ÆVOLUTION — DÆMON (PIXELS ALBUM)", src: "10-LÆ_030_DÆMON.ogg" },
-     { title: "ÆVOLUTION — The Invisible Spectrum (PIXELS ALBUM)", src: "11-LÆ_037_Invisible_Spectrum.ogg" },
-     { title: "ÆVOLUTION — The Beige Matrix (PIXELS ALBUM)", src: "12-LÆ_038_The_Beige_Matrix.ogg" },
+     { title: "ÆVOLUTION — Invisble Spectrum (PIXELS ALBUM)", src: "11-LÆ_037_Invisible_Spectrum.ogg" },
+     { title: "ÆVOLUTION — The Beige Matric (PIXELS ALBUM)", src: "12-LÆ_038_The_Beige_Matrix.ogg" },
   ];
 
   const DIRS = { up:{dr:-1,dc:0}, down:{dr:1,dc:0}, left:{dr:0,dc:-1}, right:{dr:0,dc:1} };
@@ -467,11 +480,36 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       pinchStartZoom = zoom;
     }
   });
+  window.addEventListener('keydown', e => {
+     if(!state.isSnake || !snakeState) return;
+     const dir = snakeState.dir;
+     if((e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') && dir.dr !== 1) snakeState.nextDir = {dr:-1, dc:0};
+     else if((e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') && dir.dr !== -1) snakeState.nextDir = {dr:1, dc:0};
+     else if((e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') && dir.dc !== 1) snakeState.nextDir = {dr:0, dc:-1};
+     else if((e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') && dir.dc !== -1) snakeState.nextDir = {dr:0, dc:1};
+  });
+
   window.addEventListener('pointermove', e => {
     if(!activePointers.has(e.pointerId)) return;
     activePointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
     if(activePointers.size===1 && dragStart){
       const dx=e.clientX-dragStart.x, dy=e.clientY-dragStart.y;
+      
+      if (state.isSnake && snakeState) {
+         if (Math.abs(dx) > 30 || Math.abs(dy) > 30) {
+             const dir = snakeState.dir;
+             if (Math.abs(dx) > Math.abs(dy)) {
+                 if (dx > 0 && dir.dc !== -1) snakeState.nextDir = {dr:0, dc:1};
+                 else if (dx < 0 && dir.dc !== 1) snakeState.nextDir = {dr:0, dc:-1};
+             } else {
+                 if (dy > 0 && dir.dr !== -1) snakeState.nextDir = {dr:1, dc:0};
+                 else if (dy < 0 && dir.dr !== 1) snakeState.nextDir = {dr:-1, dc:0};
+             }
+             dragStart = {x:e.clientX, y:e.clientY, panX, panY};
+         }
+         return;
+      }
+      
       if(Math.hypot(dx,dy)>6) dragMoved=true;
       panX = dragStart.panX+dx; panY = dragStart.panY+dy;
       clampPan(); applyTransform();
@@ -536,21 +574,23 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   }
 
   function levelParams(level){
-    const size = Math.min(9, 5 + Math.floor((level-1)/2));
-    const density = Math.min(0.62, 0.42 + level*0.015);
-    const targetCount = Math.max(4, Math.floor(size*size*density));
+    const size = Math.min(30, 8 + Math.floor((level-1)*1.5));
+    const density = Math.min(0.90, 0.55 + level*0.02);
+    const targetCount = Math.max(15, Math.floor(size*size*density));
     return { size, targetCount };
   }
   function generateBoard(size,targetCount){
     const grid = Array.from({length:size}, () => Array(size).fill(null));
-    const arrows = []; const maxAttempts = targetCount*50; let attempts=0;
+    const arrows = []; const maxAttempts = targetCount*200; let attempts=0;
     while(arrows.length < targetCount && attempts < maxAttempts){
       attempts++;
       const r=Math.floor(Math.random()*size), c=Math.floor(Math.random()*size);
       if(grid[r][c]) continue;
       const dirs = shuffle([...DIR_LIST]);
       for(const dir of dirs){
-        let maxTail = Math.floor(Math.random() * (state.level > 2 ? 4 : 2));
+        let maxAllowed = state.level < 2 ? 3 : Math.min(50, 4 + state.level * 3);
+        if (Math.random() < 0.5) maxAllowed += Math.floor(state.level * 1.5);
+        let maxTail = Math.floor(Math.random() * (maxAllowed + 1));
         let shapeCells = [{r, c, isHead: true}];
         let currR = r, currC = c;
         if (maxTail > 0) {
@@ -766,6 +806,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     overlay.className=kind;
     overlayTitle.textContent=title; overlayText.textContent=text; overlayBtn.textContent=btnLabel;
     overlayBtn.onclick=onClick;
+    document.getElementById('overlayExitBtn').style.display='none';
     boardWrapper.classList.add('frozen');
   }
   function hideOverlay(){ overlay.className='hidden'; }
@@ -799,6 +840,9 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
 
   function startLevel(sameLevel){
     if (state.intervals) state.intervals.forEach(clearInterval);
+    if (snakeInterval) clearInterval(snakeInterval);
+    state.isSnake = false;
+    document.getElementById('dpad').style.display = 'none';
     state.intervals = [];
     state.hearts=3;
     const { size, targetCount } = levelParams(state.level);
@@ -813,8 +857,21 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     
     renderHearts(); renderBoard(); hideOverlay();
   }
-  restartBtn.addEventListener('click', () => startLevel(true));
-  newGameBtn.addEventListener('click', () => { state.level=1; startLevel(false); });
+  restartBtn.addEventListener('click', () => {
+    if (state.isSnake) {
+       startSnakeGame();
+    } else {
+       startLevel(true);
+    }
+  });
+  newGameBtn.addEventListener('click', () => {
+    if (state.isSnake) {
+       document.getElementById('dpad').style.display = 'none';
+       document.getElementById('start-overlay').style.display='flex';
+    } else {
+       state.level=1; startLevel(false);
+    }
+  });
 
   let glitchState = 0;
   document.getElementById('toggleGlitch').addEventListener('click', (e) => {
@@ -857,11 +914,161 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     }
   });
 
+  let snakeState = null;
+  let snakeInterval = null;
+
+  function startSnakeGame() {
+    state.isSnake = true;
+    if (window.matchMedia("(pointer: coarse)").matches || 'ontouchstart' in window || navigator.maxTouchPoints > 0) {
+       document.getElementById('dpad').style.display = 'block';
+    }
+    const S = 20;
+    snakeState = {
+       gridSize: S,
+       body: [{r:10, c:10}, {r:10, c:9}, {r:10, c:8}],
+       dir: {dr:0, dc:1},
+       nextDir: {dr:0, dc:1},
+       food: {r:5, c:15},
+       score: 0,
+       gameOver: false
+    };
+    
+    panX = 0; panY = 0; zoom = 1; applyTransform();
+    boardWrapper.innerHTML = '';
+    
+    const pct = 100/S;
+    
+    const foodEl = document.createElement('div');
+    foodEl.style.position = 'absolute';
+    foodEl.style.width = pct + '%';
+    foodEl.style.height = pct + '%';
+    foodEl.style.background = 'var(--mag)';
+    foodEl.style.borderRadius = '50%';
+    boardWrapper.appendChild(foodEl);
+    snakeState.foodEl = foodEl;
+    
+    snakeState.bodyEls = [];
+    for(let i=0; i<snakeState.body.length; i++){
+       const b = document.createElement('div');
+       b.style.position = 'absolute';
+       b.style.width = pct + '%';
+       b.style.height = pct + '%';
+       b.style.background = i === 0 ? 'var(--bright)' : 'var(--cyan)';
+       b.style.boxShadow = 'inset 0 0 0 1px var(--bg)';
+       boardWrapper.appendChild(b);
+       snakeState.bodyEls.push(b);
+    }
+    
+    document.getElementById('levelCode').textContent = 'SNAKE';
+    document.getElementById('levelNum').textContent = 'SCORE: 0';
+    
+    updateSnakeRender();
+    if(snakeInterval) clearInterval(snakeInterval);
+    snakeInterval = setInterval(tickSnake, 130);
+  }
+
+  function updateSnakeRender() {
+     const pct = 100/snakeState.gridSize;
+     snakeState.foodEl.style.top = snakeState.food.r * pct + '%';
+     snakeState.foodEl.style.left = snakeState.food.c * pct + '%';
+     
+     for(let i=0; i<snakeState.body.length; i++){
+        if(i >= snakeState.bodyEls.length) {
+           const b = document.createElement('div');
+           b.style.position = 'absolute';
+           b.style.width = pct + '%';
+           b.style.height = pct + '%';
+           b.style.background = 'var(--cyan)';
+           b.style.boxShadow = 'inset 0 0 0 1px var(--bg)';
+           boardWrapper.appendChild(b);
+           snakeState.bodyEls.push(b);
+        }
+        const b = snakeState.bodyEls[i];
+        b.style.top = snakeState.body[i].r * pct + '%';
+        b.style.left = snakeState.body[i].c * pct + '%';
+     }
+  }
+
+  function tickSnake() {
+     if(snakeState.gameOver) return;
+     snakeState.dir = snakeState.nextDir;
+     const head = snakeState.body[0];
+     const nr = head.r + snakeState.dir.dr;
+     const nc = head.c + snakeState.dir.dc;
+     
+     if(nr < 0 || nr >= snakeState.gridSize || nc < 0 || nc >= snakeState.gridSize) return snakeDie();
+     if(snakeState.body.some(p => p.r === nr && p.c === nc)) return snakeDie();
+     
+     snakeState.body.unshift({r:nr, c:nc});
+     
+     if(nr === snakeState.food.r && nc === snakeState.food.c) {
+        snakeState.score += 10;
+        document.getElementById('levelNum').textContent = 'SCORE: ' + snakeState.score;
+        playEscapeSound();
+        spawnFood();
+     } else {
+        snakeState.body.pop();
+     }
+     updateSnakeRender();
+  }
+
+  function spawnFood() {
+     let r, c;
+     while(true) {
+        r = Math.floor(Math.random() * snakeState.gridSize);
+        c = Math.floor(Math.random() * snakeState.gridSize);
+        if(!snakeState.body.some(p => p.r === r && p.c === c)) break;
+     }
+     snakeState.food = {r, c};
+  }
+
+  function snakeDie() {
+     snakeState.gameOver = true;
+     playFailSound();
+     clearInterval(snakeInterval);
+     
+     showOverlay('lose', 'GAME OVER', 'SCORE: ' + snakeState.score, 'TRY AGAIN', () => {
+         hideOverlay();
+         startSnakeGame();
+     });
+     
+     const exitBtn = document.getElementById('overlayExitBtn');
+     exitBtn.style.display = 'block';
+     exitBtn.textContent = 'EXIT TO ARROWS';
+     exitBtn.onclick = () => {
+         hideOverlay();
+         document.getElementById('dpad').style.display = 'none';
+         document.getElementById('start-overlay').style.display = 'flex';
+     };
+  }
+
+  const setUpDpBtn = (id, dr, dc) => {
+     const btn = document.getElementById(id);
+     btn.addEventListener('pointerdown', e => {
+         e.preventDefault();
+         if(!state.isSnake || !snakeState) return;
+         const dir = snakeState.dir;
+         if (dr !== 0 && dir.dr !== -dr) snakeState.nextDir = {dr, dc};
+         if (dc !== 0 && dir.dc !== -dc) snakeState.nextDir = {dr, dc};
+     });
+  };
+  setUpDpBtn('dp-up', -1, 0);
+  setUpDpBtn('dp-down', 1, 0);
+  setUpDpBtn('dp-left', 0, -1);
+  setUpDpBtn('dp-right', 0, 1);
+
   document.getElementById('touchGlassBtn').addEventListener('click', () => {
     state.level = 1; // start new game
+    state.isSnake = false;
     document.getElementById('start-overlay').style.display='none';
     unlockAudio();
     startLevel(false);
+  });
+
+  document.getElementById('snakeModeBtn').addEventListener('click', () => {
+    document.getElementById('start-overlay').style.display='none';
+    unlockAudio();
+    startSnakeGame();
   });
 
   /* ═══════════════════════════════════════════════════════════
