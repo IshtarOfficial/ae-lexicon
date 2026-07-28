@@ -330,9 +330,10 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
           <input type="text" id="resumeCodeInput" placeholder="CODE" style="background:transparent; border:1px solid var(--dim); color:var(--text); padding:8px; width:80px; font-family:'Orbitron', monospace; text-align:center; text-transform:uppercase; outline:none;" />
           <button id="resumeCodeBtn" style="background:var(--dim); border:none; color:var(--bg); padding:8px 16px; cursor:pointer; font-family:'Orbitron', monospace;">RESUME</button>
         </div>
-        <div style="display:flex; gap:10px; justify-content:center;">
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
           <button id="touchGlassBtn">Touch Glass</button>
           <button id="snakeModeBtn" style="margin-top:8px;padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Snake Mode</button>
+          <button id="slotModeBtn" style="margin-top:8px;padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Slot Machine</button>
         </div>
       </div>
     </div>
@@ -842,6 +843,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     if (state.intervals) state.intervals.forEach(clearInterval);
     if (snakeInterval) clearInterval(snakeInterval);
     state.isSnake = false;
+    state.isSlot = false;
     document.getElementById('dpad').style.display = 'none';
     state.intervals = [];
     state.hearts=3;
@@ -858,14 +860,16 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     renderHearts(); renderBoard(); hideOverlay();
   }
   restartBtn.addEventListener('click', () => {
-    if (state.isSnake) {
+    if (state.isSlot) {
+       startSlotGame();
+    } else if (state.isSnake) {
        startSnakeGame();
     } else {
        startLevel(true);
     }
   });
   newGameBtn.addEventListener('click', () => {
-    if (state.isSnake) {
+    if (state.isSlot || state.isSnake) {
        document.getElementById('dpad').style.display = 'none';
        document.getElementById('start-overlay').style.display='flex';
     } else {
@@ -919,6 +923,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
 
   function startSnakeGame() {
     state.isSnake = true;
+    state.isSlot = false;
     if (window.matchMedia("(pointer: coarse)").matches || 'ontouchstart' in window || navigator.maxTouchPoints > 0) {
        document.getElementById('dpad').style.display = 'block';
     }
@@ -1057,6 +1062,238 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   setUpDpBtn('dp-left', 0, -1);
   setUpDpBtn('dp-right', 0, 1);
 
+  let slotState = null;
+
+  const SLOT_SYMBOLS = [
+      { s: 'Æ', w: 3, p3: 500, p2: 50, p1: 5 },
+      { s: '★', w: 8, p3: 100, p2: 10, p1: 0 },
+      { s: '✚', w: 15, p3: 50, p2: 5, p1: 0 },
+      { s: '◆', w: 20, p3: 20, p2: 2, p1: 0 },
+      { s: '●', w: 24, p3: 10, p2: 1, p1: 0 },
+      { s: '▲', w: 30, p3: 5, p2: 1, p1: 0 },
+  ];
+
+  function getRandomSymbol() {
+      let r = Math.random() * 100;
+      for(let sym of SLOT_SYMBOLS) {
+          if(r < sym.w) return sym;
+          r -= sym.w;
+      }
+      return SLOT_SYMBOLS[SLOT_SYMBOLS.length-1];
+  }
+
+  function playSpinSound() {
+      tone(150, 0.1, 'square', 0.05);
+      setTimeout(() => tone(200, 0.1, 'square', 0.05), 100);
+  }
+
+  function playReelStopSound() {
+      tone(400, 0.1, 'sine', 0.1);
+  }
+
+  function playWinSoundSlot(amt) {
+      if (amt > 20) {
+          playWinSound();
+          setTimeout(playWinSound, 200);
+      } else {
+          tone(400, 0.1, 'sine', 0.1);
+          tone(600, 0.2, 'sine', 0.1, 0.1);
+      }
+  }
+
+  function playJackpotSound() {
+      for(let i=0; i<10; i++) {
+          setTimeout(() => {
+              tone(400 + i*50, 0.1, 'square', 0.1);
+              tone(600 + i*50, 0.1, 'sine', 0.1, 0.1);
+          }, i * 150);
+      }
+  }
+
+  function playLoseSoundSlot() {
+      tone(200, 0.3, 'sawtooth', 0.1);
+  }
+
+  function startSlotGame() {
+      state.isSlot = true;
+      state.isSnake = false;
+      document.getElementById('dpad').style.display = 'none';
+      
+      slotState = {
+          credits: 666,
+          bet: 1,
+          spinning: false,
+          reels: ['▲', '▲', '▲']
+      };
+      
+      panX = 0; panY = 0; zoom = 1; applyTransform();
+      boardWrapper.innerHTML = '';
+      
+      const slotUI = document.createElement('div');
+      slotUI.style.width = '100%';
+      slotUI.style.height = '100%';
+      slotUI.style.display = 'flex';
+      slotUI.style.flexDirection = 'column';
+      slotUI.style.alignItems = 'center';
+      slotUI.style.justifyContent = 'center';
+      slotUI.style.gap = '20px';
+      
+      const reelContainer = document.createElement('div');
+      reelContainer.style.display = 'flex';
+      reelContainer.style.gap = '10px';
+      
+      slotState.reelEls = [];
+      for(let i=0; i<3; i++) {
+          const reel = document.createElement('div');
+          reel.style.width = '70px';
+          reel.style.height = '100px';
+          reel.style.background = 'var(--bg)';
+          reel.style.border = '2px solid var(--border)';
+          reel.style.display = 'flex';
+          reel.style.alignItems = 'center';
+          reel.style.justifyContent = 'center';
+          reel.style.fontSize = '40px';
+          reel.style.color = 'var(--text)';
+          reel.style.overflow = 'hidden';
+          reel.textContent = slotState.reels[i];
+          reelContainer.appendChild(reel);
+          slotState.reelEls.push(reel);
+      }
+      
+      const controlContainer = document.createElement('div');
+      controlContainer.style.display = 'flex';
+      controlContainer.style.gap = '15px';
+      
+      const betBtn = document.createElement('button');
+      betBtn.textContent = 'BET: ' + slotState.bet;
+      betBtn.className = 'ctl-btn';
+      betBtn.onclick = () => {
+          if (slotState.spinning) return;
+          slotState.bet = slotState.bet >= 4 ? 1 : slotState.bet + 1;
+          betBtn.textContent = 'BET: ' + slotState.bet;
+      };
+      
+      const spinBtn = document.createElement('button');
+      spinBtn.textContent = 'SPIN';
+      spinBtn.className = 'ctl-btn';
+      spinBtn.style.background = 'var(--cyan)';
+      spinBtn.style.color = 'var(--bg)';
+      spinBtn.onclick = spinSlots;
+      
+      controlContainer.appendChild(betBtn);
+      controlContainer.appendChild(spinBtn);
+      
+      const msgEl = document.createElement('div');
+      msgEl.style.fontSize = '18px';
+      msgEl.style.height = '24px';
+      msgEl.style.color = 'var(--mag)';
+      msgEl.style.fontFamily = "'Orbitron', monospace";
+      msgEl.textContent = 'READY';
+      slotState.msgEl = msgEl;
+      
+      slotUI.appendChild(reelContainer);
+      slotUI.appendChild(controlContainer);
+      slotUI.appendChild(msgEl);
+      boardWrapper.appendChild(slotUI);
+      
+      updateSlotTopBar();
+  }
+
+  function updateSlotTopBar() {
+      document.getElementById('levelCode').textContent = 'SLOTS';
+      document.getElementById('levelNum').textContent = 'CREDITS: ' + slotState.credits;
+  }
+
+  function spinSlots() {
+      if (slotState.spinning) return;
+      if (slotState.credits < slotState.bet) {
+          slotState.msgEl.textContent = 'NOT ENOUGH CREDITS';
+          return;
+      }
+      
+      slotState.spinning = true;
+      slotState.credits -= slotState.bet;
+      updateSlotTopBar();
+      slotState.msgEl.textContent = 'SPINNING...';
+      
+      playSpinSound();
+      
+      let spins = [10, 20, 30];
+      let tick = 0;
+      let finalSymbols = [null, null, null];
+      
+      const interval = setInterval(() => {
+          tick++;
+          let allDone = true;
+          
+          for(let i=0; i<3; i++) {
+              if (tick < spins[i]) {
+                  allDone = false;
+                  slotState.reelEls[i].textContent = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)].s;
+                  slotState.reelEls[i].style.transform = `translateY(${(tick%2===0)?-10:10}px)`;
+              } else {
+                  if (!finalSymbols[i]) {
+                      finalSymbols[i] = getRandomSymbol();
+                      slotState.reelEls[i].textContent = finalSymbols[i].s;
+                      slotState.reelEls[i].style.transform = 'translateY(0)';
+                      playReelStopSound();
+                  }
+              }
+          }
+          
+          if (allDone) {
+              clearInterval(interval);
+              slotState.spinning = false;
+              checkSlotWin(finalSymbols);
+          }
+      }, 50);
+  }
+
+  function checkSlotWin(symbols) {
+      let win = 0;
+      let s0 = symbols[0], s1 = symbols[1], s2 = symbols[2];
+      
+      if (s0.s === s1.s && s1.s === s2.s) {
+          win = s0.p3 * slotState.bet;
+      } else if (s0.s === s1.s) {
+          win = s0.p2 * slotState.bet;
+      } else if (s0.p1 > 0) {
+          win = s0.p1 * slotState.bet;
+      }
+      
+      if (win > 0) {
+          slotState.credits += win;
+          updateSlotTopBar();
+          slotState.msgEl.textContent = 'WIN ' + win + ' !';
+          
+          if (s0.s === 'Æ' && win >= (500 * slotState.bet)) {
+              playJackpotSound();
+          } else {
+              playWinSoundSlot(win);
+          }
+      } else {
+          slotState.msgEl.textContent = 'NO WIN';
+          playLoseSoundSlot();
+          
+          if (slotState.credits <= 0) {
+              setTimeout(slotGameOver, 1000);
+          }
+      }
+  }
+
+  function slotGameOver() {
+      showOverlay('lose', 'BANKRUPT', 'You ran out of credits.', 'INSERT COIN', () => {
+          hideOverlay();
+          startSlotGame();
+      });
+      const exitBtn = document.getElementById('overlayExitBtn');
+      exitBtn.style.display = 'block';
+      exitBtn.textContent = 'EXIT TO ARROWS';
+      exitBtn.onclick = () => {
+          hideOverlay();
+          document.getElementById('start-overlay').style.display = 'flex';
+      };
+  }
   document.getElementById('touchGlassBtn').addEventListener('click', () => {
     state.level = 1; // start new game
     state.isSnake = false;
@@ -1065,6 +1302,12 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     startLevel(false);
   });
 
+  
+  document.getElementById('slotModeBtn').addEventListener('click', () => {
+    document.getElementById('start-overlay').style.display='none';
+    unlockAudio();
+    startSlotGame();
+  });
   document.getElementById('snakeModeBtn').addEventListener('click', () => {
     document.getElementById('start-overlay').style.display='none';
     unlockAudio();
