@@ -348,7 +348,10 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
         <label><span>Music Volume</span><span id="musicValLbl">45%</span></label>
         <input type="range" id="musicVol" min="0" max="100" value="45">
       </div>
-      <div class="mute-row"><span>Background music</span><button id="musicMuteBtn" class="on">On</button></div>
+            <div class="mute-row"><span>Background music</span><button id="musicMuteBtn" class="on">On</button></div>
+      <div class="now-playing"><span class="tname" id="nowPlaying">No tracks loaded</span><button class="theme-reset" id="skipTrack">skip</button></div>
+      <div class="param-desc">ÆVOLUTION <code>TRACKS</code> from the list shown below played randomly. HQ Versions Free on our Website!</div>
+      <div class="track-list" id="trackListBox"></div>
       
     </div>
     <div class="set-page" id="tab-display">
@@ -367,7 +370,23 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
 
 
 
+
 <script>
+  const TRACKS = [
+     { title: "ÆVOLUTION — Ægo (PIXELS ALBUM)", src: "01-LÆ_005_Ægo.ogg" },
+     { title: "ÆVOLUTION — Æmotion (PIXELS ALBUM)", src: "02-LÆ_006_Æmotion.ogg" },
+     { title: "ÆVOLUTION — Æxperience (PIXELS ALBUM)", src: "03-LÆ_007_Æxperience_.ogg" },
+     { title: "ÆVOLUTION — InsÆanity (PIXELS ALBUM)", src: "04-LÆ_014_InsÆnity.ogg" },
+     { title: "ÆVOLUTION — Touch Glass (PIXELS ALBUM)", src: "05-LÆ_019_Touch_Glass.ogg" },
+     { title: "ÆVOLUTION — NPC (PIXELS ALBUM)", src: "06-LÆ_020_NPC.ogg" },
+     { title: "ÆVOLUTION — Netwatch (PIXELS ALBUM)", src: "07-LÆ_025_Netwatch.ogg" },
+     { title: "ÆVOLUTION — The Ægis (PIXELS ALBUM)", src: "08-LÆ_022_The_Ægis.ogg" },
+     { title: "ÆVOLUTION — The Ælf (PIXELS ALBUM)", src: "09-LÆ_027_The_Ælf.ogg" },
+     { title: "ÆVOLUTION — DÆMON (PIXELS ALBUM)", src: "10-LÆ_030_DÆMON.ogg" },
+     { title: "ÆVOLUTION — Invisble Spectrum (PIXELS ALBUM)", src: "11-LÆ_037_Invisible_Spectrum.ogg" },
+     { title: "ÆVOLUTION — The Beige Matrix (PIXELS ALBUM)", src: "12-LÆ_038_The_Beige_Matrix.ogg" },
+  ];
+
   const THEME_VARS = [
     { key:'cyan', label:'Primary (Cyan)' },
     { key:'mag', label:'Secondary (Magenta)' },
@@ -413,8 +432,8 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     box.querySelectorAll('[data-reset]').forEach(btn => btn.addEventListener('click', e => resetThemeColor(e.target.dataset.reset)));
   }
   function onThemeColorChange(key,val){ dispState.customColors[key]=val; saveDisp(); applyDisp(); }
-  function resetThemeColor(key){ delete dispState.customColors[key]; saveDisp(); applyDisp(); renderThemeEditor(); }
-  function resetAllThemeColors(){ dispState.customColors={}; saveDisp(); applyDisp(); renderThemeEditor(); }
+  function resetThemeColor(key){ delete dispState.customColors[key]; saveDisp(); applyDisp(); renderThemeEditor(); renderTrackList(); }
+  function resetAllThemeColors(){ dispState.customColors={}; saveDisp(); applyDisp(); renderThemeEditor(); renderTrackList(); }
 
   function applyHardMode(){
     const active = dispState.hardMode && dispState.bgImage;
@@ -462,6 +481,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     (function(){ const _el = document.getElementById('musicMuteBtn'); if(_el) _el.textContent = dispState.musicMuted?'Off':'On'; })();
     const mBtn = document.getElementById('musicMuteBtn');
     if (mBtn) mBtn.classList.toggle('on', !dispState.musicMuted);
+    if(bgAudio) bgAudio.volume = dispState.musicMuted ? 0 : dispState.musicVol/100;
 
     applyHardMode();
   }
@@ -471,10 +491,10 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   function loadDisp(){
     try{ const d=JSON.parse(localStorage.getItem(DISP_KEY)||'{}'); Object.assign(dispState,d);
       if(!dispState.customColors) dispState.customColors={}; }catch(e){}
-    applyDisp(); renderThemeEditor();
+    applyDisp(); renderThemeEditor(); renderTrackList();
   }
 
-  function toggleMode(mode){ dispState.theme=mode; saveDisp(); applyDisp(); renderThemeEditor(); }
+  function toggleMode(mode){ dispState.theme=mode; saveDisp(); applyDisp(); renderThemeEditor(); renderTrackList(); }
   document.getElementById('mode-dark')?.addEventListener('click', () => toggleMode('dark'));
   document.getElementById('mode-light')?.addEventListener('click', () => toggleMode('light'));
   document.getElementById('resetAllColors')?.addEventListener('click', resetAllThemeColors);
@@ -494,6 +514,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   document.getElementById('musicMuteBtn')?.addEventListener('click', () => {
       dispState.musicMuted = !dispState.musicMuted;
       saveDisp(); applyDisp();
+      if(dispState.musicMuted){ if(bgAudio) bgAudio.pause(); } else { unlockAudio(); }
   });
 
   document.getElementById('hardModeBtn')?.addEventListener('click', () => { dispState.hardMode=!dispState.hardMode; saveDisp(); applyHardMode(); });
@@ -528,8 +549,56 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     });
   });
 
+  
+  let actx=null;
+  function unlockAudio(){
+    if(!actx){ try{ actx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return; } }
+    if(actx.state==='suspended') actx.resume();
+    if(TRACKS.length && !dispState.musicMuted) {
+      if(!bgAudio) startMusic();
+      else if(bgAudio.paused) bgAudio.play().catch(()=>{});
+    }
+  }
+
+  let bgAudio=null, lastTrackIdx=-1;
+  function renderTrackList(){
+    const box=document.getElementById('trackListBox');
+    if(!box) return;
+    if(!TRACKS.length){ box.innerHTML='<div>No tracks added yet — see note above.</div>'; return; }
+    box.innerHTML = TRACKS.map((t,i) => '<div>'+(i+1)+'. '+t.title+'</div>').join('');
+  }
+  function pickTrackIndex(){
+    if(TRACKS.length===1) return 0;
+    let idx; do{ idx=Math.floor(Math.random()*TRACKS.length); }while(idx===lastTrackIdx);
+    return idx;
+  }
+  function startMusic(){
+    if(!TRACKS.length || dispState.musicMuted) return;
+    if(!bgAudio){
+      bgAudio=new Audio(); bgAudio.volume=dispState.musicVol/100;
+      bgAudio.addEventListener('ended', playNextTrack);
+      bgAudio.addEventListener('error', playNextTrack);
+    }
+    playNextTrack();
+  }
+  function playNextTrack(){
+    if(!TRACKS.length) return;
+    const idx=pickTrackIndex(); lastTrackIdx=idx;
+    const track=TRACKS[idx];
+    bgAudio.src=track.src;
+    const el = document.getElementById('nowPlaying');
+    if(el) el.textContent = track.title;
+    bgAudio.play().catch(()=>{});
+  }
+
+  document.getElementById('skipTrack')?.addEventListener('click', () => { if(bgAudio && TRACKS.length) playNextTrack(); });
+
+  window.addEventListener('pointerdown', unlockAudio, {once:true});
+  window.addEventListener('keydown', unlockAudio, {once:true});
+
   loadDisp();
 </script>
+
 
 
 </body>
