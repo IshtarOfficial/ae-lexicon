@@ -324,7 +324,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   }
 </style>
 </head>
-<body>
+<body class="no-glitch">
 <div id="app">
   <header>
     <div class="head-row">
@@ -365,10 +365,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       <div class="overlay-card">
         <div class="start-title">CYBER MAHJONG</div>
         <p>Match open pairs. Dragon tiles (Æ) share vector colors.</p>
-        <div style="margin: 16px 0; display:flex; gap:8px; justify-content:center;">
-          <input type="text" id="resumeCodeInput" placeholder="CODE" style="background:transparent; border:1px solid var(--dim); color:var(--text); padding:8px; width:80px; font-family:'Orbitron', monospace; text-align:center; text-transform:uppercase; outline:none;" />
-          <button id="resumeCodeBtn" style="background:var(--dim); border:none; color:var(--bg); padding:8px 16px; cursor:pointer; font-family:'Orbitron', monospace;">RESUME</button>
-        </div>
+        
         <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
           <button id="mahjongPlayBtn" style="padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--cyan);border:1px solid var(--dim);color:var(--bg);cursor:pointer;border-radius:4px;font-weight:700;">Play Mahjong</button>
           
@@ -757,6 +754,10 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     selectedTile = null;
     generateBoard();
   });
+  
+  document.getElementById('newGameBtn')?.addEventListener('click', () => {
+    document.getElementById('start-overlay').style.display='flex';
+  });
 
   // Play button
   document.getElementById('mahjongPlayBtn')?.addEventListener('click', () => {
@@ -803,7 +804,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     return parseInt(hex.substring(0,2),16)+', '+parseInt(hex.substring(2,4),16)+', '+parseInt(hex.substring(4,6),16);
   }
   function renderThemeEditor(){
-    const box = document.getElementById('themeVarsBox');
+    const box = document.getElementById('theme-editor');
     if(!box) return;
     let html = THEME_VARS.map(tv => {
       const isCustom = dispState.customColors && dispState.customColors[tv.key];
@@ -904,7 +905,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       document.querySelectorAll('.set-tab').forEach(t=>t.classList.remove('active'));
       tab.classList.add('active');
       document.querySelectorAll('.set-page').forEach(p=>p.classList.remove('active'));
-      document.getElementById(tab.dataset.tab).classList.add('active');
+      document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
     });
   });
 
