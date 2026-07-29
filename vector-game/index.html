@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>VECTOR — Escape Puzzle</title>
+<title>ÆRCADE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
@@ -289,10 +289,10 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
 <div id="app">
   <header>
     <div class="head-row">
-      <h1>VECTOR</h1>
-      <button class="icon-btn" id="settings-btn" title="Settings">&#9881;</button>
+      <h1>ÆRCADE</h1>
+      <div style="display:flex; gap:8px;"><button class="icon-btn" onclick="window.location.href='index.html'" title="Back to Hub">🏠</button><button class="icon-btn" id="settings-btn" title="Settings">&#9881;</button></div>
     </div>
-    <p class="caption">Tap an arrow with a clear line to the edge. Clear the grid to advance — pinch or use the zoom buttons when the field gets small.</p>
+    <p class="caption">Classic Arcade games Free to play, no Ads, ... Touch Glass!</p>
     <div class="meta">
       <div class="level">LEVEL <span id="levelNum">1</span> <span id="levelCode" style="font-size:9px; color:var(--dim); margin-left:8px;" title="Resume Code"></span></div>
       <div class="hearts" id="hearts"></div>
@@ -333,7 +333,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
           <button id="resumeCodeBtn" style="background:var(--dim); border:none; color:var(--bg); padding:8px 16px; cursor:pointer; font-family:'Orbitron', monospace;">RESUME</button>
         </div>
         <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-          <button id="touchGlassBtn">Touch Glass</button>
+          <button id="touchGlassBtn">Play Vector</button>
           <button onclick="window.location.href='snake.html'" style="margin-top:8px;padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Snake Mode</button>
           <button onclick="window.location.href='slot.html'" style="margin-top:8px;padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Slot Machine</button>
           <button onclick="window.location.href='mahjong.html'" style="margin-top:8px;padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Cyber Mahjong</button>
