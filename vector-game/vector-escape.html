@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>VECTOR — Escape Puzzle</title>
+<title>ÆRCADE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --cyan:#00f5ff;--mag:#ff00c8;--purple:#b026ff;--b-accent:#ffb000;
+  --cyan:#00bbc2;--mag:#ff00c8;--purple:#b026ff;--b-accent:#ffb000;
   --bg:#03030a;--bg2:#07070f;--bg3:#050510;
   --border:#1e1e3a;--text:#c0c0d0;--bright:#e0e0f0;--dim:#404060;--dead:#252535;
   --danger:#ff3b5c;--ok:#4ce6a0;
-  --cyan-rgb:0,245,255;--mag-rgb:255,0,200;
+  --cyan-rgb:0,187,194;--mag-rgb:255,0,200;
   --font-size:13px;
 }
 body.light{
@@ -285,14 +285,14 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
 #bgPreview{width:100%;max-height:90px;object-fit:cover;border:1px solid var(--border);border-radius:6px;display:none;}
 </style>
 </head>
-<body>
+<body class="glitch-quarter">
 <div id="app">
   <header>
     <div class="head-row">
-      <h1>VECTOR</h1>
-      <button class="icon-btn" id="settings-btn" title="Settings">&#9881;</button>
+      <h1>ÆRCADE</h1>
+      <div style="display:flex; gap:8px;"><button class="icon-btn" onclick="window.location.href='index.html'" title="Back to Hub">🏠</button><button class="icon-btn" id="settings-btn" title="Settings">&#9881;</button></div>
     </div>
-    <p class="caption">Tap an arrow with a clear line to the edge. Clear the grid to advance — pinch or use the zoom buttons when the field gets small.</p>
+    <p class="caption">Classic Arcade games Free to play, no Ads, ... Touch Glass!</p>
     <div class="meta">
       <div class="level">LEVEL <span id="levelNum">1</span> <span id="levelCode" style="font-size:9px; color:var(--dim); margin-left:8px;" title="Resume Code"></span></div>
       <div class="hearts" id="hearts"></div>
@@ -305,7 +305,10 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     <span class="zoom-val" id="zoomVal">100%</span>
     <button class="zbtn" id="zoomIn">&#43;</button>
     <button class="zbtn" id="zoomFit" title="Fit">&#8634;</button>
-    <button class="zbtn" id="toggleGlitch" style="margin-left:auto; width:auto; padding:0 8px; font-size:9px;" title="Toggle Glitch Animation">GLITCH: FAST</button>
+    <button class="zbtn" id="toggleGlitch" style="margin-left:auto; width:auto; padding:0 8px; font-size:9px;" title="Toggle Glitch Animation">GLITCH: SLOW</button>
+    <button class="zbtn" id="quickMuteMusicBtn" style="width:auto; padding:0 6px; font-size:12px; margin-left:4px;" title="Mute/Unmute Music">🔊</button>
+    <button class="zbtn" id="quickSkipTrackBtn" style="width:auto; padding:0 6px; font-size:12px; margin-left:4px;" title="Skip Track">⏭</button>
+    <button class="zbtn" id="quickThemeToggleBtn" style="width:auto; padding:0 6px; font-size:12px; margin-left:4px;" title="Toggle Light/Dark Mode">☀️</button>
   </div>
 
   <div id="boardViewport">
@@ -331,9 +334,11 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
           <button id="resumeCodeBtn" style="background:var(--dim); border:none; color:var(--bg); padding:8px 16px; cursor:pointer; font-family:'Orbitron', monospace;">RESUME</button>
         </div>
         <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-          <button id="touchGlassBtn">Touch Glass</button>
-          <button id="snakeModeBtn" style="margin-top:8px;padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Snake Mode</button>
-          <button id="slotModeBtn" style="margin-top:8px;padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Slot Machine</button>
+          <button id="touchGlassBtn">Play Vector</button>
+          
+          
+          
+          <button onclick="window.location.href='index.html'" style="margin-top:8px;padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Back to Hub</button>
         </div>
       </div>
     </div>
@@ -347,8 +352,8 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   </div>
 
   <div class="controls">
-    <button class="ctl-btn" id="restartBtn">Restart Level</button>
-    <button class="ctl-btn" id="newGameBtn">New Game</button>
+    <button class="ctl-btn" id="restartBtn">Restart</button>
+    <button class="ctl-btn" id="newGameBtn">Menu</button>
   </div>
 
   <div id="mainTrackDisplayContainer" class="main-track-container" style="opacity:0;">
@@ -459,7 +464,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
 
   function applyTransform(){
     boardOuter.style.transform = 'translate('+panX+'px,'+panY+'px) scale('+zoom+')';
-    zoomValEl.textContent = Math.round(zoom*100)+'%';
+    if(zoomValEl) zoomValEl.textContent = Math.round(zoom*100)+'%';
   }
   function clampPan(){
     const vw = boardViewport.clientWidth, vh = boardViewport.clientHeight;
@@ -537,9 +542,9 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   }
   window.addEventListener('pointerup', endPointer);
   window.addEventListener('pointercancel', endPointer);
-  document.getElementById('zoomIn').addEventListener('click', () => setZoom(zoom+ZOOM_STEP));
-  document.getElementById('zoomOut').addEventListener('click', () => setZoom(zoom-ZOOM_STEP));
-  document.getElementById('zoomFit').addEventListener('click', () => { panX=0; panY=0; setZoom(1); });
+  document.getElementById('zoomIn')?.addEventListener('click', () => setZoom(zoom+ZOOM_STEP));
+  document.getElementById('zoomOut')?.addEventListener('click', () => setZoom(zoom-ZOOM_STEP));
+  document.getElementById('zoomFit')?.addEventListener('click', () => { panX=0; panY=0; setZoom(1); });
   window.addEventListener('resize', () => { clampPan(); applyTransform(); });
 
   function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
@@ -707,7 +712,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       boardWrapper.appendChild(el);
       state.elMap.set(arrow.id, el);
     });
-    levelNumEl.textContent = state.level;
+    if(levelNumEl) levelNumEl.textContent = state.level;
     clampPan(); applyTransform();
   }
 
@@ -805,7 +810,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
 
   function showOverlay(kind,title,text,btnLabel,onClick){
     overlay.className=kind;
-    overlayTitle.textContent=title; overlayText.textContent=text; overlayBtn.textContent=btnLabel;
+    if(overlayTitle) overlayTitle.textContent =title; if(overlayText) overlayText.textContent =text; if(overlayBtn) overlayBtn.textContent =btnLabel;
     overlayBtn.onclick=onClick;
     document.getElementById('overlayExitBtn').style.display='none';
     boardWrapper.classList.add('frozen');
@@ -854,7 +859,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     while(built.arrows.length===0 && guard<5){ built=generateBoard(size,targetCount); guard++; }
     state.grid=built.grid; state.arrows=built.arrows;
     
-    document.getElementById('levelCode').textContent = "(CODE: " + getLevelCode(state.level) + ")";
+    (function(){ const _el = document.getElementById('levelCode'); if(_el) _el.textContent = "(CODE: " + getLevelCode(state.level) + ")"; })();
     localStorage.setItem('vector_level', state.level);
     
     renderHearts(); renderBoard(); hideOverlay();
@@ -875,21 +880,21 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     document.getElementById('start-overlay').style.display='flex';
   });
 
-  let glitchState = 0;
-  document.getElementById('toggleGlitch').addEventListener('click', (e) => {
+  let glitchState = 2;
+  document.getElementById('toggleGlitch')?.addEventListener('click', (e) => {
     glitchState = (glitchState + 1) % 4;
     document.body.classList.remove('glitch-half', 'glitch-quarter', 'no-glitch');
     if (glitchState === 0) {
-      e.target.textContent = 'GLITCH: FAST';
+      if(e && e.target) e.target.textContent = 'GLITCH: FAST';
     } else if (glitchState === 1) {
       document.body.classList.add('glitch-half');
-      e.target.textContent = 'GLITCH: HALF';
+      if(e && e.target) e.target.textContent = 'GLITCH: HALF';
     } else if (glitchState === 2) {
       document.body.classList.add('glitch-quarter');
-      e.target.textContent = 'GLITCH: SLOW';
+      if(e && e.target) e.target.textContent = 'GLITCH: SLOW';
     } else {
       document.body.classList.add('no-glitch');
-      e.target.textContent = 'GLITCH: OFF';
+      if(e && e.target) e.target.textContent = 'GLITCH: OFF';
     }
   });
 
@@ -898,11 +903,11 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   // Pre-populate if saved
   const savedLevel = localStorage.getItem('vector_level');
   if (savedLevel && parseInt(savedLevel) > 1) {
-    document.getElementById('resumeCodeInput').value = getLevelCode(parseInt(savedLevel));
+    const _rci = document.getElementById('resumeCodeInput'); if (_rci) _rci.value = getLevelCode(parseInt(savedLevel));
   }
 
-  document.getElementById('resumeCodeBtn').addEventListener('click', () => {
-    const code = document.getElementById('resumeCodeInput').value.trim();
+  const resumeBtn = document.getElementById('resumeCodeBtn'); if (resumeBtn) resumeBtn.addEventListener('click', () => {
+    const code = (document.getElementById('resumeCodeInput')?.value || '').trim();
     if (!code) return;
     const level = parseLevelCode(code);
     if (level) {
@@ -911,8 +916,8 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       unlockAudio();
       startLevel(false);
     } else {
-      document.getElementById('resumeCodeInput').style.borderColor = 'red';
-      setTimeout(() => document.getElementById('resumeCodeInput').style.borderColor = 'var(--dim)', 1000);
+      const _rci2 = document.getElementById('resumeCodeInput'); if (_rci2) _rci2.style.borderColor = 'red';
+      setTimeout(() => { const _rci2 = document.getElementById('resumeCodeInput'); if (_rci2) _rci2.style.borderColor = 'var(--dim)'; }, 1000);
     }
   });
 
@@ -962,8 +967,8 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
        snakeState.bodyEls.push(b);
     }
     
-    document.getElementById('levelCode').textContent = 'SNAKE';
-    document.getElementById('levelNum').textContent = 'SCORE: 0';
+    (function(){ const _el = document.getElementById('levelCode'); if(_el) _el.textContent = 'SNAKE'; })();
+    (function(){ const _el = document.getElementById('levelNum'); if(_el) _el.textContent = 'SCORE: 0'; })();
     
     updateSnakeRender();
     if(snakeInterval) clearInterval(snakeInterval);
@@ -1006,7 +1011,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
      
      if(nr === snakeState.food.r && nc === snakeState.food.c) {
         snakeState.score += 10;
-        document.getElementById('levelNum').textContent = 'SCORE: ' + snakeState.score;
+        (function(){ const _el = document.getElementById('levelNum'); if(_el) _el.textContent = 'SCORE: ' + snakeState.score; })();
         playEscapeSound();
         spawnFood();
      } else {
@@ -1027,7 +1032,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
 
   function snakeDie() {
      snakeState.gameOver = true;
-     playFailSound();
+     playLoseSound();
      clearInterval(snakeInterval);
      
      showOverlay('lose', 'GAME OVER', 'SCORE: ' + snakeState.score, 'TRY AGAIN', () => {
@@ -1037,7 +1042,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
      
      const exitBtn = document.getElementById('overlayExitBtn');
      exitBtn.style.display = 'block';
-     exitBtn.textContent = 'EXIT TO ARROWS';
+     if(exitBtn) exitBtn.textContent = 'EXIT TO MENU';
      exitBtn.onclick = () => {
          hideOverlay();
          document.getElementById('dpad').style.display = 'none';
@@ -1163,16 +1168,16 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       controlContainer.style.gap = '15px';
       
       const betBtn = document.createElement('button');
-      betBtn.textContent = 'BET: ' + slotState.bet;
+      if(betBtn) betBtn.textContent = 'BET: ' + slotState.bet;
       betBtn.className = 'ctl-btn';
       betBtn.onclick = () => {
           if (slotState.spinning) return;
           slotState.bet = slotState.bet >= 4 ? 1 : slotState.bet + 1;
-          betBtn.textContent = 'BET: ' + slotState.bet;
+          if(betBtn) betBtn.textContent = 'BET: ' + slotState.bet;
       };
       
       const spinBtn = document.createElement('button');
-      spinBtn.textContent = 'SPIN';
+      if(spinBtn) spinBtn.textContent = 'SPIN';
       spinBtn.className = 'ctl-btn';
       spinBtn.style.background = 'var(--cyan)';
       spinBtn.style.color = 'var(--bg)';
@@ -1186,7 +1191,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       msgEl.style.height = '24px';
       msgEl.style.color = 'var(--mag)';
       msgEl.style.fontFamily = "'Orbitron', monospace";
-      msgEl.textContent = 'READY';
+      if(msgEl) msgEl.textContent = 'READY';
       slotState.msgEl = msgEl;
       
       slotUI.appendChild(reelContainer);
@@ -1198,21 +1203,21 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   }
 
   function updateSlotTopBar() {
-      document.getElementById('levelCode').textContent = 'SLOTS';
-      document.getElementById('levelNum').textContent = 'CREDITS: ' + slotState.credits;
+      (function(){ const _el = document.getElementById('levelCode'); if(_el) _el.textContent = 'SLOTS'; })();
+      (function(){ const _el = document.getElementById('levelNum'); if(_el) _el.textContent = 'CREDITS: ' + slotState.credits; })();
   }
 
   function spinSlots() {
       if (slotState.spinning) return;
       if (slotState.credits < slotState.bet) {
-          slotState.msgEl.textContent = 'NOT ENOUGH CREDITS';
+          if(slotState.msgEl) slotState.msgEl.textContent = 'NOT ENOUGH CREDITS';
           return;
       }
       
       slotState.spinning = true;
       slotState.credits -= slotState.bet;
       updateSlotTopBar();
-      slotState.msgEl.textContent = 'SPINNING...';
+      if(slotState.msgEl) slotState.msgEl.textContent = 'SPINNING...';
       
       playSpinSound();
       
@@ -1262,7 +1267,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       if (win > 0) {
           slotState.credits += win;
           updateSlotTopBar();
-          slotState.msgEl.textContent = 'WIN ' + win + ' !';
+          if(slotState.msgEl) slotState.msgEl.textContent = 'WIN ' + win + ' !';
           
           if (s0.s === 'Æ' && win >= (500 * slotState.bet)) {
               playJackpotSound();
@@ -1270,7 +1275,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
               playWinSoundSlot(win);
           }
       } else {
-          slotState.msgEl.textContent = 'NO WIN';
+          if(slotState.msgEl) slotState.msgEl.textContent = 'NO WIN';
           playLoseSoundSlot();
           
           if (slotState.credits <= 0) {
@@ -1286,13 +1291,13 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       });
       const exitBtn = document.getElementById('overlayExitBtn');
       exitBtn.style.display = 'block';
-      exitBtn.textContent = 'EXIT TO ARROWS';
+      if(exitBtn) exitBtn.textContent = 'EXIT TO MENU';
       exitBtn.onclick = () => {
           hideOverlay();
           document.getElementById('start-overlay').style.display = 'flex';
       };
   }
-  document.getElementById('touchGlassBtn').addEventListener('click', () => {
+  document.getElementById('touchGlassBtn')?.addEventListener('click', () => {
     state.level = 1; // start new game
     state.isSnake = false;
     document.getElementById('start-overlay').style.display='none';
@@ -1301,16 +1306,8 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   });
 
   
-  document.getElementById('slotModeBtn').addEventListener('click', () => {
-    document.getElementById('start-overlay').style.display='none';
-    unlockAudio();
-    startSlotGame();
-  });
-  document.getElementById('snakeModeBtn').addEventListener('click', () => {
-    document.getElementById('start-overlay').style.display='none';
-    unlockAudio();
-    startSnakeGame();
-  });
+  
+  
 
   /* ═══════════════════════════════════════════════════════════
      THEME SYSTEM (same variable set + override mechanism as the
@@ -1369,7 +1366,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     boardViewport.classList.toggle('hardmode-bg', !!active);
     boardWrapper.classList.toggle('hardmode-active', !!active);
     const btn = document.getElementById('hardModeBtn');
-    btn.textContent = dispState.hardMode ? 'On' : 'Off';
+    if(btn) btn.textContent = dispState.hardMode?'On':'Off';
     btn.classList.toggle('on', dispState.hardMode);
     const prev = document.getElementById('bgPreview');
     if(dispState.bgImage){ prev.src=dispState.bgImage; prev.style.display='block'; }
@@ -1387,15 +1384,24 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       r.style.setProperty('--'+key, val);
       if(key==='cyan'||key==='mag'){ const trip=hexToRgbTriplet(val); if(trip) r.style.setProperty('--'+key+'-rgb', trip); }
     });
-    document.getElementById('sfxVol').value=dispState.sfxVol;
-    document.getElementById('sfxValLbl').textContent=dispState.sfxVol+'%';
-    document.getElementById('musicVol').value=dispState.musicVol;
-    document.getElementById('musicValLbl').textContent=dispState.musicVol+'%';
-    document.getElementById('sfxMuteBtn').textContent=dispState.sfxMuted?'Off':'On';
+    (function(){ const _el = document.getElementById('sfxVol'); if(_el) _el.value = dispState.sfxVol; })();
+    (function(){ const _el = document.getElementById('sfxValLbl'); if(_el) _el.textContent = dispState.sfxVol+'%'; })();
+    (function(){ const _el = document.getElementById('musicVol'); if(_el) _el.value = dispState.musicVol; })();
+    (function(){ const _el = document.getElementById('musicValLbl'); if(_el) _el.textContent = dispState.musicVol+'%'; })();
+    (function(){ const _el = document.getElementById('sfxMuteBtn'); if(_el) _el.textContent = dispState.sfxMuted?'Off':'On'; })();
     document.getElementById('sfxMuteBtn').classList.toggle('on', !dispState.sfxMuted);
-    document.getElementById('musicMuteBtn').textContent=dispState.musicMuted?'Off':'On';
+    (function(){ const _el = document.getElementById('musicMuteBtn'); if(_el) _el.textContent = dispState.musicMuted?'Off':'On'; })();
     document.getElementById('musicMuteBtn').classList.toggle('on', !dispState.musicMuted);
     if(bgAudio) bgAudio.volume = dispState.musicMuted ? 0 : dispState.musicVol/100;
+    const quickMuteBtn = document.getElementById('quickMuteMusicBtn');
+    if (quickMuteBtn) {
+      quickMuteBtn.textContent = dispState.musicMuted ? '🔇' : '🔊';
+      quickMuteBtn.style.opacity = dispState.musicMuted ? '0.5' : '1';
+    }
+    const quickThemeBtn = document.getElementById('quickThemeToggleBtn');
+    if (quickThemeBtn) {
+      if (quickThemeBtn) quickThemeBtn.textContent = dispState.theme === 'light' ? '🌙' : '☀️';
+    }
     applyHardMode();
   }
   function saveDisp(){ try{ localStorage.setItem(DISP_KEY, JSON.stringify(dispState)); }catch(e){} }
@@ -1405,28 +1411,28 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     applyDisp(); renderThemeEditor();
   }
   function toggleMode(mode){ dispState.theme=mode; saveDisp(); applyDisp(); renderThemeEditor(); }
-  document.getElementById('mode-dark').addEventListener('click', () => toggleMode('dark'));
-  document.getElementById('mode-light').addEventListener('click', () => toggleMode('light'));
-  document.getElementById('resetAllColors').addEventListener('click', resetAllThemeColors);
+  document.getElementById('mode-dark')?.addEventListener('click', () => toggleMode('dark'));
+  document.getElementById('mode-light')?.addEventListener('click', () => toggleMode('light'));
+  document.getElementById('resetAllColors')?.addEventListener('click', resetAllThemeColors);
 
-  document.getElementById('hardModeBtn').addEventListener('click', () => { dispState.hardMode=!dispState.hardMode; saveDisp(); applyHardMode(); });
-  document.getElementById('bgUrlLoad').addEventListener('click', () => {
+  document.getElementById('hardModeBtn')?.addEventListener('click', () => { dispState.hardMode=!dispState.hardMode; saveDisp(); applyHardMode(); });
+  document.getElementById('bgUrlLoad')?.addEventListener('click', () => {
     const url=document.getElementById('bgUrlInput').value.trim();
     if(url){ dispState.bgImage=url; saveDisp(); applyHardMode(); }
   });
-  document.getElementById('bgFileInput').addEventListener('change', e => {
+  document.getElementById('bgFileInput')?.addEventListener('change', e => {
     const file=e.target.files[0]; if(!file) return;
     const reader=new FileReader();
     reader.onload=() => { dispState.bgImage=reader.result; saveDisp(); applyHardMode(); };
     reader.readAsDataURL(file);
   });
-  document.getElementById('bgClear').addEventListener('click', () => { dispState.bgImage=''; document.getElementById('bgUrlInput').value=''; saveDisp(); applyHardMode(); });
+  document.getElementById('bgClear')?.addEventListener('click', () => { dispState.bgImage=''; (function(){ const _el = document.getElementById('bgUrlInput'); if(_el) _el.value = ''; })(); saveDisp(); applyHardMode(); });
 
   /* settings panel open/close + tabs */
   const scrim=document.getElementById('settings-scrim');
   const panel=document.getElementById('settings-panel');
-  document.getElementById('settings-btn').addEventListener('click', () => { scrim.classList.add('open'); panel.classList.add('open'); });
-  document.getElementById('settings-close').addEventListener('click', () => { scrim.classList.remove('open'); panel.classList.remove('open'); });
+  document.getElementById('settings-btn')?.addEventListener('click', () => { scrim.classList.add('open'); panel.classList.add('open'); });
+  document.getElementById('settings-close')?.addEventListener('click', () => { scrim.classList.remove('open'); panel.classList.remove('open'); });
   scrim.addEventListener('click', () => { scrim.classList.remove('open'); panel.classList.remove('open'); });
   document.querySelectorAll('.set-tab').forEach(tab => {
     tab.addEventListener('click', () => {
@@ -1495,7 +1501,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     const idx=pickTrackIndex(); lastTrackIdx=idx;
     const track=TRACKS[idx];
     bgAudio.src=track.src;
-    document.getElementById('nowPlaying').textContent=track.title;
+    (function(){ const _el = document.getElementById('nowPlaying'); if(_el) _el.textContent = track.title; })();
     
     const mainDisp = document.getElementById('mainTrackDisplay');
     if (mainDisp) {
@@ -1505,14 +1511,17 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     
     bgAudio.play().catch(()=>{});
   }
-  document.getElementById('skipTrack').addEventListener('click', () => { if(bgAudio && TRACKS.length) playNextTrack(); });
-  document.getElementById('musicMuteBtn').addEventListener('click', () => {
+    document.getElementById('quickMuteMusicBtn')?.addEventListener('click', () => { document.getElementById('musicMuteBtn')?.click(); });
+  document.getElementById('quickSkipTrackBtn')?.addEventListener('click', () => { document.getElementById('skipTrack')?.click(); });
+  document.getElementById('quickThemeToggleBtn')?.addEventListener('click', () => { toggleMode(dispState.theme === 'light' ? 'dark' : 'light'); });
+  document.getElementById('skipTrack')?.addEventListener('click', () => { if(bgAudio && TRACKS.length) playNextTrack(); });
+  document.getElementById('musicMuteBtn')?.addEventListener('click', () => {
     dispState.musicMuted=!dispState.musicMuted; saveDisp(); applyDisp();
     if(dispState.musicMuted){ if(bgAudio) bgAudio.pause(); } else { unlockAudio(); }
   });
-  document.getElementById('sfxMuteBtn').addEventListener('click', () => { dispState.sfxMuted=!dispState.sfxMuted; saveDisp(); applyDisp(); });
-  document.getElementById('sfxVol').addEventListener('input', e => { dispState.sfxVol=+e.target.value; saveDisp(); applyDisp(); });
-  document.getElementById('musicVol').addEventListener('input', e => { dispState.musicVol=+e.target.value; saveDisp(); applyDisp(); if(bgAudio) bgAudio.volume=dispState.musicVol/100; });
+  document.getElementById('sfxMuteBtn')?.addEventListener('click', () => { dispState.sfxMuted=!dispState.sfxMuted; saveDisp(); applyDisp(); });
+  document.getElementById('sfxVol')?.addEventListener('input', e => { dispState.sfxVol=+e.target.value; saveDisp(); applyDisp(); });
+  document.getElementById('musicVol')?.addEventListener('input', e => { dispState.musicVol=+e.target.value; saveDisp(); applyDisp(); if(bgAudio) bgAudio.volume=dispState.musicVol/100; });
 
   /* ═══════════════════════════════════════════════════════════
      BOOT — board & theme are ready behind the Touch Glass splash;
