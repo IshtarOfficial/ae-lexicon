@@ -344,16 +344,14 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     <span class="zoom-val" id="zoomVal">100%</span>
     <button class="zbtn" id="zoomIn">&#43;</button>
     <button class="zbtn" id="zoomFit" title="Fit">&#8634;</button>
-    <button class="zbtn" id="toggleGlitch" style="margin-left:auto; width:auto; padding:0 8px; font-size:9px;" title="Toggle Glitch Animation">GLITCH: FAST</button>
+    <button class="zbtn" id="toggleGlitch" style="display:none;" title="Toggle Glitch Animation">GLITCH: FAST</button>
     <button class="zbtn" id="quickMuteMusicBtn" style="width:auto; padding:0 6px; font-size:12px; margin-left:4px;" title="Mute/Unmute Music">🔊</button>
     <button class="zbtn" id="quickSkipTrackBtn" style="width:auto; padding:0 6px; font-size:12px; margin-left:4px;" title="Skip Track">⏭</button>
   </div>
 
   <div id="boardViewport">
     <div id="mahjong-board" style="position:relative; width:600px; height:450px; margin:auto; transform-origin: center center;"></div>
-  </div>
-</div>
-    <div id="overlay" class="hidden">
+  <div id="overlay" class="hidden">
       <div class="overlay-card">
         <h2 id="overlayTitle">—</h2>
         <p id="overlayText">—</p>
@@ -469,9 +467,41 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   ];
 
   let audioCtx, synthGain;
-  const TRACKS = []; // Add URLs here
+    const TRACKS = [
+     { title: "ÆVOLUTION — Ægo (PIXELS ALBUM)", src: "01-LÆ_005_Ægo.ogg" },
+     { title: "ÆVOLUTION — Æmotion (PIXELS ALBUM)", src: "02-LÆ_006_Æmotion.ogg" },
+     { title: "ÆVOLUTION — Æxperience (PIXELS ALBUM)", src: "03-LÆ_007_Æxperience_.ogg" },
+     { title: "ÆVOLUTION — InsÆanity (PIXELS ALBUM)", src: "04-LÆ_014_InsÆnity.ogg" },
+     { title: "ÆVOLUTION — Touch Glass (PIXELS ALBUM)", src: "05-LÆ_019_Touch_Glass.ogg" },
+     { title: "ÆVOLUTION — NPC (PIXELS ALBUM)", src: "06-LÆ_020_NPC.ogg" },
+     { title: "ÆVOLUTION — Netwatch (PIXELS ALBUM)", src: "07-LÆ_025_Netwatch.ogg" },
+     { title: "ÆVOLUTION — The Ægis (PIXELS ALBUM)", src: "08-LÆ_022_The_Ægis.ogg" },
+     { title: "ÆVOLUTION — The Ælf (PIXELS ALBUM)", src: "09-LÆ_027_The_Ælf.ogg" },
+     { title: "ÆVOLUTION — DÆMON (PIXELS ALBUM)", src: "10-LÆ_030_DÆMON.ogg" },
+     { title: "ÆVOLUTION — Æmulator (PIXELS ALBUM)", src: "11-LÆ_033_Æmulator.ogg" },
+     { title: "ÆVOLUTION — DÆD (PIXELS ALBUM)", src: "12-LÆ_035_DÆD.ogg" },
+     { title: "ÆVOLUTION — Æternity (PIXELS ALBUM)", src: "13-LÆ_037_Æternity.ogg" },
+     { title: "ÆVOLUTION — Ænigma (PIXELS ALBUM)", src: "14-LÆ_039_Ænigma.ogg" },
+     { title: "ÆVOLUTION — Æntropy (PIXELS ALBUM)", src: "15-LÆ_040_Æntropy.ogg" }
+  ];
   let bgAudio = null;
+  function renderTrackList(){
+    const box=document.getElementById('trackListBox');
+    if(box) {
+        if(!TRACKS.length){ box.innerHTML='<div>No tracks added yet — see note above.</div>'; return; }
+        box.innerHTML = TRACKS.map((t,i) => '<div>'+(i+1)+'. '+t.title+'</div>').join('');
+    }
+  }
 
+  function startMusic() {
+    if(!TRACKS.length || dispState.musicMuted) return;
+    if(!bgAudio){
+      bgAudio = new Audio(); bgAudio.volume=dispState.musicVol/100;
+      bgAudio.addEventListener('ended', playNextTrack);
+      bgAudio.addEventListener('error', playNextTrack);
+    }
+    playNextTrack();
+  }
   function unlockAudio(){
     if(!audioCtx){
       const AC = window.AudioContext || window.webkitAudioContext;
@@ -482,6 +512,10 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       }
     }
     if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    if(TRACKS.length && !dispState.musicMuted) {
+      if(!bgAudio) startMusic();
+      else if(bgAudio.paused) bgAudio.play().catch(()=>{});
+    }
   }
   function playTick(){
     if(dispState.sfxMuted || !audioCtx) return;
@@ -875,20 +909,21 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   });
 
   // Audio setup
+  let lastTrackIdx = -1;
   function playNextTrack() {
     if(!TRACKS.length) return;
-    const t = TRACKS[Math.floor(Math.random()*TRACKS.length)];
-    if(bgAudio) {
-      bgAudio.pause();
-      bgAudio.src = t.url;
-    } else {
-      bgAudio = new Audio(t.url);
-      bgAudio.volume = dispState.musicVol/100;
-      bgAudio.addEventListener('ended', playNextTrack);
-      bgAudio.addEventListener('error', playNextTrack);
-    }
+    let idx; do { idx=Math.floor(Math.random()*TRACKS.length); } while(idx===lastTrackIdx);
+    lastTrackIdx = idx;
+    const t = TRACKS[idx];
+    bgAudio.src = t.src;
     const np = document.getElementById('nowPlaying');
-    if(np) np.textContent = t.name;
+    if(np) np.textContent = t.title;
+    
+    const mainDisp = document.getElementById('mainTrackDisplay');
+    if (mainDisp) {
+      mainDisp.textContent = t.title;
+      document.getElementById('mainTrackDisplayContainer').style.opacity = '1';
+    }
     if(!dispState.musicMuted) {
       bgAudio.play().catch(()=>{});
     }
@@ -904,6 +939,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   document.getElementById('sfxVol')?.addEventListener('input', e => { dispState.sfxVol=+e.target.value; saveDisp(); applyDisp(); });
   document.getElementById('musicVol')?.addEventListener('input', e => { dispState.musicVol=+e.target.value; saveDisp(); applyDisp(); if(bgAudio) bgAudio.volume=dispState.musicVol/100; });
 
+  renderTrackList();
   loadDisp();
 </script>
 </body>
