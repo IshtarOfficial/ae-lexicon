@@ -1398,7 +1398,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     }
     const quickThemeBtn = document.getElementById('quickThemeToggleBtn');
     if (quickThemeBtn) {
-      quickThemeBtn.textContent = dispState.theme === 'light' ? '🌙' : '☀️';
+      if (quickThemeBtn) quickThemeBtn.textContent = dispState.theme === 'light' ? '🌙' : '☀️';
     }
     applyHardMode();
   }

@@ -338,6 +338,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
           <button onclick="window.location.href='snake.html'" style="margin-top:8px;padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Snake Mode</button>
           <button onclick="window.location.href='slot.html'" style="margin-top:8px;padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Slot Machine</button>
           <button onclick="window.location.href='mahjong.html'" style="margin-top:8px;padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Cyber Mahjong</button>
+          <button onclick="window.location.href='smash.html'" style="margin-top:8px;padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Particle Smash</button>
         </div>
       </div>
     </div>
@@ -1399,7 +1400,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     }
     const quickThemeBtn = document.getElementById('quickThemeToggleBtn');
     if (quickThemeBtn) {
-      quickThemeBtn.textContent = dispState.theme === 'light' ? '🌙' : '☀️';
+      if (quickThemeBtn) quickThemeBtn.textContent = dispState.theme === 'light' ? '🌙' : '☀️';
     }
     applyHardMode();
   }

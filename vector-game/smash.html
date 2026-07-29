@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ÆRCADE — Slots</title>
+<title>ÆVOLUTION - Particle Smash</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
@@ -74,8 +74,7 @@ h1{
 .zbtn:hover{border-color:var(--cyan);color:var(--bright);}
 
 /* ── BOARD ────────────────────────────────────────────────── */
-#boardViewport{
-  width:100%;height:min(420px,86vw);
+#boardViewport{width:100%;aspect-ratio:308/460;max-height:460px;display:flex;align-items:center;justify-content:center;
   border:1px solid var(--border);border-radius:10px;
   overflow:hidden;position:relative;background:var(--bg3);
   box-shadow:inset 0 0 0 1px rgba(var(--cyan-rgb),.04);
@@ -289,22 +288,17 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
 <div id="app">
   <header>
     <div class="head-row">
-      <h1>CYBER SLOTS</h1>
+      <h1>CYBER SNAKE</h1>
       <div style="display:flex; gap:8px;"><button class="icon-btn" onclick="window.location.href='index.html'" title="Back to Hub">🏠</button><button class="icon-btn" id="settings-btn" title="Settings">&#9881;</button></div>
     </div>
-    <p class="caption">Simple Slotmachine Game. 3x Æ is the Jackpot! </p>
+    <p class="caption">Match colors. Orbs bounce off walls. Drop disconnected orbs for massive points.</p>
     <div class="meta">
-      <div class="level">LEVEL <span id="levelNum">1</span> <span id="levelCode" style="font-size:9px; color:var(--dim); margin-left:8px;" title="Resume Code"></span></div>
-      <div class="hearts" id="hearts"></div>
+      <div class="level" style="color:var(--cyan); font-family:'Orbitron',monospace; font-weight:700;">PARTICLE SMASH</div>
+      <div class="score">SCORE: <span id="scoreVal" style="color:var(--bright);">0</span></div>
     </div>
   </header>
 
-  <div class="zoom-bar">
-    <span class="zoom-lbl">Zoom</span>
-    <button class="zbtn" id="zoomOut">&#8722;</button>
-    <span class="zoom-val" id="zoomVal">100%</span>
-    <button class="zbtn" id="zoomIn">&#43;</button>
-    <button class="zbtn" id="zoomFit" title="Fit">&#8634;</button>
+  <div class="zoom-bar" style="justify-content:flex-end;">
     <button class="zbtn" id="toggleGlitch" style="display:none;" title="Toggle Glitch Animation">GLITCH: FAST</button>
     <button class="zbtn" id="quickMuteMusicBtn" style="width:auto; padding:0 6px; font-size:12px; margin-left:4px;" title="Mute/Unmute Music">🔊</button>
     <button class="zbtn" id="quickSkipTrackBtn" style="width:auto; padding:0 6px; font-size:12px; margin-left:4px;" title="Skip Track">⏭</button>
@@ -312,9 +306,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   </div>
 
   <div id="boardViewport">
-    <div id="boardOuter">
-      <div id="boardWrapper"></div>
-    </div>
+    <div id="boardWrapper" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
     <div id="overlay" class="hidden">
       <div class="overlay-card">
         <h2 id="overlayTitle">—</h2>
@@ -327,10 +319,10 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     </div>
     <div id="start-overlay">
       <div class="overlay-card">
-        <div class="start-title">SLOTS</div>
-        <p>A classic slot machine.</p>
+        <div class="start-title">PARTICLE SMASH</div>
+        <p>Clear the matrix. Match colors. Bouncing allowed. Survive the descent.</p>
         <div style="margin: 16px 0; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-          <button id="slotPlayBtn" style="padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--cyan);border:1px solid var(--dim);color:var(--bg);cursor:pointer;border-radius:4px;font-weight:700;">Play Slots</button>
+          <button id="smashPlayBtn" style="padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--cyan);border:1px solid var(--dim);color:var(--bg);cursor:pointer;border-radius:4px;font-weight:700;">Play Smash</button>
           <button onclick="window.location.href='mahjong.html'" style="margin-top:8px;padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Cyber Mahjong</button>
           <button onclick="window.location.href='index.html'" style="padding:12px 24px;font-size:16px;font-family:'Orbitron',monospace;letter-spacing:1px;background:var(--bg3);border:1px solid var(--dim);color:var(--text);cursor:pointer;border-radius:4px;font-weight:700;">Back to Hub</button>
         </div>
@@ -338,13 +330,14 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     </div>
   </div>
 
-  <div id="dpad" style="display:none; position:absolute; bottom:15%; right:5%; width:140px; height:140px; z-index: 100; pointer-events:none; touch-action:none; opacity: 0.6;">
+  <div id="dpad" style="display:block; position:relative; margin: 20px auto 0 auto; width:140px; height:140px; z-index: 100; pointer-events:none; touch-action:none; opacity: 0.8;">
     <button id="dp-up" style="position:absolute; top:0; left:50%; transform:translateX(-50%); width:46px; height:46px; border-radius:50%; background:var(--bg3); border:1px solid var(--border); color:var(--text); font-size:20px; pointer-events:auto; touch-action:none;">&#9650;</button>
     <button id="dp-down" style="position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:46px; height:46px; border-radius:50%; background:var(--bg3); border:1px solid var(--border); color:var(--text); font-size:20px; pointer-events:auto; touch-action:none;">&#9660;</button>
     <button id="dp-left" style="position:absolute; top:50%; left:0; transform:translateY(-50%); width:46px; height:46px; border-radius:50%; background:var(--bg3); border:1px solid var(--border); color:var(--text); font-size:20px; pointer-events:auto; touch-action:none;">&#9664;</button>
     <button id="dp-right" style="position:absolute; top:50%; right:0; transform:translateY(-50%); width:46px; height:46px; border-radius:50%; background:var(--bg3); border:1px solid var(--border); color:var(--text); font-size:20px; pointer-events:auto; touch-action:none;">&#9654;</button>
   </div>
 
+  
   <div class="controls">
     <button class="ctl-btn" id="restartBtn">Restart</button>
     <button class="ctl-btn" id="newGameBtn">Menu</button>
@@ -431,881 +424,635 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
      { title: "ÆVOLUTION — The Beige Matric (PIXELS ALBUM)", src: "12-LÆ_038_The_Beige_Matrix.ogg" },
   ];
 
-  const DIRS = { up:{dr:-1,dc:0}, down:{dr:1,dc:0}, left:{dr:0,dc:-1}, right:{dr:0,dc:1} };
-  const DIR_LIST = Object.keys(DIRS);
-
+  
   const boardWrapper = document.getElementById('boardWrapper');
-  const boardOuter = document.getElementById('boardOuter');
-  const boardViewport = document.getElementById('boardViewport');
+    const boardViewport = document.getElementById('boardViewport');
   const overlay = document.getElementById('overlay');
   const overlayTitle = document.getElementById('overlayTitle');
   const overlayText = document.getElementById('overlayText');
   const overlayBtn = document.getElementById('overlayBtn');
-  const heartsEl = document.getElementById('hearts');
-  const levelNumEl = document.getElementById('levelNum');
   const restartBtn = document.getElementById('restartBtn');
   const newGameBtn = document.getElementById('newGameBtn');
-  const zoomValEl = document.getElementById('zoomVal');
+    const scoreVal = document.getElementById('scoreVal');
+  const playBtn = document.getElementById('smashPlayBtn');
 
-  let state = { level:1, hearts:3, size:5, grid:null, arrows:[], elMap:new Map(), intervals:[] };
+  /* ── CANVAS SETUP ────────────── */
+  const cvs = document.createElement('canvas');
+  const ctx = cvs.getContext('2d');
+  const R = 14;
+  const D = 28;
+  const COLS = 11;
+  const W = COLS * D;
+  const H = 460;
+  const ROW_H = R * Math.sqrt(3);
+  cvs.width = W;
+  cvs.height = H;
+  cvs.style.background = 'rgba(0,0,0,0.4)';
+  cvs.style.border = '1px solid var(--border)';
+  cvs.style.borderRadius = '8px';
+  cvs.style.boxShadow = '0 0 20px rgba(0,0,0,0.5)';
+  cvs.style.width = '100%';
+  cvs.style.height = '100%';
+  cvs.style.objectFit = 'contain';
+  boardWrapper.appendChild(cvs);
 
-  /* ── ZOOM / PAN (pinch + drag, no scrollbars) ────────────── */
-  let zoom=1, panX=0, panY=0;
-  const ZOOM_MIN=0.6, ZOOM_MAX=2.4, ZOOM_STEP=0.15;
-  let activePointers = new Map();
-  let dragStart=null, dragMoved=false, justDragged=false;
-  let pinchStartDist=0, pinchStartZoom=1;
-
-  function applyTransform(){
-    boardOuter.style.transform = 'translate('+panX+'px,'+panY+'px) scale('+zoom+')';
-    if(zoomValEl) zoomValEl.textContent = Math.round(zoom*100)+'%';
-  }
-  function clampPan(){
-    const vw = boardViewport.clientWidth, vh = boardViewport.clientHeight;
-    const extraX = Math.max(0,(vw*zoom-vw)/2 + vw*0.15);
-    const extraY = Math.max(0,(vh*zoom-vh)/2 + vh*0.15);
-    panX = Math.max(-extraX, Math.min(extraX, panX));
-    panY = Math.max(-extraY, Math.min(extraY, panY));
-  }
-  function setZoom(z){ zoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, z)); clampPan(); applyTransform(); }
-
+  
   window.addEventListener('pointerdown', e => {
-    if(e.target.closest('button, .arrow, input, #settings-panel, .controls, .zoom-bar')) return;   
-    try { boardViewport.setPointerCapture(e.pointerId); } catch(err) {}
-    activePointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
-    if(activePointers.size===1){ dragStart={x:e.clientX,y:e.clientY,panX,panY}; dragMoved=false; }
-    else if(activePointers.size===2){
-      const pts=[...activePointers.values()];
-      pinchStartDist = Math.hypot(pts[0].x-pts[1].x, pts[0].y-pts[1].y);
-      pinchStartZoom = zoom;
+    if(e.target.closest('button, .arrow, input, #settings-panel, .controls, .zoom-bar')) return;
+    if(e.target === cvs) {
+        if (state.status === 'playing' && !state.movingOrb) {
+            updateAim(e);
+            state.aiming = true;
+        }
     }
-  });
-  window.addEventListener('keydown', e => {
-     if(!state.isSnake || !snakeState) return;
-     const dir = snakeState.dir;
-     if((e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') && dir.dr !== 1) snakeState.nextDir = {dr:-1, dc:0};
-     else if((e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') && dir.dr !== -1) snakeState.nextDir = {dr:1, dc:0};
-     else if((e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') && dir.dc !== 1) snakeState.nextDir = {dr:0, dc:-1};
-     else if((e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') && dir.dc !== -1) snakeState.nextDir = {dr:0, dc:1};
   });
 
   window.addEventListener('pointermove', e => {
-    if(!activePointers.has(e.pointerId)) return;
-    activePointers.set(e.pointerId, {x:e.clientX,y:e.clientY});
-    if(activePointers.size===1 && dragStart){
-      const dx=e.clientX-dragStart.x, dy=e.clientY-dragStart.y;
-      
-      if (state.isSnake && snakeState) {
-         if (Math.abs(dx) > 30 || Math.abs(dy) > 30) {
-             const dir = snakeState.dir;
-             if (Math.abs(dx) > Math.abs(dy)) {
-                 if (dx > 0 && dir.dc !== -1) snakeState.nextDir = {dr:0, dc:1};
-                 else if (dx < 0 && dir.dc !== 1) snakeState.nextDir = {dr:0, dc:-1};
-             } else {
-                 if (dy > 0 && dir.dr !== -1) snakeState.nextDir = {dr:1, dc:0};
-                 else if (dy < 0 && dir.dr !== 1) snakeState.nextDir = {dr:-1, dc:0};
-             }
-             dragStart = {x:e.clientX, y:e.clientY, panX, panY};
-         }
-         return;
-      }
-      
-      if(Math.hypot(dx,dy)>6) dragMoved=true;
-      panX = dragStart.panX+dx; panY = dragStart.panY+dy;
-      clampPan(); applyTransform();
-    } else if(activePointers.size===2){
-      const pts=[...activePointers.values()];
-      const dist = Math.hypot(pts[0].x-pts[1].x, pts[0].y-pts[1].y);
-      dragMoved=true;
-      zoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, pinchStartZoom*(dist/pinchStartDist)));
-      clampPan(); applyTransform();
+    if (state.aiming && state.status === 'playing' && !state.movingOrb) {
+        updateAim(e);
     }
   });
-  function endPointer(e){
-    if(!activePointers.has(e.pointerId)) return;
-    try { boardViewport.releasePointerCapture(e.pointerId); } catch(err) {}
-    activePointers.delete(e.pointerId);
-    if(activePointers.size===0){
-      if(dragMoved){ justDragged=true; setTimeout(()=>{justDragged=false;},60); }
-      dragStart=null;
-      dragMoved=false;
-    } else if(activePointers.size===1){
-      const remaining=[...activePointers.entries()][0][1];
-      dragStart={x:remaining.x,y:remaining.y,panX,panY}; dragMoved=false;
-    }
-  }
-  window.addEventListener('pointerup', endPointer);
-  window.addEventListener('pointercancel', endPointer);
-  document.getElementById('zoomIn')?.addEventListener('click', () => setZoom(zoom+ZOOM_STEP));
-  document.getElementById('zoomOut')?.addEventListener('click', () => setZoom(zoom-ZOOM_STEP));
-  document.getElementById('zoomFit')?.addEventListener('click', () => { panX=0; panY=0; setZoom(1); });
-  window.addEventListener('resize', () => { clampPan(); applyTransform(); });
 
-  function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
-  
-  function canShapeEscape(shapeCells, dir, grid, size){
-    const {dr, dc} = DIRS[dir];
-    const head = shapeCells[0];
-    let rr = head.r + dr;
-    let cc = head.c + dc;
-    while(rr >= 0 && rr < size && cc >= 0 && cc < size){
-        if (grid[rr][cc]) return false;
-        if (shapeCells.some(c => c.r === rr && c.c === cc)) return false;
-        rr += dr;
-        cc += dc;
+  window.addEventListener('pointerup', e => {
+    if(state.aiming && state.status === 'playing' && !state.movingOrb) {
+        state.aiming = false;
+        shootOrb();
     }
-    return true;
-  }
+  });
+
+  window.addEventListener('pointercancel', e => {
+    state.aiming = false;
+  });
   
-  function canShapeEscapeCurrent(shapeObj, grid, size) {
-    const {dr, dc} = DIRS[shapeObj.dir];
-    const head = shapeObj.cells[0];
-    let rr = head.r + dr;
-    let cc = head.c + dc;
-    while(rr >= 0 && rr < size && cc >= 0 && cc < size){
-        if (grid[rr][cc] && grid[rr][cc].id !== shapeObj.id) {
-            return false;
+  function applyTransform() {
+     // No-op for smash
+  }
+
+
+  /* ── GAME LOGIC ────────────── */
+  let state = {
+    status: 'menu', // menu, playing, over
+    grid: [], // array of objects {r, c, color, type}
+    shooterColor: 0,
+    shooterType: 'normal',
+    nextColors: [0, 1, 2], // 3 predictions
+    movingOrb: null,
+    aimAngle: -Math.PI/2,
+    score: 0,
+    shotsCount: 0,
+    particles: [], // visual particles
+    gridOffset: 0,
+    dropRows: 0,
+    animFrame: null
+  };
+
+  const COLORS = ['cyan', 'mag', 'purple', 'b-accent'];
+
+  
+  const themeCache = {};
+  function getThemeColor(varName, def) {
+    if (!themeCache[varName]) {
+      themeCache[varName] = getComputedStyle(document.body).getPropertyValue(varName).trim() || def;
+    }
+    return themeCache[varName];
+  }
+
+  function getColorCSS(idx) {
+    if(idx === -1) return getThemeColor('--bright', '#ffffff');
+    return getThemeColor('--' + COLORS[idx], '#00bbc2');
+}
+
+  
+  function isRowOdd(r) {
+      return (r + (state.gridOffset || 0)) % 2 !== 0;
+  }
+
+  function getHexXY(r, c) {
+    const isOdd = isRowOdd(r);
+    return {
+        x: c * D + (isOdd ? D : R),
+        y: r * ROW_H + R
+    };
+  }
+
+  function generateRow(r) {
+    const isOdd = isRowOdd(r);
+    const count = isOdd ? COLS - 1 : COLS;
+    for(let c=0; c<count; c++) {
+        state.grid.push({r, c, color: Math.floor(Math.random() * COLORS.length), type: 'normal'});
+    }
+  }
+
+  function startSmash() {
+    state.status = 'playing';
+    state.grid = [];
+    state.dropRows = 0;
+    state.gridOffset = 0;
+    state.score = 0;
+    state.shotsCount = 0;
+    state.particles = [];
+    state.movingOrb = null;
+    state.nextColors = [randColor(), randColor(), randColor()];
+    state.shooterColor = randColor();
+    state.shooterType = state.shooterColor === -1 ? 'AE' : 'normal';
+    if (scoreVal) scoreVal.textContent = state.score;
+    
+    // Starting rows
+    for(let i=0; i<6; i++) generateRow(i);
+
+    
+    document.getElementById('start-overlay').style.display = 'none';
+    unlockAudio();
+    playEscapeSound();
+  }
+
+  function randColor() { return Math.floor(Math.random() * COLORS.length); }
+
+  function updateAim(e) {
+    const rect = cvs.getBoundingClientRect();
+    // Account for zoom and pan
+    // Client X/Y relative to canvas rect
+    const mouseX = (e.clientX - rect.left) * (cvs.width / rect.width);
+    const mouseY = (e.clientY - rect.top) * (cvs.height / rect.height);
+
+    const startX = W/2;
+    const startY = H - R - 15;
+    
+    let angle = Math.atan2(mouseY - startY, mouseX - startX);
+    // limit angle
+    if (angle > -0.1) angle = -0.1;
+    if (angle < -Math.PI + 0.1) angle = -Math.PI + 0.1;
+    
+    state.aimAngle = angle;
+  }
+
+  function shootOrb() {
+    state.movingOrb = {
+        x: W/2, y: H - R - 15,
+        vx: Math.cos(state.aimAngle) * 12,
+        vy: Math.sin(state.aimAngle) * 12,
+        color: state.shooterColor,
+        type: state.shooterColor === -1 ? 'AE' : 'normal'
+    };
+    
+    // Cycle shooter
+    state.shooterColor = state.nextColors.shift();
+    state.shooterType = state.shooterColor === -1 ? 'AE' : 'normal';
+    state.nextColors.push(randColor());
+    playEscapeSound();
+  }
+
+  function spawnParticles(x, y, colorCSS, count) {
+    for(let i=0; i<count; i++) {
+        state.particles.push({
+            x, y,
+            vx: (Math.random()-0.5)*10,
+            vy: (Math.random()-0.5)*10,
+            life: 1.0,
+            color: colorCSS
+        });
+    }
+  }
+
+  function getOrbAt(r, c) {
+    return state.grid.find(o => o.r === r && o.c === c);
+  }
+
+  function getNeighbors(r, c) {
+    const isOdd = isRowOdd(r);
+    const offsets = isOdd 
+        ? [[0,-1],[0,1],[-1,0],[-1,1],[1,0],[1,1]]
+        : [[0,-1],[0,1],[-1,-1],[-1,0],[1,-1],[1,0]];
+    return offsets.map(off => ({ r: r+off[0], c: c+off[1] }));
+  }
+
+  function snapOrb(orb) {
+    // Find closest valid cell
+    let bestDist = Infinity;
+    let bestR = 0, bestC = 0;
+    
+    // check rows from 0 to max
+    const maxR = 25;
+    for(let r=0; r<maxR; r++) {
+        const isOdd = isRowOdd(r);
+        const count = isOdd ? COLS - 1 : COLS;
+        for(let c=0; c<count; c++) {
+            if(getOrbAt(r, c)) continue; // occupied
+            const pos = getHexXY(r, c);
+            const dist = Math.hypot(pos.x - orb.x, pos.y - orb.y);
+            if(dist < bestDist) {
+                bestDist = dist;
+                bestR = r; bestC = c;
+            }
         }
-        if (shapeObj.cells.some(c => c.r === rr && c.c === cc)) return false;
-        rr += dr;
-        cc += dc;
     }
-    return true;
+    
+    // Add to grid
+    const snapped = { r: bestR, c: bestC, color: orb.color, type: orb.type };
+    state.grid.push(snapped);
+    
+    return snapped;
   }
 
-  function levelParams(level){
-    const size = Math.min(30, 8 + Math.floor((level-1)*1.5));
-    const density = Math.min(0.90, 0.55 + level*0.02);
-    const targetCount = Math.max(15, Math.floor(size*size*density));
-    return { size, targetCount };
-  }
-  function generateBoard(size,targetCount){
-    const grid = Array.from({length:size}, () => Array(size).fill(null));
-    const arrows = []; const maxAttempts = targetCount*200; let attempts=0;
-    while(arrows.length < targetCount && attempts < maxAttempts){
-      attempts++;
-      const r=Math.floor(Math.random()*size), c=Math.floor(Math.random()*size);
-      if(grid[r][c]) continue;
-      const dirs = shuffle([...DIR_LIST]);
-      for(const dir of dirs){
-        let maxAllowed = state.level < 2 ? 3 : Math.min(50, 4 + state.level * 3);
-        if (Math.random() < 0.5) maxAllowed += Math.floor(state.level * 1.5);
-        let maxTail = Math.floor(Math.random() * (maxAllowed + 1));
-        let shapeCells = [{r, c, isHead: true}];
-        let currR = r, currC = c;
-        if (maxTail > 0) {
-            const backDir = {'up':'down', 'down':'up', 'left':'right', 'right':'left'}[dir];
-            const bd = DIRS[backDir];
-            let nr = currR + bd.dr, nc = currC + bd.dc;
-            if (nr >= 0 && nr < size && nc >= 0 && nc < size && !grid[nr][nc]) {
-                shapeCells.push({r: nr, c: nc, isHead: false});
-                currR = nr; currC = nc;
-                for (let i = 1; i < maxTail; i++) {
-                    let neighbors = [];
-                    for (const d of Object.values(DIRS)) {
-                        let nrr = currR + d.dr, ncc = currC + d.dc;
-                        if (nrr >= 0 && nrr < size && ncc >= 0 && ncc < size && !grid[nrr][ncc] && !shapeCells.some(cell => cell.r === nrr && cell.c === ncc)) {
-                            neighbors.push({r: nrr, c: ncc});
-                        }
-                    }
-                    if (neighbors.length === 0) break;
-                    let next = neighbors[Math.floor(Math.random() * neighbors.length)];
-                    shapeCells.push({r: next.r, c: next.c, isHead: false});
-                    currR = next.r; currC = next.c;
+  function checkMatches(startOrb) {
+    if(startOrb.type === 'AE' || startOrb.color === -1) {
+        // Æ orb: destroys everything within distance 4 grid cells roughly
+        // Let's just destroy neighbors up to dist 2
+        let toDestroy = new Set();
+        toDestroy.add(startOrb);
+        
+        // simple BFS up to depth 2
+        let q = [{node: startOrb, depth: 0}];
+        while(q.length > 0) {
+            let {node, depth} = q.shift();
+            if(depth >= 2) continue;
+            let nbs = getNeighbors(node.r, node.c);
+            for(let nb of nbs) {
+                let o = getOrbAt(nb.r, nb.c);
+                if(o && !toDestroy.has(o)) {
+                    toDestroy.add(o);
+                    q.push({node: o, depth: depth + 1});
                 }
             }
         }
-        if(canShapeEscape(shapeCells, dir, grid, size)){
-          const arrow = { id: 'a'+r+'_'+c, dir, r, c, cells: shapeCells };
-          shapeCells.forEach(cell => grid[cell.r][cell.c] = arrow);
-          arrows.push(arrow);
-          break;
+        
+        let arr = Array.from(toDestroy);
+        arr.forEach(o => {
+            const pos = getHexXY(o.r, o.c);
+            spawnParticles(pos.x, pos.y, getColorCSS(o.color), 10);
+        });
+        state.grid = state.grid.filter(o => !toDestroy.has(o));
+        state.score += arr.length * 100;
+        playWinSound();
+        return;
+    }
+
+    // Normal match
+    let matched = new Set();
+    let q = [startOrb];
+    matched.add(startOrb);
+    
+    while(q.length > 0) {
+        let curr = q.shift();
+        let nbs = getNeighbors(curr.r, curr.c);
+        for(let nb of nbs) {
+            let o = getOrbAt(nb.r, nb.c);
+            if(o && o.color === startOrb.color && !matched.has(o)) {
+                matched.add(o);
+                q.push(o);
+            }
         }
-      }
     }
-    return { grid, arrows };
+    
+    if(matched.size >= 3) {
+        let arr = Array.from(matched);
+        arr.forEach(o => {
+            const pos = getHexXY(o.r, o.c);
+            spawnParticles(pos.x, pos.y, getColorCSS(o.color), 8);
+        });
+        state.grid = state.grid.filter(o => !matched.has(o));
+        state.score += arr.length * 20;
+        
+        if (matched.size >= 5) {
+            // Reward Æ orb
+            state.nextColors[2] = -1; // -1 means Æ orb
+        }
+        
+        playWinSound();
+    } else {
+        playInvalidSound();
+    }
   }
 
-  function renderHearts(){
-    heartsEl.innerHTML='';
-    for(let i=0;i<3;i++){
-      const s=document.createElement('span');
-      s.className='heart'+(i<state.hearts?'':' empty'); s.textContent='♥';
-      heartsEl.appendChild(s);
+  function dropDisconnected() {
+    let connected = new Set();
+    let q = [];
+    
+    // Find all orbs attached to top ceiling (which is r = 0..dropRows wait)
+    // Actually the ceiling is dynamically dropping.
+    // The top-most orbs have r === 0.
+    // Wait, if dropRows > 0, the grid elements r might not be 0 anymore.
+    // Actually, when we drop a row, we just increment all 'r' in the grid!
+    // So ceiling is always r === 0.
+    
+    for(let o of state.grid) {
+        if(o.r === 0) {
+            connected.add(o);
+            q.push(o);
+        }
     }
-  }
-  function renderBoard(){
-    boardWrapper.innerHTML='';
-    boardWrapper.classList.remove('frozen');
-    state.elMap.clear();
-    const pct = 100/state.size;
-    state.arrows.forEach(arrow => {
-      const el = document.createElement('div');
-      el.className='arrow'; el.dataset.dir=arrow.dir;
-      el.style.width=pct+'%'; el.style.height=pct+'%';
-      el.style.left=(arrow.c*pct)+'%'; el.style.top=(arrow.r*pct)+'%';
-      
-      const shape=document.createElement('div'); shape.className='arrow-shape';
-      el.appendChild(shape);
-      el._headEl = shape;
-      el._tailEls = [];
-      el._bridgeEls = [];
-      
-      arrow.cells.forEach(cell => {
-          if (cell.isHead) return;
-          const tb = document.createElement('div');
-          tb.className = 'tail-block';
-          tb.style.setProperty('--glitch-delay', `-${Math.random()}s`);
-          tb.style.setProperty('--glitch-dur', `${0.3 + Math.random() * 0.3}s`);
-          tb.style.top = ((cell.r - arrow.r) * 100 + 27) + '%';
-          tb.style.left = ((cell.c - arrow.c) * 100 + 27) + '%';
-          el.appendChild(tb);
-          el._tailEls.push(tb);
-      });
-      
-      for (let i = 0; i < arrow.cells.length - 1; i++) {
-          const c1 = arrow.cells[i];
-          const c2 = arrow.cells[i+1];
-          const bridge = document.createElement('div');
-          bridge.className = 'tail-bridge';
-          bridge.style.setProperty('--glitch-delay', `-${Math.random()}s`);
-          bridge.style.setProperty('--glitch-dur', `${0.3 + Math.random() * 0.3}s`);
-          
-          const dr = c2.r - c1.r;
-          const dc = c2.c - c1.c;
-          
-          const t1 = (c1.r - arrow.r) * 100;
-          const l1 = (c1.c - arrow.c) * 100;
-          
-          if (dc === 1) {
-              bridge.style.top = (t1 + 27) + '%';
-              bridge.style.left = (l1 + 73) + '%';
-              bridge.style.width = '54%';
-              bridge.style.height = '46%';
-          } else if (dc === -1) {
-              bridge.style.top = (t1 + 27) + '%';
-              bridge.style.left = (l1 - 27) + '%';
-              bridge.style.width = '54%';
-              bridge.style.height = '46%';
-          } else if (dr === 1) {
-              bridge.style.left = (l1 + 27) + '%';
-              bridge.style.top = (t1 + 73) + '%';
-              bridge.style.width = '46%';
-              bridge.style.height = '54%';
-          } else if (dr === -1) {
-              bridge.style.left = (l1 + 27) + '%';
-              bridge.style.top = (t1 - 27) + '%';
-              bridge.style.width = '46%';
-              bridge.style.height = '54%';
-          }
-          el.appendChild(bridge);
-          el._bridgeEls.push(bridge);
-      }
-      
-      el.addEventListener('click', () => { if(!justDragged) handleTap(arrow); });
-      boardWrapper.appendChild(el);
-      state.elMap.set(arrow.id, el);
-    });
-    if(levelNumEl) levelNumEl.textContent = state.level;
-    clampPan(); applyTransform();
+    
+    while(q.length > 0) {
+        let curr = q.shift();
+        let nbs = getNeighbors(curr.r, curr.c);
+        for(let nb of nbs) {
+            let o = getOrbAt(nb.r, nb.c);
+            if(o && !connected.has(o)) {
+                connected.add(o);
+                q.push(o);
+            }
+        }
+    }
+    
+    let toDrop = state.grid.filter(o => !connected.has(o));
+    if (toDrop.length > 0) {
+        toDrop.forEach(o => {
+            const pos = getHexXY(o.r, o.c);
+            spawnParticles(pos.x, pos.y, getColorCSS(o.color), 5);
+            state.score += 40;
+        });
+        state.grid = state.grid.filter(o => connected.has(o));
+    }
+    
+    if (scoreVal) scoreVal.textContent = state.score;
   }
 
-  function handleTap(arrow){
-    if(!overlay.classList.contains('hidden')) return;
-    unlockAudio();
-    const clear = canShapeEscapeCurrent(arrow, state.grid, state.size);
-    const el = state.elMap.get(arrow.id);
-    if(clear){
-      playEscapeSound();
-      el.classList.add('escaping');
+  function addRow() {
+    state.gridOffset = (state.gridOffset || 0) + 1;
+    // shift all existing orbs down
+    state.grid.forEach(o => o.r++);
+    // generate new row 0
+    generateRow(0);
+    // check game over
+    checkGameOver();
+  }
+
+  function checkGameOver() {
+    let maxR = 0;
+    for(let o of state.grid) {
+        if(o.r > maxR) maxR = o.r;
+    }
+    // H = 460, R = 14. Max rows before crossing bottom ~ 18.
+    // Let's say if an orb reaches y > H - 3*D, it's game over.
+    for(let o of state.grid) {
+        const pos = getHexXY(o.r, o.c);
+        if (pos.y > H - 3*D) {
+            gameOver();
+            return;
+        }
+    }
+  }
+
+  function gameOver() {
+    state.status = 'over';
+    playLoseSound();
+    if (overlayTitle) overlayTitle.textContent = "GAME OVER";
+    if (overlayText) overlayText.textContent = "SCORE: " + state.score;
+    if (overlayBtn) overlayBtn.textContent = "RESTART";
+    overlay.classList.remove('hidden');
+    overlay.classList.add('win'); // use same style for popup
+    overlayBtn.onclick = () => {
+        overlay.classList.add('hidden');
+        startSmash();
+    };
+  }
+
+  function update() {
+    if(state.status !== 'playing') return;
+
+    if(state.movingOrb) {
+        let mo = state.movingOrb;
+        mo.x += mo.vx;
+        mo.y += mo.vy;
+        
+        // Bounce walls
+        if(mo.x < R) { mo.x = R; mo.vx *= -1; }
+        if(mo.x > W - R) { mo.x = W - R; mo.vx *= -1; }
+        
+        // Check collision with ceiling or other orbs
+        let collided = false;
+        if (mo.y <= R) {
+            // Hit ceiling
+            collided = true;
+        } else {
+            for(let o of state.grid) {
+                const pos = getHexXY(o.r, o.c);
+                const dist = Math.hypot(pos.x - mo.x, pos.y - mo.y);
+                if (dist < R * 1.8) {
+                    collided = true;
+                    break;
+                }
+            }
+        }
+        
+        if (collided) {
+            let snapped = snapOrb(mo);
+            state.movingOrb = null;
+            checkMatches(snapped);
+            dropDisconnected();
+            
+            state.shotsCount++;
+            if (state.shotsCount >= 5) {
+                state.shotsCount = 0;
+                addRow();
+            } else {
+                checkGameOver();
+            }
+        }
+    }
+    
+    // Update particles
+    for(let i=state.particles.length-1; i>=0; i--) {
+        let p = state.particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.5; // gravity
+        p.life -= 0.03;
+        if(p.life <= 0) state.particles.splice(i, 1);
+    }
+  }
+
+  function drawOrb(ctx, x, y, colorIdx, type, isParticle = false) {
+    ctx.beginPath();
+    ctx.arc(x, y, isParticle ? R/2 : R-1, 0, Math.PI*2);
+    
+    if (type === 'AE' || colorIdx === -1) {
+        ctx.fillStyle = getThemeColor('--bright', '#fff');
+        ctx.shadowColor = getThemeColor('--bright', '#fff');
+        ctx.shadowBlur = 10;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = getThemeColor('--bg', '#fff');
+        ctx.font = '14px Orbitron';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        if(!isParticle) ctx.fillText('Æ', x, y);
+    } else {
+        ctx.fillStyle = getColorCSS(colorIdx);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Highlight
+        if(!isParticle) {
+            ctx.beginPath();
+            ctx.arc(x - R/3, y - R/3, R/4, 0, Math.PI*2);
+            ctx.fillStyle = 'rgba(255,255,255,0.4)';
+            ctx.fill();
+        }
+    }
+  }
+
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    
+    // Draw Grid Orbs
+    for(let o of state.grid) {
+        const pos = getHexXY(o.r, o.c);
+        drawOrb(ctx, pos.x, pos.y, o.color, o.type);
+    }
+    
+    // Draw Particles
+    for(let p of state.particles) {
+        ctx.globalAlpha = Math.max(0, p.life);
+        drawOrb(ctx, p.x, p.y, -2, 'normal', true); // -2 is a hack, we will use fillStyle later
+        // wait, drawOrb doesn't use p.color. I'll just fill directly
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, R/2, 0, Math.PI*2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+    }
+    
+    
+    // Draw Shooter Base / Turret
+    const startX = W/2;
+    const startY = H - R - 15;
+    
+    // Turret Graphic
+    ctx.save();
+    ctx.translate(startX, startY);
+    ctx.rotate(state.aimAngle + Math.PI/2);
+    ctx.beginPath();
+    ctx.moveTo(-10, 0);
+    ctx.lineTo(10, 0);
+    ctx.lineTo(5, -25);
+    ctx.lineTo(-5, -25);
+    ctx.closePath();
+    ctx.fillStyle = getThemeColor('--dim', '#fff');
+    ctx.fill();
+    ctx.strokeStyle = getThemeColor('--cyan', '#fff');
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    
+    // Turret Base
+    ctx.beginPath();
+    ctx.arc(0, 0, 15, 0, Math.PI*2);
+    ctx.fillStyle = getThemeColor('--bg2', '#fff');
+    ctx.fill();
+    ctx.strokeStyle = getThemeColor('--border', '#fff');
+    ctx.stroke();
+    ctx.restore();
+
+    // Draw Dotted line if aiming
+    if ((state.aiming || state.status === 'menu') && !state.movingOrb) {
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        let lx = startX, ly = startY;
+        let lvx = Math.cos(state.aimAngle) * 5;
+        let lvy = Math.sin(state.aimAngle) * 5;
+        ctx.setLineDash([5, 10]);
+        ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+        ctx.lineWidth = 2;
+        for(let i=0; i<60; i++) {
+            lx += lvx; ly += lvy;
+            if(lx < R) { lx = R; lvx = -lvx; }
+            if(lx > W - R) { lx = W - R; lvx = -lvx; }
+            if(ly < 0) break; // Don't draw past ceiling
+            ctx.lineTo(lx, ly);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+    }
+    
+    // Draw Next predictions at bottom left (raised a bit to avoid cut off)
+    ctx.fillStyle = getThemeColor('--text', '#fff');
+    ctx.font = '10px Orbitron';
+    ctx.textAlign = 'left';
+    ctx.fillText('NEXT', 15, H - 35);
+    for(let i=0; i<3; i++) {
+        drawOrb(ctx, 25 + i*16, H - 15, state.nextColors[i], state.nextColors[i]===-1?'AE':'normal', true);
+    }
+    
+    // Draw Current Shooter Orb
+    if(!state.movingOrb) {
+        drawOrb(ctx, startX, startY, state.shooterColor, state.shooterType);
+    } else {
+
+        drawOrb(ctx, state.movingOrb.x, state.movingOrb.y, state.movingOrb.color, state.movingOrb.type);
+    }
+  }
+
+  function gameLoop() {
+    update();
+    render();
+    state.animFrame = requestAnimationFrame(gameLoop);
+  }
+
+  
+  // Start loop immediately to show initial state
+  if(!state.animFrame) state.animFrame = requestAnimationFrame(gameLoop);
+  playBtn.addEventListener('click', startSmash);
+  
+  let dpadInterval = null;
+  function handleDpad(dir) {
+      if (state.status !== 'playing' || state.movingOrb) return;
+      if (dir === 'left') state.aimAngle -= 0.05;
+      if (dir === 'right') state.aimAngle += 0.05;
       
-      for(const cell of arrow.cells) {
-          state.grid[cell.r][cell.c] = null;
-      }
-      state.arrows = state.arrows.filter(a => a.id !== arrow.id);
+      if (state.aimAngle > -0.1) state.aimAngle = -0.1;
+      if (state.aimAngle < -Math.PI + 0.1) state.aimAngle = -Math.PI + 0.1;
+  }
+  
+  function setupDpad() {
+      const leftBtn = document.getElementById('dp-left');
+      const rightBtn = document.getElementById('dp-right');
+      const upBtn = document.getElementById('dp-up');
+      const downBtn = document.getElementById('dp-down');
       
-      let currentCells = arrow.cells.map(c => ({...c}));
-      const {dr, dc} = DIRS[arrow.dir];
-      let steps = state.size + currentCells.length;
-      let stepCount = 0;
+      if (downBtn) downBtn.style.display = 'none'; // hide down button, not needed
+      if (upBtn) upBtn.textContent = 'SHOOT';
+      if (upBtn) upBtn.style.fontSize = '12px';
       
-      const stepFn = () => {
-          stepCount++;
-          const newHead = {
-              r: currentCells[0].r + dr,
-              c: currentCells[0].c + dc
-          };
-          currentCells.unshift(newHead);
-          currentCells.pop();
-          
-          el._headEl.style.top = ((currentCells[0].r - arrow.r) * 100 + 27) + '%';
-          el._headEl.style.left = ((currentCells[0].c - arrow.c) * 100 + 27) + '%';
-          
-          for (let i = 1; i < currentCells.length; i++) {
-              el._tailEls[i-1].style.top = ((currentCells[i].r - arrow.r) * 100 + 27) + '%';
-              el._tailEls[i-1].style.left = ((currentCells[i].c - arrow.c) * 100 + 27) + '%';
+      const startDir = (dir) => (e) => {
+          e.preventDefault();
+          if (dir === 'shoot') {
+             if(state.status === 'playing' && !state.movingOrb) shootOrb();
+             return;
           }
-          
-          for (let i = 0; i < currentCells.length - 1; i++) {
-              const c1 = currentCells[i];
-              const c2 = currentCells[i+1];
-              const bridge = el._bridgeEls[i];
-              const bdr = c2.r - c1.r;
-              const bdc = c2.c - c1.c;
-              const t1 = (c1.r - arrow.r) * 100;
-              const l1 = (c1.c - arrow.c) * 100;
-              
-              if (bdc === 1) {
-                  bridge.style.top = (t1 + 27) + '%';
-                  bridge.style.left = (l1 + 73) + '%';
-                  bridge.style.width = '54%';
-                  bridge.style.height = '46%';
-              } else if (bdc === -1) {
-                  bridge.style.top = (t1 + 27) + '%';
-                  bridge.style.left = (l1 - 27) + '%';
-                  bridge.style.width = '54%';
-                  bridge.style.height = '46%';
-              } else if (bdr === 1) {
-                  bridge.style.left = (l1 + 27) + '%';
-                  bridge.style.top = (t1 + 73) + '%';
-                  bridge.style.width = '46%';
-                  bridge.style.height = '54%';
-              } else if (bdr === -1) {
-                  bridge.style.left = (l1 + 27) + '%';
-                  bridge.style.top = (t1 - 27) + '%';
-                  bridge.style.width = '46%';
-                  bridge.style.height = '54%';
-              }
-          }
-          
-          if (stepCount >= steps) {
-              if (el._moveInterval) clearInterval(el._moveInterval);
-              el.remove();
-              state.elMap.delete(arrow.id);
-              if(state.arrows.length === 0) showWin();
-          }
+          if (dpadInterval) clearInterval(dpadInterval);
+          handleDpad(dir);
+          dpadInterval = setInterval(() => handleDpad(dir), 30);
       };
       
-      setTimeout(() => {
-          el._moveInterval = setInterval(stepFn, 150);
-          state.intervals.push(el._moveInterval);
-          stepFn();
-      }, 20);
-    } else {
-      playInvalidSound();
-      el.classList.add('invalid');
-      boardWrapper.classList.add('shakeboard');
-      setTimeout(() => { el.classList.remove('invalid'); boardWrapper.classList.remove('shakeboard'); }, 420);
-      state.hearts = Math.max(0, state.hearts-1);
-      renderHearts();
-      if(state.hearts===0) showLose();
-    }
+      const endDir = (e) => { e.preventDefault(); if (dpadInterval) clearInterval(dpadInterval); };
+      
+      if (leftBtn) {
+          leftBtn.addEventListener('pointerdown', startDir('left'));
+          leftBtn.addEventListener('pointerup', endDir);
+          leftBtn.addEventListener('pointerleave', endDir);
+      }
+      if (rightBtn) {
+          rightBtn.addEventListener('pointerdown', startDir('right'));
+          rightBtn.addEventListener('pointerup', endDir);
+          rightBtn.addEventListener('pointerleave', endDir);
+      }
+      if (upBtn) {
+          upBtn.addEventListener('pointerdown', startDir('shoot'));
+      }
   }
+  setupDpad();
 
-  function showOverlay(kind,title,text,btnLabel,onClick){
-    overlay.className=kind;
-    if(overlayTitle) overlayTitle.textContent =title; if(overlayText) overlayText.textContent =text; if(overlayBtn) overlayBtn.textContent =btnLabel;
-    overlayBtn.onclick=onClick;
-    document.getElementById('overlayExitBtn').style.display='none';
-    boardWrapper.classList.add('frozen');
-  }
-  function hideOverlay(){ overlay.className='hidden'; }
-  function showWin(){
-    playWinSound();
-    showOverlay('win','Grid Cleared','Every arrow found its way out. Next grid is larger, and tighter.','Next Level', () => {
-      state.level+=1; startLevel(false); hideOverlay();
-    });
-  }
-  function showLose(){
-    playLoseSound();
-    showOverlay('lose','Boxed In','Out of moves — same level, fresh layout.','Retry Level', () => {
-      startLevel(true); hideOverlay();
-    });
-  }
 
-  function getLevelCode(level) {
-    const num = level * 13 + 42;
-    return 'VEC-' + num.toString(16).toUpperCase();
-  }
-  function parseLevelCode(code) {
-    if(!code) return null;
-    const m = code.toUpperCase().match(/^VEC-([0-9A-F]+)$/);
-    if(m) {
-        const num = parseInt(m[1], 16);
-        const level = (num - 42) / 13;
-        if(level === Math.floor(level) && level > 0) return level;
-    }
-    return null;
-  }
 
-  function startLevel(sameLevel){
-    if (state.intervals) state.intervals.forEach(clearInterval);
-    if (snakeInterval) clearInterval(snakeInterval);
-    state.isSnake = false;
-    state.isSlot = false;
-    document.getElementById('dpad').style.display = 'none';
-    state.intervals = [];
-    state.hearts=3;
-    const { size, targetCount } = levelParams(state.level);
-    state.size = size;
-    let built = generateBoard(size,targetCount);
-    let guard=0;
-    while(built.arrows.length===0 && guard<5){ built=generateBoard(size,targetCount); guard++; }
-    state.grid=built.grid; state.arrows=built.arrows;
-    
-    (function(){ const _el = document.getElementById('levelCode'); if(_el) _el.textContent = "(CODE: " + getLevelCode(state.level) + ")"; })();
-    localStorage.setItem('vector_level', state.level);
-    
-    renderHearts(); renderBoard(); hideOverlay();
-  }
-  restartBtn.addEventListener('click', () => {
-    if (state.isSlot) {
-       startSlotGame();
-    } else if (state.isSnake) {
-       startSnakeGame();
-    } else {
-       startLevel(true);
-    }
-  });
+  restartBtn.addEventListener('click', startSmash);
   newGameBtn.addEventListener('click', () => {
-    if (state.intervals) state.intervals.forEach(clearInterval);
-    if (typeof snakeInterval !== 'undefined' && snakeInterval) clearInterval(snakeInterval);
-    document.getElementById('dpad').style.display = 'none';
+    if(state.animFrame) cancelAnimationFrame(state.animFrame);
     document.getElementById('start-overlay').style.display='flex';
   });
 
-  let glitchState = 0;
-  document.getElementById('toggleGlitch')?.addEventListener('click', (e) => {
-    glitchState = (glitchState + 1) % 4;
-    document.body.classList.remove('glitch-half', 'glitch-quarter', 'no-glitch');
-    if (glitchState === 0) {
-      if(e && e.target) e.target.textContent = 'GLITCH: FAST';
-    } else if (glitchState === 1) {
-      document.body.classList.add('glitch-half');
-      if(e && e.target) e.target.textContent = 'GLITCH: HALF';
-    } else if (glitchState === 2) {
-      document.body.classList.add('glitch-quarter');
-      if(e && e.target) e.target.textContent = 'GLITCH: SLOW';
-    } else {
-      document.body.classList.add('no-glitch');
-      if(e && e.target) e.target.textContent = 'GLITCH: OFF';
-    }
-  });
-
-  /* ── TOUCH GLASS START SCREEN ─────────────────────────────── */
-  
-  // Pre-populate if saved
-  const savedLevel = localStorage.getItem('vector_level');
-  if (savedLevel && parseInt(savedLevel) > 1) {
-    const _rci = document.getElementById('resumeCodeInput'); if (_rci) _rci.value = getLevelCode(parseInt(savedLevel));
-  }
-
-  const resumeBtn = document.getElementById('resumeCodeBtn'); if (resumeBtn) resumeBtn.addEventListener('click', () => {
-    const code = (document.getElementById('resumeCodeInput')?.value || '').trim();
-    if (!code) return;
-    const level = parseLevelCode(code);
-    if (level) {
-      state.level = level;
-      document.getElementById('start-overlay').style.display='none';
-      unlockAudio();
-      startLevel(false);
-    } else {
-      const _rci2 = document.getElementById('resumeCodeInput'); if (_rci2) _rci2.style.borderColor = 'red';
-      setTimeout(() => { const _rci2 = document.getElementById('resumeCodeInput'); if (_rci2) _rci2.style.borderColor = 'var(--dim)'; }, 1000);
-    }
-  });
-
-  let snakeState = null;
-  let snakeInterval = null;
-
-  function startSnakeGame() {
-    state.isSnake = true;
-    state.isSlot = false;
-    if (window.matchMedia("(pointer: coarse)").matches || 'ontouchstart' in window || navigator.maxTouchPoints > 0) {
-       document.getElementById('dpad').style.display = 'block';
-    }
-    const S = 20;
-    snakeState = {
-       gridSize: S,
-       body: [{r:10, c:10}, {r:10, c:9}, {r:10, c:8}],
-       dir: {dr:0, dc:1},
-       nextDir: {dr:0, dc:1},
-       food: {r:5, c:15},
-       score: 0,
-       gameOver: false
-    };
-    
-    panX = 0; panY = 0; zoom = 1; applyTransform();
-    boardWrapper.innerHTML = '';
-    
-    const pct = 100/S;
-    
-    const foodEl = document.createElement('div');
-    foodEl.style.position = 'absolute';
-    foodEl.style.width = pct + '%';
-    foodEl.style.height = pct + '%';
-    foodEl.style.background = 'var(--mag)';
-    foodEl.style.borderRadius = '50%';
-    boardWrapper.appendChild(foodEl);
-    snakeState.foodEl = foodEl;
-    
-    snakeState.bodyEls = [];
-    for(let i=0; i<snakeState.body.length; i++){
-       const b = document.createElement('div');
-       b.style.position = 'absolute';
-       b.style.width = pct + '%';
-       b.style.height = pct + '%';
-       b.style.background = i === 0 ? 'var(--bright)' : 'var(--cyan)';
-       b.style.boxShadow = 'inset 0 0 0 1px var(--bg)';
-       boardWrapper.appendChild(b);
-       snakeState.bodyEls.push(b);
-    }
-    
-    (function(){ const _el = document.getElementById('levelCode'); if(_el) _el.textContent = 'SNAKE'; })();
-    (function(){ const _el = document.getElementById('levelNum'); if(_el) _el.textContent = 'SCORE: 0'; })();
-    
-    updateSnakeRender();
-    if(snakeInterval) clearInterval(snakeInterval);
-    snakeInterval = setInterval(tickSnake, 130);
-  }
-
-  function updateSnakeRender() {
-     const pct = 100/snakeState.gridSize;
-     snakeState.foodEl.style.top = snakeState.food.r * pct + '%';
-     snakeState.foodEl.style.left = snakeState.food.c * pct + '%';
-     
-     for(let i=0; i<snakeState.body.length; i++){
-        if(i >= snakeState.bodyEls.length) {
-           const b = document.createElement('div');
-           b.style.position = 'absolute';
-           b.style.width = pct + '%';
-           b.style.height = pct + '%';
-           b.style.background = 'var(--cyan)';
-           b.style.boxShadow = 'inset 0 0 0 1px var(--bg)';
-           boardWrapper.appendChild(b);
-           snakeState.bodyEls.push(b);
-        }
-        const b = snakeState.bodyEls[i];
-        b.style.top = snakeState.body[i].r * pct + '%';
-        b.style.left = snakeState.body[i].c * pct + '%';
-     }
-  }
-
-  function tickSnake() {
-     if(snakeState.gameOver) return;
-     snakeState.dir = snakeState.nextDir;
-     const head = snakeState.body[0];
-     const nr = head.r + snakeState.dir.dr;
-     const nc = head.c + snakeState.dir.dc;
-     
-     if(nr < 0 || nr >= snakeState.gridSize || nc < 0 || nc >= snakeState.gridSize) return snakeDie();
-     if(snakeState.body.some(p => p.r === nr && p.c === nc)) return snakeDie();
-     
-     snakeState.body.unshift({r:nr, c:nc});
-     
-     if(nr === snakeState.food.r && nc === snakeState.food.c) {
-        snakeState.score += 10;
-        (function(){ const _el = document.getElementById('levelNum'); if(_el) _el.textContent = 'SCORE: ' + snakeState.score; })();
-        playEscapeSound();
-        spawnFood();
-     } else {
-        snakeState.body.pop();
-     }
-     updateSnakeRender();
-  }
-
-  function spawnFood() {
-     let r, c;
-     while(true) {
-        r = Math.floor(Math.random() * snakeState.gridSize);
-        c = Math.floor(Math.random() * snakeState.gridSize);
-        if(!snakeState.body.some(p => p.r === r && p.c === c)) break;
-     }
-     snakeState.food = {r, c};
-  }
-
-  function snakeDie() {
-     snakeState.gameOver = true;
-     playLoseSound();
-     clearInterval(snakeInterval);
-     
-     showOverlay('lose', 'GAME OVER', 'SCORE: ' + snakeState.score, 'TRY AGAIN', () => {
-         hideOverlay();
-         startSnakeGame();
-     });
-     
-     const exitBtn = document.getElementById('overlayExitBtn');
-     exitBtn.style.display = 'block';
-     if(exitBtn) exitBtn.textContent = 'EXIT TO MENU';
-     exitBtn.onclick = () => {
-         hideOverlay();
-         document.getElementById('dpad').style.display = 'none';
-         document.getElementById('start-overlay').style.display = 'flex';
-     };
-  }
-
-  const setUpDpBtn = (id, dr, dc) => {
-     const btn = document.getElementById(id);
-     btn.addEventListener('pointerdown', e => {
-         e.preventDefault();
-         if(!state.isSnake || !snakeState) return;
-         const dir = snakeState.dir;
-         if (dr !== 0 && dir.dr !== -dr) snakeState.nextDir = {dr, dc};
-         if (dc !== 0 && dir.dc !== -dc) snakeState.nextDir = {dr, dc};
-     });
-  };
-  setUpDpBtn('dp-up', -1, 0);
-  setUpDpBtn('dp-down', 1, 0);
-  setUpDpBtn('dp-left', 0, -1);
-  setUpDpBtn('dp-right', 0, 1);
-
-  let slotState = null;
-
-  const SLOT_SYMBOLS = [
-      { s: 'Æ', w: 3, p3: 500, p2: 50, p1: 5 },
-      { s: '★', w: 8, p3: 100, p2: 10, p1: 0 },
-      { s: '✚', w: 15, p3: 50, p2: 5, p1: 0 },
-      { s: '◆', w: 20, p3: 20, p2: 2, p1: 0 },
-      { s: '●', w: 24, p3: 10, p2: 1, p1: 0 },
-      { s: '▲', w: 30, p3: 5, p2: 1, p1: 0 },
-  ];
-
-  function getRandomSymbol() {
-      let r = Math.random() * 100;
-      for(let sym of SLOT_SYMBOLS) {
-          if(r < sym.w) return sym;
-          r -= sym.w;
-      }
-      return SLOT_SYMBOLS[SLOT_SYMBOLS.length-1];
-  }
-
-  function playSpinSound() {
-      tone(150, 0.1, 'square', 0.05);
-      setTimeout(() => tone(200, 0.1, 'square', 0.05), 100);
-  }
-
-  function playReelStopSound() {
-      tone(400, 0.1, 'sine', 0.1);
-  }
-
-  function playWinSoundSlot(amt) {
-      if (amt > 20) {
-          playWinSound();
-          setTimeout(playWinSound, 200);
-      } else {
-          tone(400, 0.1, 'sine', 0.1);
-          tone(600, 0.2, 'sine', 0.1, 0.1);
-      }
-  }
-
-  function playJackpotSound() {
-      for(let i=0; i<10; i++) {
-          setTimeout(() => {
-              tone(400 + i*50, 0.1, 'square', 0.1);
-              tone(600 + i*50, 0.1, 'sine', 0.1, 0.1);
-          }, i * 150);
-      }
-  }
-
-  function playLoseSoundSlot() {
-      tone(200, 0.3, 'sawtooth', 0.1);
-  }
-
-  function startSlotGame() {
-      state.isSlot = true;
-      state.isSnake = false;
-      document.getElementById('dpad').style.display = 'none';
-      
-      slotState = {
-          credits: 666,
-          bet: 1,
-          spinning: false,
-          reels: ['▲', '▲', '▲']
-      };
-      
-      panX = 0; panY = 0; zoom = 1; applyTransform();
-      boardWrapper.innerHTML = '';
-      
-      const slotUI = document.createElement('div');
-      slotUI.style.width = '100%';
-      slotUI.style.height = '100%';
-      slotUI.style.display = 'flex';
-      slotUI.style.flexDirection = 'column';
-      slotUI.style.alignItems = 'center';
-      slotUI.style.justifyContent = 'center';
-      slotUI.style.gap = '20px';
-      
-      const reelContainer = document.createElement('div');
-      reelContainer.style.display = 'flex';
-      reelContainer.style.gap = '10px';
-      
-      slotState.reelEls = [];
-      for(let i=0; i<3; i++) {
-          const reel = document.createElement('div');
-          reel.style.width = '70px';
-          reel.style.height = '100px';
-          reel.style.background = 'var(--bg)';
-          reel.style.border = '2px solid var(--border)';
-          reel.style.display = 'flex';
-          reel.style.alignItems = 'center';
-          reel.style.justifyContent = 'center';
-          reel.style.fontSize = '40px';
-          reel.style.color = 'var(--text)';
-          reel.style.overflow = 'hidden';
-          reel.textContent = slotState.reels[i];
-          reelContainer.appendChild(reel);
-          slotState.reelEls.push(reel);
-      }
-      
-      const controlContainer = document.createElement('div');
-      controlContainer.style.display = 'flex';
-      controlContainer.style.gap = '15px';
-      
-      const betBtn = document.createElement('button');
-      if(betBtn) betBtn.textContent = 'BET: ' + slotState.bet;
-      betBtn.className = 'ctl-btn';
-      betBtn.onclick = () => {
-          if (slotState.spinning) return;
-          slotState.bet = slotState.bet >= 4 ? 1 : slotState.bet + 1;
-          if(betBtn) betBtn.textContent = 'BET: ' + slotState.bet;
-      };
-      
-      const spinBtn = document.createElement('button');
-      if(spinBtn) spinBtn.textContent = 'SPIN';
-      spinBtn.className = 'ctl-btn';
-      spinBtn.style.background = 'var(--cyan)';
-      spinBtn.style.color = 'var(--bg)';
-      spinBtn.onclick = spinSlots;
-      
-      controlContainer.appendChild(betBtn);
-      controlContainer.appendChild(spinBtn);
-      
-      const msgEl = document.createElement('div');
-      msgEl.style.fontSize = '18px';
-      msgEl.style.height = '24px';
-      msgEl.style.color = 'var(--mag)';
-      msgEl.style.fontFamily = "'Orbitron', monospace";
-      if(msgEl) msgEl.textContent = 'READY';
-      slotState.msgEl = msgEl;
-      
-      slotUI.appendChild(reelContainer);
-      slotUI.appendChild(controlContainer);
-      slotUI.appendChild(msgEl);
-      boardWrapper.appendChild(slotUI);
-      
-      updateSlotTopBar();
-  }
-
-  function updateSlotTopBar() {
-      (function(){ const _el = document.getElementById('levelCode'); if(_el) _el.textContent = 'SLOTS'; })();
-      (function(){ const _el = document.getElementById('levelNum'); if(_el) _el.textContent = 'CREDITS: ' + slotState.credits; })();
-  }
-
-  function spinSlots() {
-      if (slotState.spinning) return;
-      if (slotState.credits < slotState.bet) {
-          if(slotState.msgEl) slotState.msgEl.textContent = 'NOT ENOUGH CREDITS';
-          return;
-      }
-      
-      slotState.spinning = true;
-      slotState.credits -= slotState.bet;
-      updateSlotTopBar();
-      if(slotState.msgEl) slotState.msgEl.textContent = 'SPINNING...';
-      
-      playSpinSound();
-      
-      let spins = [10, 20, 30];
-      let tick = 0;
-      let finalSymbols = [null, null, null];
-      
-      const interval = setInterval(() => {
-          tick++;
-          let allDone = true;
-          
-          for(let i=0; i<3; i++) {
-              if (tick < spins[i]) {
-                  allDone = false;
-                  slotState.reelEls[i].textContent = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)].s;
-                  slotState.reelEls[i].style.transform = `translateY(${(tick%2===0)?-10:10}px)`;
-              } else {
-                  if (!finalSymbols[i]) {
-                      finalSymbols[i] = getRandomSymbol();
-                      slotState.reelEls[i].textContent = finalSymbols[i].s;
-                      slotState.reelEls[i].style.transform = 'translateY(0)';
-                      playReelStopSound();
-                  }
-              }
-          }
-          
-          if (allDone) {
-              clearInterval(interval);
-              slotState.spinning = false;
-              checkSlotWin(finalSymbols);
-          }
-      }, 50);
-  }
-
-  function checkSlotWin(symbols) {
-      let win = 0;
-      let s0 = symbols[0], s1 = symbols[1], s2 = symbols[2];
-      
-      if (s0.s === s1.s && s1.s === s2.s) {
-          win = s0.p3 * slotState.bet;
-      } else if (s0.s === s1.s) {
-          win = s0.p2 * slotState.bet;
-      } else if (s0.p1 > 0) {
-          win = s0.p1 * slotState.bet;
-      }
-      
-      if (win > 0) {
-          slotState.credits += win;
-          updateSlotTopBar();
-          if(slotState.msgEl) slotState.msgEl.textContent = 'WIN ' + win + ' !';
-          
-          if (s0.s === 'Æ' && win >= (500 * slotState.bet)) {
-              playJackpotSound();
-          } else {
-              playWinSoundSlot(win);
-          }
-      } else {
-          if(slotState.msgEl) slotState.msgEl.textContent = 'NO WIN';
-          playLoseSoundSlot();
-          
-          if (slotState.credits <= 0) {
-              setTimeout(slotGameOver, 1000);
-          }
-      }
-  }
-
-  function slotGameOver() {
-      showOverlay('lose', 'BANKRUPT', 'You ran out of credits.', 'INSERT COIN', () => {
-          hideOverlay();
-          startSlotGame();
-      });
-      const exitBtn = document.getElementById('overlayExitBtn');
-      exitBtn.style.display = 'block';
-      if(exitBtn) exitBtn.textContent = 'EXIT TO MENU';
-      exitBtn.onclick = () => {
-          hideOverlay();
-          document.getElementById('start-overlay').style.display = 'flex';
-      };
-  }
-  document.getElementById('slotPlayBtn')?.addEventListener('click', () => {
-    document.getElementById('start-overlay').style.display='none';
-    unlockAudio();
-    startSlotGame();
-  });
-
-  
-  
-  
-
-  /* ═══════════════════════════════════════════════════════════
-     THEME SYSTEM (same variable set + override mechanism as the
-     Æ-Interface theme editor)
-     ═══════════════════════════════════════════════════════════ */
-  const THEME_VARS = [
+const THEME_VARS = [
     { key:'cyan', label:'Primary (Cyan)' },
     { key:'mag', label:'Secondary (Magenta)' },
     { key:'purple', label:'Purple accent' },
@@ -1353,6 +1100,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   function resetAllThemeColors(){ dispState.customColors={}; saveDisp(); applyDisp(); renderThemeEditor(); }
 
   function applyHardMode(){
+    for(let k in themeCache) delete themeCache[k];
     const active = dispState.hardMode && dispState.bgImage;
     boardViewport.style.backgroundImage = active ? 'url("'+dispState.bgImage+'")' : '';
     boardViewport.classList.toggle('hardmode-bg', !!active);
@@ -1366,6 +1114,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   }
 
   function applyDisp(){
+    for(let k in themeCache) delete themeCache[k];
     const r=document.body;
     document.body.classList.toggle('light', dispState.theme==='light');
     document.getElementById('mode-dark').classList.toggle('active', dispState.theme==='dark');
@@ -1392,7 +1141,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     }
     const quickThemeBtn = document.getElementById('quickThemeToggleBtn');
     if (quickThemeBtn) {
-      if (quickThemeBtn) quickThemeBtn.textContent = dispState.theme === 'light' ? '🌙' : '☀️';
+      quickThemeBtn.textContent = dispState.theme === 'light' ? '🌙' : '☀️';
     }
     applyHardMode();
   }
