@@ -9,11 +9,11 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --cyan:#00f5ff;--mag:#ff00c8;--purple:#b026ff;--b-accent:#ffb000;
+  --cyan:#00bbc2;--mag:#ff00c8;--purple:#b026ff;--b-accent:#ffb000;
   --bg:#03030a;--bg2:#07070f;--bg3:#050510;
   --border:#1e1e3a;--text:#c0c0d0;--bright:#e0e0f0;--dim:#404060;--dead:#252535;
   --danger:#ff3b5c;--ok:#4ce6a0;
-  --cyan-rgb:0,245,255;--mag-rgb:255,0,200;
+  --cyan-rgb:0,187,194;--mag-rgb:255,0,200;
   --font-size:13px;
 }
 body.light{
@@ -347,6 +347,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
     <button class="zbtn" id="toggleGlitch" style="display:none;" title="Toggle Glitch Animation">GLITCH: FAST</button>
     <button class="zbtn" id="quickMuteMusicBtn" style="width:auto; padding:0 6px; font-size:12px; margin-left:4px;" title="Mute/Unmute Music">🔊</button>
     <button class="zbtn" id="quickSkipTrackBtn" style="width:auto; padding:0 6px; font-size:12px; margin-left:4px;" title="Skip Track">⏭</button>
+    <button class="zbtn" id="quickThemeToggleBtn" style="width:auto; padding:0 6px; font-size:12px; margin-left:4px;" title="Toggle Light/Dark Mode">☀️</button>
   </div>
 
   <div id="boardViewport">
@@ -869,6 +870,10 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
       quickMuteBtn.textContent = dispState.musicMuted ? '🔇' : '🔊';
       quickMuteBtn.style.opacity = dispState.musicMuted ? '0.5' : '1';
     }
+    const quickThemeBtn = document.getElementById('quickThemeToggleBtn');
+    if (quickThemeBtn) {
+      quickThemeBtn.textContent = dispState.theme === 'light' ? '🌙' : '☀️';
+    }
     applyHardMode();
   }
   function saveDisp(){ try{ localStorage.setItem(DISP_KEY, JSON.stringify(dispState)); }catch(e){} }
@@ -931,6 +936,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
   }
   document.getElementById('quickMuteMusicBtn')?.addEventListener('click', () => { document.getElementById('musicMuteBtn')?.click(); });
   document.getElementById('quickSkipTrackBtn')?.addEventListener('click', () => { document.getElementById('skipTrack')?.click(); });
+  document.getElementById('quickThemeToggleBtn')?.addEventListener('click', () => { toggleMode(dispState.theme === 'light' ? 'dark' : 'light'); });
   document.getElementById('skipTrack')?.addEventListener('click', () => { if(bgAudio && TRACKS.length) playNextTrack(); });
   document.getElementById('musicMuteBtn')?.addEventListener('click', () => {
     dispState.musicMuted=!dispState.musicMuted; saveDisp(); applyDisp();
