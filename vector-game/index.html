@@ -349,9 +349,7 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
         <input type="range" id="musicVol" min="0" max="100" value="45">
       </div>
       <div class="mute-row"><span>Background music</span><button id="musicMuteBtn" class="on">On</button></div>
-      <div class="now-playing"><span class="tname" id="nowPlaying">No tracks loaded</span><button class="theme-reset" id="skipTrack">skip</button></div>
-      <div class="param-desc">Drop your own .ogg files next to this HTML file and list them in the <code>TRACKS</code> array near the top of the script — 3 entries or 300, one plays at random each time the last one ends.</div>
-      <div class="track-list" id="trackListBox"></div>
+      
     </div>
     <div class="set-page" id="tab-display">
       <div class="mute-row"><span>Hard Mode (obscured field)</span><button id="hardModeBtn">Off</button></div>
@@ -368,53 +366,171 @@ input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;b
 </div>
 
 
+
 <script>
-  const TRACKS = [
-    { title: "Nostalgic 8bit", file: "assets/audio/8bit.mp3" },
-    { title: "Synthwave loop", file: "assets/audio/synth.mp3" }
+  const THEME_VARS = [
+    { key:'cyan', label:'Primary (Cyan)' },
+    { key:'mag', label:'Secondary (Magenta)' },
+    { key:'purple', label:'Purple accent' },
+    { key:'b-accent', label:'Alt accent' },
+    { key:'bg', label:'Background' },
+    { key:'bg2', label:'Background 2' },
+    { key:'bg3', label:'Background 3' },
+    { key:'border', label:'Borders' },
+    { key:'text', label:'Text' },
+    { key:'bright', label:'Bright text' },
+    { key:'dim', label:'Dim text' },
+    { key:'dead', label:'Dead / disabled' },
+    { key:'danger', label:'Danger (hearts / mistakes)' },
+    { key:'ok', label:'Success (level cleared)' },
   ];
-  let dispState = { theme:'dark', customColors:{}, sfxVol:60, sfxMuted:false, musicVol:45, musicMuted:false, hardMode:false, bgImage:'' };
   const DISP_KEY = 'vector-escape-disp-v2';
-  
-  function loadDispState(){
-    try {
-      const saved = localStorage.getItem(DISP_KEY);
-      if(saved) dispState = {...dispState, ...JSON.parse(saved)};
-    } catch(e){}
-    applyDisp();
+  let dispState = { theme:'dark', customColors:{}, sfxVol:60, sfxMuted:false, musicVol:45, musicMuted:false, hardMode:false, bgImage:'' };
+
+  function hexFromVar(key){
+    const v = getComputedStyle(document.body).getPropertyValue('--'+key).trim();
+    if(/^#[0-9a-f]{6}$/i.test(v)) return v;
+    const probe=document.createElement('div'); probe.style.color=v; document.body.appendChild(probe);
+    const rgb=getComputedStyle(probe).color.match(/\d+/g); document.body.removeChild(probe);
+    if(!rgb) return '#888888';
+    return '#'+rgb.slice(0,3).map(n=>(+n).toString(16).padStart(2,'0')).join('');
   }
-  
-  function saveDispState(){
-    localStorage.setItem(DISP_KEY, JSON.stringify(dispState));
+  function hexToRgbTriplet(hex){
+    const m=/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex);
+    if(!m) return null;
+    return parseInt(m[1],16)+','+parseInt(m[2],16)+','+parseInt(m[3],16);
   }
-  
-  function applyDisp(){
-    document.body.classList.toggle('light', dispState.theme==='light');
-    if(dispState.bgImage) {
-        document.body.style.backgroundImage = 'url('+dispState.bgImage+')';
+  function renderThemeEditor(){
+    const box=document.getElementById('theme-editor');
+    if(!box) return;
+    box.innerHTML = THEME_VARS.map(({key,label}) => {
+      const val = dispState.customColors[key] || hexFromVar(key);
+      return '<div class="theme-row"><span class="theme-lbl">'+label+'</span>'+
+        '<input type="color" class="theme-swatch" value="'+val+'" data-key="'+key+'"/>'+
+        '<button class="theme-reset" data-reset="'+key+'">reset</button></div>';
+    }).join('');
+    box.querySelectorAll('input[type=color]').forEach(inp => inp.addEventListener('input', e => onThemeColorChange(e.target.dataset.key, e.target.value)));
+    box.querySelectorAll('[data-reset]').forEach(btn => btn.addEventListener('click', e => resetThemeColor(e.target.dataset.reset)));
+  }
+  function onThemeColorChange(key,val){ dispState.customColors[key]=val; saveDisp(); applyDisp(); }
+  function resetThemeColor(key){ delete dispState.customColors[key]; saveDisp(); applyDisp(); renderThemeEditor(); }
+  function resetAllThemeColors(){ dispState.customColors={}; saveDisp(); applyDisp(); renderThemeEditor(); }
+
+  function applyHardMode(){
+    const active = dispState.hardMode && dispState.bgImage;
+    if (active) {
+        document.body.style.backgroundImage = 'url("'+dispState.bgImage+'")';
         document.body.style.backgroundSize = 'cover';
         document.body.style.backgroundPosition = 'center';
     } else {
         document.body.style.backgroundImage = '';
     }
+    const btn = document.getElementById('hardModeBtn');
+    if(btn) btn.textContent = dispState.hardMode?'On':'Off';
+    if(btn) btn.classList.toggle('on', dispState.hardMode);
+    
+    const prev = document.getElementById('bgPreview');
+    if(prev) {
+        if(dispState.bgImage){ prev.src=dispState.bgImage; prev.style.display='block'; }
+        else { prev.style.display='none'; prev.src=''; }
+    }
   }
+
+  function applyDisp(){
+    const r=document.body;
+    document.body.classList.toggle('light', dispState.theme==='light');
+    const dBtn = document.getElementById('mode-dark');
+    const lBtn = document.getElementById('mode-light');
+    if(dBtn) dBtn.classList.toggle('active', dispState.theme==='dark');
+    if(lBtn) lBtn.classList.toggle('active', dispState.theme==='light');
+
+    THEME_VARS.forEach(({key}) => r.style.removeProperty('--'+key));
+    r.style.removeProperty('--cyan-rgb'); r.style.removeProperty('--mag-rgb');
+    Object.entries(dispState.customColors||{}).forEach(([key,val]) => {
+      r.style.setProperty('--'+key, val);
+      if(key==='cyan'||key==='mag'){ const trip=hexToRgbTriplet(val); if(trip) r.style.setProperty('--'+key+'-rgb', trip); }
+    });
+
+    (function(){ const _el = document.getElementById('sfxVol'); if(_el) _el.value = dispState.sfxVol; })();
+    (function(){ const _el = document.getElementById('sfxValLbl'); if(_el) _el.textContent = dispState.sfxVol+'%'; })();
+    (function(){ const _el = document.getElementById('musicVol'); if(_el) _el.value = dispState.musicVol; })();
+    (function(){ const _el = document.getElementById('musicValLbl'); if(_el) _el.textContent = dispState.musicVol+'%'; })();
+    (function(){ const _el = document.getElementById('sfxMuteBtn'); if(_el) _el.textContent = dispState.sfxMuted?'Off':'On'; })();
+    const sfxBtn = document.getElementById('sfxMuteBtn');
+    if(sfxBtn) sfxBtn.classList.toggle('on', !dispState.sfxMuted);
+    
+    (function(){ const _el = document.getElementById('musicMuteBtn'); if(_el) _el.textContent = dispState.musicMuted?'Off':'On'; })();
+    const mBtn = document.getElementById('musicMuteBtn');
+    if (mBtn) mBtn.classList.toggle('on', !dispState.musicMuted);
+
+    applyHardMode();
+  }
+
+  function saveDisp(){ try{ localStorage.setItem(DISP_KEY, JSON.stringify(dispState)); }catch(e){} }
   
-  document.getElementById('settings-btn')?.addEventListener('click', () => {
-      document.getElementById('settings-scrim').classList.add('open');
-      document.getElementById('settings-panel').classList.add('open');
+  function loadDisp(){
+    try{ const d=JSON.parse(localStorage.getItem(DISP_KEY)||'{}'); Object.assign(dispState,d);
+      if(!dispState.customColors) dispState.customColors={}; }catch(e){}
+    applyDisp(); renderThemeEditor();
+  }
+
+  function toggleMode(mode){ dispState.theme=mode; saveDisp(); applyDisp(); renderThemeEditor(); }
+  document.getElementById('mode-dark')?.addEventListener('click', () => toggleMode('dark'));
+  document.getElementById('mode-light')?.addEventListener('click', () => toggleMode('light'));
+  document.getElementById('resetAllColors')?.addEventListener('click', resetAllThemeColors);
+  
+  document.getElementById('sfxVol')?.addEventListener('input', e => {
+      dispState.sfxVol = e.target.value;
+      saveDisp(); applyDisp();
   });
-  
-  document.getElementById('settings-close')?.addEventListener('click', () => {
-      document.getElementById('settings-scrim').classList.remove('open');
-      document.getElementById('settings-panel').classList.remove('open');
+  document.getElementById('musicVol')?.addEventListener('input', e => {
+      dispState.musicVol = e.target.value;
+      saveDisp(); applyDisp();
   });
-  
-  document.getElementById('settings-scrim')?.addEventListener('click', () => {
-      document.getElementById('settings-close').click();
+  document.getElementById('sfxMuteBtn')?.addEventListener('click', () => {
+      dispState.sfxMuted = !dispState.sfxMuted;
+      saveDisp(); applyDisp();
   });
-  
-  loadDispState();
+  document.getElementById('musicMuteBtn')?.addEventListener('click', () => {
+      dispState.musicMuted = !dispState.musicMuted;
+      saveDisp(); applyDisp();
+  });
+
+  document.getElementById('hardModeBtn')?.addEventListener('click', () => { dispState.hardMode=!dispState.hardMode; saveDisp(); applyHardMode(); });
+  document.getElementById('bgUrlLoad')?.addEventListener('click', () => {
+    const el = document.getElementById('bgUrlInput');
+    if (!el) return;
+    const url = el.value.trim();
+    if(url){ dispState.bgImage=url; saveDisp(); applyHardMode(); }
+  });
+  document.getElementById('bgFileInput')?.addEventListener('change', e => {
+    const file=e.target.files[0]; if(!file) return;
+    const reader=new FileReader();
+    reader.onload=() => { dispState.bgImage=reader.result; saveDisp(); applyHardMode(); };
+    reader.readAsDataURL(file);
+  });
+  document.getElementById('bgClear')?.addEventListener('click', () => { dispState.bgImage=''; (function(){ const _el = document.getElementById('bgUrlInput'); if(_el) _el.value = ''; })(); saveDisp(); applyHardMode(); });
+
+  /* settings panel open/close + tabs */
+  const scrim=document.getElementById('settings-scrim');
+  const panel=document.getElementById('settings-panel');
+  document.getElementById('settings-btn')?.addEventListener('click', () => { scrim?.classList.add('open'); panel?.classList.add('open'); });
+  document.getElementById('settings-close')?.addEventListener('click', () => { scrim?.classList.remove('open'); panel?.classList.remove('open'); });
+  scrim?.addEventListener('click', () => { scrim?.classList.remove('open'); panel?.classList.remove('open'); });
+
+  document.querySelectorAll('.set-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.set-tab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.set-page').forEach(p=>p.classList.remove('active'));
+      tab.classList.add('active');
+      const page = document.getElementById('tab-'+tab.dataset.tab);
+      if(page) page.classList.add('active');
+    });
+  });
+
+  loadDisp();
 </script>
+
 
 </body>
 </html>
