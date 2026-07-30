@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ÆVOLUTION MD-Text Forge</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #03030a;
+      color: #00f5ff;
+      font-family: 'Share Tech Mono', monospace;
+      padding: 40px 20px;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 245, 255, 0.015) 2px, rgba(0, 245, 255, 0.015) 4px);
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 2.2rem;
+      font-weight: 900;
+      text-shadow: 0 0 20px #00f5ff;
+      color: #00f5ff;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .forge-container {
+      display: flex;
+      width: 100%;
+      max-width: 1200px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .panel {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      font-family: 'Orbitron', monospace;
+      color: #ff00c8;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(255,0,200,0.5);
+    }
+
+    textarea {
+      width: 100%;
+      height: 400px;
+      background: rgba(0, 245, 255, 0.03);
+      color: rgba(0, 245, 255, 0.85);
+      border: 1px solid rgba(0, 245, 255, 0.4);
+      padding: 15px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 14px;
+      resize: vertical;
+      outline: none;
+      transition: all 0.3s;
+      line-height: 1.5;
+    }
+
+    textarea:focus {
+      border-color: #00f5ff;
+      box-shadow: 0 0 15px rgba(0, 245, 255, 0.2), inset 0 0 15px rgba(0, 245, 255, 0.03);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: transparent;
+      color: #ff00c8;
+      border: 1px solid #ff00c8;
+      padding: 8px 12px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    button:hover {
+      background: #ff00c8;
+      color: #03030a;
+      box-shadow: 0 0 15px rgba(255, 0, 200, 0.5);
+    }
+
+    .convert-btn {
+      color: #00f5ff;
+      border-color: #00f5ff;
+      margin-top: 15px;
+      padding: 12px 20px;
+      font-weight: bold;
+    }
+
+    .convert-btn:hover {
+      background: #00f5ff;
+      color: #03030a;
+      box-shadow: 0 0 20px rgba(0, 245, 255, 0.6);
+    }
+
+    /* Live Preview Panel */
+    #previewPanel {
+      width: 100%;
+      height: 400px;
+      background: rgba(0, 245, 255, 0.03);
+      border: 1px solid rgba(0, 245, 255, 0.4);
+      padding: 15px;
+      overflow-y: auto;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    #previewPanel h1, #previewPanel h2, #previewPanel h3,
+    #previewPanel h4, #previewPanel h5, #previewPanel h6 {
+      font-family: 'Orbitron', monospace;
+      color: #00f5ff;
+      margin: 15px 0 10px;
+      text-shadow: 0 0 8px rgba(0, 245, 255, 0.4);
+    }
+    #previewPanel h1 { font-size: 1.6rem; }
+    #previewPanel h2 { font-size: 1.3rem; }
+    #previewPanel h3 { font-size: 1.1rem; }
+    #previewPanel h4 { font-size: 1rem; }
+    #previewPanel h5 { font-size: 0.9rem; }
+    #previewPanel h6 { font-size: 0.8rem; color: rgba(0,245,255,0.6); }
+
+    #previewPanel p { margin-bottom: 12px; color: rgba(0, 245, 255, 0.85); font-size: 0.9rem; }
+    #previewPanel strong { color: #ff00c8; text-shadow: 0 0 6px rgba(255, 0, 200, 0.3); }
+    #previewPanel em { color: rgba(255, 0, 200, 0.8); font-style: italic; }
+
+    #previewPanel blockquote {
+      border-left: 3px solid #ff00c8;
+      padding: 8px 15px;
+      margin: 12px 0;
+      background: rgba(255, 0, 200, 0.05);
+      color: rgba(0, 245, 255, 0.7);
+      font-style: italic;
+    }
+
+    #previewPanel a { color: #ff00c8; text-decoration: none; }
+    #previewPanel a:hover { text-shadow: 0 0 8px #ff00c8; }
+
+    #previewPanel code {
+      background: rgba(0, 245, 255, 0.08);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      padding: 2px 6px;
+      color: #00f5ff;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem;
+    }
+
+    #previewPanel pre {
+      background: rgba(0, 245, 255, 0.05);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      padding: 12px;
+      margin: 12px 0;
+      overflow-x: auto;
+    }
+
+    #previewPanel ul, #previewPanel ol {
+      margin: 10px 0 10px 20px;
+      color: rgba(0, 245, 255, 0.85);
+      font-size: 0.9rem;
+    }
+
+    #previewPanel li { margin-bottom: 5px; }
+
+    #previewPanel hr {
+      border: none;
+      border-top: 1px solid rgba(255, 0, 200, 0.3);
+      margin: 20px 0;
+    }
+
+    .preview-placeholder {
+      color: rgba(0, 245, 255, 0.2);
+      font-style: italic;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    /* Cheat Sheet */
+    .cheatsheet-toggle {
+      margin-top: 30px;
+      width: 100%;
+      max-width: 1200px;
+      border: 1px solid rgba(0,245,255,0.2);
+    }
+
+    .cheatsheet-toggle summary {
+      font-family: 'Orbitron', monospace;
+      color: #00f5ff;
+      font-size: 0.95rem;
+      padding: 12px 20px;
+      cursor: pointer;
+      background: rgba(0,245,255,0.03);
+      border-bottom: 1px solid rgba(0,245,255,0.1);
+      list-style: none;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .cheatsheet-toggle summary:hover { background: rgba(0,245,255,0.07); }
+    .cheatsheet-toggle summary::before { content: '▶  '; color: #ff00c8; }
+    .cheatsheet-toggle[open] summary::before { content: '▼  '; }
+
+    .cheatsheet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1px;
+      background: rgba(0,245,255,0.08);
+      border-top: 1px solid rgba(0,245,255,0.1);
+    }
+
+    .cheat-item {
+      background: #03030a;
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .cheat-syntax {
+      font-family: 'Share Tech Mono', monospace;
+      color: #ff00c8;
+      font-size: 0.85rem;
+    }
+
+    .cheat-desc {
+      color: rgba(0,245,255,0.55);
+      font-size: 0.78rem;
+    }
+
+    .cheat-section-label {
+      grid-column: 1 / -1;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      color: rgba(0,245,255,0.3);
+      padding: 8px 18px 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: #03030a;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>The Markdown Forge</h1>
+
+  <div class="forge-container">
+
+    <!-- Markdown Side -->
+    <div class="panel">
+      <div class="panel-header">MARKDOWN INPUT</div>
+      <div class="toolbar">
+        <button onclick="insertSyntax('# ', '')">H1</button>
+        <button onclick="insertSyntax('## ', '')">H2</button>
+        <button onclick="insertSyntax('### ', '')">H3</button>
+        <button onclick="insertSyntax('#### ', '')">H4</button>
+        <button onclick="insertSyntax('##### ', '')">H5</button>
+        <button onclick="insertSyntax('###### ', '')">H6</button>
+        <button onclick="insertSyntax('**', '**')">Bold</button>
+        <button onclick="insertSyntax('*', '*')">Italic</button>
+        <button onclick="insertSyntax('***', '***')">B+I</button>
+        <button onclick="insertSyntax('> ', '')">Quote</button>
+        <button onclick="insertSyntax('- ', '')">List</button>
+        <button onclick="insertSyntax('1. ', '')">Num</button>
+        <button onclick="insertSyntax('`', '`')">Code</button>
+        <button onclick="insertDivider()">---</button>
+        <button onclick="insertSyntax('[LinkText](url)', '')">Link</button>
+      </div>
+      <textarea id="mdInput" placeholder="Enter or forge your Markdown here..."></textarea>
+      <button class="convert-btn" onclick="extractPlainText()">Extract Plain Text >></button>
+    </div>
+
+    <!-- Live Preview Side -->
+    <div class="panel">
+      <div class="panel-header">LIVE PREVIEW</div>
+      <div class="toolbar" style="visibility: hidden;">
+        <button>Spacer</button>
+      </div>
+      <div id="previewPanel">
+        <p class="preview-placeholder">// Start typing on the left to see rendered output here...</p>
+      </div>
+      <button class="convert-btn" style="color: #ff00c8; border-color: #ff00c8;" onclick="extractPlainText()">Extract Plain Text >></button>
+    </div>
+
+  </div>
+
+  <!-- Cheat Sheet -->
+  <details class="cheatsheet-toggle">
+    <summary>Markdown Cheat Sheet</summary>
+    <div class="cheatsheet-grid">
+
+      <div class="cheat-section-label">Headings</div>
+      <div class="cheat-item"><span class="cheat-syntax"># Heading 1</span><span class="cheat-desc">Largest heading. One per doc usually.</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">## Heading 2</span><span class="cheat-desc">Section title. Most common heading level.</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">### Heading 3</span><span class="cheat-desc">Sub-section title.</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">#### Heading 4</span><span class="cheat-desc">Getting smaller. Good for nested structure.</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">##### Heading 5</span><span class="cheat-desc">Subtle sub-label.</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">###### Heading 6</span><span class="cheat-desc">The whisper. Barely a heading.</span></div>
+
+      <div class="cheat-section-label">Emphasis</div>
+      <div class="cheat-item"><span class="cheat-syntax">**bold text**</span><span class="cheat-desc">Strong emphasis. Renders in magenta here.</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">*italic text*</span><span class="cheat-desc">Soft emphasis. Angled, pink tone.</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">***bold and italic***</span><span class="cheat-desc">Both at once. Maximum drama.</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">~~strikethrough~~</span><span class="cheat-desc">Cross something out.</span></div>
+
+      <div class="cheat-section-label">Lists</div>
+      <div class="cheat-item"><span class="cheat-syntax">- item<br>- item<br>- item</span><span class="cheat-desc">Unordered bullet list. Also works with * or +</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">1. first<br>2. second<br>3. third</span><span class="cheat-desc">Ordered / numbered list.</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">- item<br>&nbsp;&nbsp;- nested<br>&nbsp;&nbsp;- nested</span><span class="cheat-desc">Indent 2 spaces to nest a sub-list.</span></div>
+
+      <div class="cheat-section-label">Blocks & Dividers</div>
+      <div class="cheat-item"><span class="cheat-syntax">> quoted text</span><span class="cheat-desc">Blockquote. Pink left border in this forge.</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">---</span><span class="cheat-desc">Horizontal rule. Draws a divider line.</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">`inline code`</span><span class="cheat-desc">Highlights a word or short snippet inline.</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">```<br>code block<br>```</span><span class="cheat-desc">Fenced code block. For multi-line code.</span></div>
+
+      <div class="cheat-section-label">Links & Combos</div>
+      <div class="cheat-item"><span class="cheat-syntax">[Link Text](https://url.com)</span><span class="cheat-desc">Clickable hyperlink. Text shown, URL hidden.</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">## **Bold Header**</span><span class="cheat-desc">Combine heading + bold. Cyan header, magenta text inside.</span></div>
+      <div class="cheat-item"><span class="cheat-syntax">> **Bold** in a quote</span><span class="cheat-desc">Format inside blockquotes works too.</span></div>
+
+    </div>
+  </details>
+
+  <script>
+    function insertSyntax(prefix, suffix) {
+      const textarea = document.getElementById('mdInput');
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const text = textarea.value;
+      const selected = text.substring(start, end);
+
+      textarea.value = text.substring(0, start) + prefix + selected + suffix + text.substring(end);
+      textarea.focus();
+      textarea.selectionStart = start + prefix.length;
+      textarea.selectionEnd = start + prefix.length + selected.length;
+      updatePreview();
+    }
+
+    function insertDivider() {
+      const textarea = document.getElementById('mdInput');
+      const pos = textarea.selectionStart;
+      const text = textarea.value;
+      const divider = '\n---\n';
+      textarea.value = text.substring(0, pos) + divider + text.substring(pos);
+      textarea.focus();
+      textarea.selectionStart = textarea.selectionEnd = pos + divider.length;
+      updatePreview();
+    }
+
+    function updatePreview() {
+      const md = document.getElementById('mdInput').value;
+      const preview = document.getElementById('previewPanel');
+      if (md.trim() === '') {
+        preview.innerHTML = '<p class="preview-placeholder">// Start typing on the left to see rendered output here...</p>';
+      } else {
+        preview.innerHTML = marked.parse(md);
+      }
+    }
+
+    function extractPlainText() {
+      let md = document.getElementById('mdInput').value;
+      md = md.replace(/^#+\s/gm, '');
+      md = md.replace(/\*\*(.*?)\*\*/g, '$1');
+      md = md.replace(/\*(.*?)\*/g, '$1');
+      md = md.replace(/_(.*?)_/g, '$1');
+      md = md.replace(/`(.*?)`/g, '$1');
+      md = md.replace(/\[(.*?)\]\((.*?)\)/g, '$1');
+      md = md.replace(/^\>\s/gm, '');
+      md = md.replace(/^\-\s/gm, '');
+      md = md.replace(/^---$/gm, '');
+
+      const overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(3,3,10,0.92);backdrop-filter:blur(4px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;padding:30px;';
+      overlay.innerHTML = `
+        <div style="font-family:'Orbitron',monospace;color:#00f5ff;margin-bottom:15px;font-size:1.1rem;text-shadow:0 0 10px #00f5ff;">// PLAIN TEXT EXTRACTED — SELECT ALL & COPY</div>
+        <textarea style="width:100%;max-width:700px;height:300px;background:rgba(0,245,255,0.05);color:rgba(0,245,255,0.9);border:1px solid #ff00c8;padding:15px;font-family:'Share Tech Mono',monospace;font-size:14px;outline:none;resize:vertical;">${md}</textarea>
+        <button onclick="this.parentElement.remove()" style="margin-top:15px;background:transparent;color:#ff00c8;border:1px solid #ff00c8;padding:10px 25px;font-family:'Orbitron',monospace;font-size:0.85rem;cursor:pointer;text-transform:uppercase;">Close</button>
+      `;
+      document.body.appendChild(overlay);
+      overlay.querySelector('textarea').select();
+    }
+
+    document.getElementById('mdInput').addEventListener('input', updatePreview);
+  </script>
+
+</body>
+</html>
