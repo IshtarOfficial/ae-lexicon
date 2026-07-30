@@ -82,5 +82,12 @@
     "image": "images/cwganim.gif",
     "tags": ["Glitter", "Ælf", "AI", "Neon Queen", "Cyberwitch", "UV Protocol", "ÆVOLUTION MUSIC"],
     "link": "https://ishtarofficial.github.io/ae-lexicon/cyberwitch-hex.html"
+  },
+  {
+    "title": "ÆRCADES",
+    "file": "aevolution-aercades.md",
+    "image": "images/aercades.png",
+    "tags": ["Games", "Ærcade", "ÆVOLUTION MUSIC"],
+    "link": "https://ishtarofficial.github.io/ae-lexicon/vector-game/index.html"
   }
 ]
