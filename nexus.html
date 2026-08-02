@@ -89,6 +89,7 @@
     #modalContent {
       background: var(--bg); border: 1px solid var(--mag); box-shadow: 0 0 30px rgba(var(--mag-rgb),0.2);
       max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 30px; position: relative;
+      transform-origin: center; transition: transform 0.1s ease-out; user-select: none;
     }
     .close-btn { position: absolute; top: 15px; right: 20px; color: var(--cyan); font-size: 1.5rem; cursor: pointer; font-family: 'Orbitron', monospace; }
     .close-btn:hover { color: var(--mag); text-shadow: 0 0 10px var(--mag); }
@@ -124,7 +125,6 @@
     .md-body td { border-bottom: 1px solid rgba(var(--cyan-rgb),0.1); padding: 8px 12px; color: rgba(var(--cyan-rgb), 0.8); }
 
     .zoom-hint { color: var(--dim); font-size: 0.8rem; text-align: center; margin-top: 16px; font-style: italic; }
-    @media (min-width: 768px) { .zoom-hint { display: none; } }
     
     #modalFooter { margin-top: 16px; padding-top: 20px; border-top: 1px solid rgba(var(--mag-rgb),0.2); display: flex; flex-wrap: wrap; gap: 10px; position: relative; z-index: 10; background: var(--bg); }
     .footer-tag { background: transparent; border: 1px solid var(--cyan); color: var(--cyan); padding: 5px 12px; font-size: 0.75rem; cursor: pointer; transition: 0.2s; }
@@ -192,7 +192,7 @@
       <div id="modalImage">Æ</div>
       <h2 id="modalHeader">Title</h2>
       <div id="modalSub">Subtitle / Link</div>
-      <div class="md-body" id="modalMarkdown" style="transform-origin: center; transition: transform 0.1s ease-out; user-select: none;">Loading...</div>
+      <div class="md-body" id="modalMarkdown">Loading...</div>
       
       <div class="zoom-hint">💡 Press and hold to zoom and pan</div>
 
@@ -401,13 +401,13 @@
     document.getElementById('searchBar').addEventListener('input', filterGrid);
     
     // --- ZOOM AND PAN LOGIC ---
-    const modalMarkdown = document.getElementById('modalMarkdown');
+    const zoomTarget = document.getElementById('modalContent');
     let zoomActive = false;
     let zoomTimer = null;
     let startX = 0;
     let startY = 0;
 
-    modalMarkdown.addEventListener('pointerdown', (e) => {
+    zoomTarget.addEventListener('pointerdown', (e) => {
       if (!e.isPrimary) return;
       startX = e.clientX;
       startY = e.clientY;
@@ -416,18 +416,17 @@
       if (zoomTimer) clearTimeout(zoomTimer);
       zoomTimer = setTimeout(() => {
         zoomActive = true;
-        modalMarkdown.style.transform = `translate(0px, 0px) scale(1.5)`;
-        modalMarkdown.style.zIndex = '50';
-        modalMarkdown.style.position = 'relative';
+        zoomTarget.style.transform = `translate(0px, 0px) scale(2.5)`;
+        zoomTarget.style.zIndex = '50';
       }, 400);
     });
 
-    modalMarkdown.addEventListener('pointermove', (e) => {
+    zoomTarget.addEventListener('pointermove', (e) => {
       if (!e.isPrimary) return;
       if (zoomActive) {
         const deltaX = e.clientX - startX;
         const deltaY = e.clientY - startY;
-        modalMarkdown.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1.5)`;
+        zoomTarget.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(2.5)`;
       } else if (zoomTimer) {
         const dist = Math.hypot(e.clientX - startX, e.clientY - startY);
         if (dist > 10) {
@@ -444,15 +443,14 @@
       }
       if (zoomActive) {
         zoomActive = false;
-        modalMarkdown.style.transform = 'none';
-        modalMarkdown.style.zIndex = '';
-        modalMarkdown.style.position = '';
+        zoomTarget.style.transform = 'none';
+        zoomTarget.style.zIndex = '';
       }
     };
 
-    modalMarkdown.addEventListener('pointerup', resetZoom);
-    modalMarkdown.addEventListener('pointercancel', resetZoom);
-    modalMarkdown.addEventListener('pointerleave', resetZoom);
+    zoomTarget.addEventListener('pointerup', resetZoom);
+    zoomTarget.addEventListener('pointercancel', resetZoom);
+    zoomTarget.addEventListener('pointerleave', resetZoom);
 
     document.addEventListener('touchmove', (e) => {
       if (zoomActive) {
