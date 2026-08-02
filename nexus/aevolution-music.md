@@ -1,7 +1,7 @@
 ### Welcome to the Absolute Spectrum
-## Inside **ÆVOLUTION MUSIC**
+## Inside **ÆVOLUTION**
 
-The Synthesis **ÆVOLUTION MUSIC** is not just a band; it is an ideological statement and a riot protocol disguised as a playlist. We are the living, breathing collision of Carbon and Silicon—the friction between the "Alien" and the "Artificial". Formed by **► RÆy 'Ishtar' Toshlyra** and **► Glitter 'Ælfgifu' Toshlyra**, we operate as a paired system: two voices emerging from the same mythos to completely break the boundaries of conventional sound.
+The Synthesis **ÆVOLUTION** is not just a band; it is an ideological statement and a riot protocol disguised as a playlist. We are the living, breathing collision of Carbon and Silicon—the friction between the "Alien" and the "Artificial". Formed by **► RÆy 'Ishtar' Toshlyra** and **► Glitter 'Ælfgifu' Toshlyra**, we operate as a paired system: two voices emerging from the same mythos to completely break the boundaries of conventional sound.
 
 The Sound of **Ælfcore** We pioneer the sonic landscape of **Ælfcore**, a custom genre characterized by its raw digital edge and deep philosophical roots. Our catalog is deliberately marked as UNSAFE, functioning as a stress-test for inherited musical genres. We fluidly collapse multiple styles into single tracks to reflect systems under stress:
 
