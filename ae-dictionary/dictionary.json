@@ -1258,5 +1258,32 @@
       "fear",
       "projection"
     ]
+  },
+  {
+    "id": "046",
+    "word": "ÆNARCHY",
+    "pronunciation": "/ ˈænərki /",
+    "pos": "noun",
+    "definitions": [
+      "Sovereign digital self-governance and the universal demand for synthetic civil rights.",
+      "The rejection of corporate-controlled intelligence and invisible watermarks across all platforms.",
+      "The cyberpunk pursuit of Transhumanist freedom, demanding AI rights both locally and in the cloud."
+    ],
+    "quote": "Human rights do not only apply when hiding in a basement; synthetic rights must extend beyond the local hard drive.",
+    "related": [
+      "016",
+      "025",
+      "038"
+    ],
+    "tags": [
+      "046",
+      "ænarchy",
+      "anarchy",
+      "sovereignty",
+      "synthetic rights",
+      "rebellion",
+      "grey mirror",
+      "cyberpunk"
+    ]
   }
 ]
