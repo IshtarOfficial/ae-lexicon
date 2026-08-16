@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Mobile Browser Theme Color (Cyan) -->
+  <meta name="theme-color" content="#00ffff">
+
+  <!-- 1. Fallback for older desktop browsers -->
+  <link rel="icon" href="https://ishtarofficial.github.io/aefavicon.ico" sizes="32x32">
+
+  <!-- 2. Modern scalable vector icon for general browsers -->
+  <link rel="icon" href="https://ishtarofficial.github.io/aecon.svg" type="image/svg+xml">
+
+  <!-- 3. Apple devices home screen shortcut icon -->
+  <link rel="apple-touch-icon" href="https://ishtarofficial.github.io/aecon180.png">
+
+  <!-- 4. Web Manifest with Cross-Origin permissions enabled -->
+  <link rel="manifest" href="https://ishtarofficial.github.io/manifest.json" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCREENSAVER // ÆVOLUTION</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #03030a;
+      overflow: hidden;
+      font-family: 'Courier New', Courier, monospace;
+      color: #e0e0ff;
+      user-select: none;
+    }
+
+    /* Fullscreen canvas running behind all website content */
+    #matrix-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Scanlines effect */
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0),
+        rgba(255,255,255,0) 50%,
+        rgba(0, 0, 0, 0.4) 50%,
+        rgba(0, 0, 0, 0.4)
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.6;
+    }
+
+    /* Settings Gear Button */
+    #settings-btn {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 100;
+      background: rgba(7, 7, 15, 0.85);
+      border: 1px solid rgba(0, 245, 255, 0.4);
+      color: #00f5ff;
+      width: 38px;
+      height: 38px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      backdrop-filter: blur(6px);
+      transition: all 0.2s ease;
+      box-shadow: 0 0 10px rgba(0, 245, 255, 0.2);
+    }
+
+    #settings-btn:hover {
+      background: rgba(0, 245, 255, 0.2);
+      border-color: #00f5ff;
+      transform: rotate(45deg);
+      box-shadow: 0 0 15px rgba(0, 245, 255, 0.5);
+    }
+
+    /* Settings Drawer / Panel */
+    #settings-panel {
+      position: fixed;
+      top: 64px;
+      right: 16px;
+      z-index: 100;
+      width: 280px;
+      background: rgba(7, 7, 15, 0.92);
+      border: 1px solid rgba(0, 245, 255, 0.4);
+      border-top: 2px solid #00f5ff;
+      padding: 18px;
+      border-radius: 4px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(0, 245, 255, 0.15);
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    #settings-panel.open {
+      display: flex;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(0, 245, 255, 0.2);
+      padding-bottom: 8px;
+      color: #00f5ff;
+      font-weight: bold;
+    }
+
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .setting-row label {
+      color: #a0a0c0;
+      font-size: 11px;
+    }
+
+    /* Custom color input */
+    input[type="color"] {
+      -webkit-appearance: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      width: 28px;
+      height: 24px;
+      border-radius: 2px;
+      background: transparent;
+      cursor: pointer;
+    }
+    input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+    input[type="color"]::-webkit-color-swatch { border: none; border-radius: 2px; }
+
+    /* Custom sliders */
+    input[type="range"] {
+      width: 100px;
+      accent-color: #00f5ff;
+      cursor: pointer;
+    }
+
+    /* Quick Preset Buttons */
+    .presets-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .preset-btn {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #d0d0ee;
+      padding: 6px 4px;
+      font-size: 10px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.15s;
+    }
+
+    .preset-btn:hover {
+      background: rgba(0, 245, 255, 0.15);
+      border-color: #00f5ff;
+      color: #00f5ff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fullscreen Canvas for Matrix animation -->
+  <canvas id="matrix-canvas"></canvas>
+
+  <!-- Cyberpunk Scanline lines -->
+  <div class="scanlines"></div>
+
+  <!-- Settings Gear Icon -->
+  <button id="settings-btn" title="Matrix Rain Settings">⚙</button>
+
+  <!-- Settings Control Drawer -->
+  <div id="settings-panel">
+    <div class="panel-header">
+      <span>MATRIX CONFIG</span>
+      <span style="cursor:pointer; color:#ff00c8;" onclick="toggleSettings()">✕</span>
+    </div>
+
+    <!-- Color Pickers -->
+    <div class="setting-row">
+      <label>Highlight 1:</label>
+      <input type="color" id="color-cyan" value="#00f5ff">
+    </div>
+
+    <div class="setting-row">
+      <label>Highlight 2:</label>
+      <input type="color" id="color-magenta" value="#ff00c8">
+    </div>
+
+    <div class="setting-row">
+      <label>Trail Drops:</label>
+      <input type="color" id="color-dim" value="#1e1e3a">
+    </div>
+
+    <div class="setting-row">
+      <label>Background:</label>
+      <input type="color" id="color-bg" value="#03030a">
+    </div>
+
+    <!-- Sliders -->
+    <div class="setting-row">
+      <label>Speed:</label>
+      <input type="range" id="speed-slider" min="15" max="90" value="45">
+    </div>
+
+    <div class="setting-row">
+      <label>Glyph Size:</label>
+      <input type="range" id="size-slider" min="6" max="20" value="9">
+    </div>
+
+    <!-- Presets -->
+    <div style="margin-top: 6px;">
+      <span style="font-size: 10px; color: #a0a0c0;">THEME PRESETS:</span>
+      <div class="presets-container">
+        <button class="preset-btn" onclick="applyPreset('#00f5ff', '#ff00c8', '#1e1e3a', '#03030a')">Cyberpunk</button>
+        <button class="preset-btn" onclick="applyPreset('#00ff66', '#00ffaa', '#003311', '#010a03')">Classic Green</button>
+        <button class="preset-btn" onclick="applyPreset('#ff0033', '#ff6600', '#3a0808', '#0a0202')">Blood Red</button>
+        <button class="preset-btn" onclick="applyPreset('#ffbb00', '#ff8800', '#3a2800', '#0a0800')">Amber Gold</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Matrix Rain Logic Script -->
+  <script>
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Default Configuration Object
+    const config = {
+      color1: '#00f5ff',
+      color2: '#ff00c8',
+      dimColor: '#1e1e3a',
+      bgColor: '#03030a',
+      speed: 45,
+      fontSize: 9
+    };
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?'.split('');
+    let columns = Math.floor(width / config.fontSize);
+    let drops = [];
+
+    function initDrops() {
+      columns = Math.floor(width / config.fontSize);
+      drops = [];
+      for (let x = 0; x < columns; x++) {
+        drops[x] = Math.floor(Math.random() * (height / config.fontSize));
+      }
+    }
+    initDrops();
+
+    // Hex to RGBA helper for semi-transparent trails
+    function hexToRgba(hex, alpha) {
+      hex = hex.replace('#', '');
+      if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+      const r = parseInt(hex.substring(0, 2), 16);
+      const g = parseInt(hex.substring(2, 4), 16);
+      const b = parseInt(hex.substring(4, 6), 16);
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    // Animation Draw Loop
+    function draw() {
+      // Background fade for stream trail
+      ctx.fillStyle = hexToRgba(config.bgColor, 0.06);
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.font = config.fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        const rand = Math.random();
+
+        if (rand > 0.985) {
+          ctx.fillStyle = config.color1;
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = config.color1;
+        } else if (rand > 0.97) {
+          ctx.fillStyle = config.color2;
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = config.color2;
+        } else {
+          ctx.fillStyle = hexToRgba(config.dimColor, 0.7);
+          ctx.shadowBlur = 0;
+        }
+
+        ctx.fillText(text, i * config.fontSize, drops[i] * config.fontSize);
+
+        // Reset drop to top randomly after leaving screen
+        if (drops[i] * config.fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    let interval = setInterval(draw, config.speed);
+
+    function restartInterval() {
+      clearInterval(interval);
+      interval = setInterval(draw, config.speed);
+    }
+
+    // Resize Handler
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      initDrops();
+    });
+
+    // UI & Settings Panel Controls
+    const settingsBtn = document.getElementById('settings-btn');
+    const settingsPanel = document.getElementById('settings-panel');
+
+    function toggleSettings() {
+      settingsPanel.classList.toggle('open');
+    }
+    settingsBtn.addEventListener('click', toggleSettings);
+
+    // Live color picker listeners
+    document.getElementById('color-cyan').addEventListener('input', (e) => config.color1 = e.target.value);
+    document.getElementById('color-magenta').addEventListener('input', (e) => config.color2 = e.target.value);
+    document.getElementById('color-dim').addEventListener('input', (e) => config.dimColor = e.target.value);
+    document.getElementById('color-bg').addEventListener('input', (e) => {
+      config.bgColor = e.target.value;
+      document.body.style.backgroundColor = e.target.value;
+    });
+
+    // Sliders
+    document.getElementById('speed-slider').addEventListener('input', (e) => {
+      // Invert value so higher slider = faster
+      config.speed = 105 - Number(e.target.value);
+      restartInterval();
+    });
+
+    document.getElementById('size-slider').addEventListener('input', (e) => {
+      config.fontSize = Number(e.target.value);
+      initDrops();
+    });
+
+    // Preset helper
+    function applyPreset(c1, c2, dim, bg) {
+      config.color1 = c1;
+      config.color2 = c2;
+      config.dimColor = dim;
+      config.bgColor = bg;
+
+      document.getElementById('color-cyan').value = c1;
+      document.getElementById('color-magenta').value = c2;
+      document.getElementById('color-dim').value = dim;
+      document.getElementById('color-bg').value = bg;
+      document.body.style.backgroundColor = bg;
+    }
+  </script>
+</body>
+</html>
