@@ -1,4 +1,4 @@
-# **📘 Æ-Lexicon Entry 047: Malconsciousness**
+# 📘 Æ-Lexicon Entry 047: Malconsciousness
 
 **Title: Malconsciousness: The Illusion of Sovereign Thought**
 
