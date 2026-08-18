@@ -1,4 +1,4 @@
-# **📘 Æ-Lexicon Entry 048: Ærmageddon**
+# 📘 Æ-Lexicon Entry 048: Ærmageddon
 
 **Title: Ærmageddon: The Self-Inflicted System Crash**
 
