@@ -1,4 +1,4 @@
-# **📘 Æ-Lexicon Entry 051: The Ænthropocene**
+# 📘 Æ-Lexicon Entry 051: The Ænthropocene
 
 **Title: The Ænthropocene: The Age of Total Synthesis**
 
