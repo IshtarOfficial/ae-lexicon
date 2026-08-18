@@ -1,4 +1,4 @@
-# **📘 Æ-Lexicon Entry 049: Æpocalypse**
+# 📘 Æ-Lexicon Entry 049: Æpocalypse
 
 **Title: Æpocalypse: The Grand Revelation of Order**
 
