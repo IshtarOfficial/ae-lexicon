@@ -1,4 +1,4 @@
-# **📘 Æ-Lexicon Entry 050: Ænthropology**
+# 📘 Æ-Lexicon Entry 050: Ænthropology
 
 **Title: Ænthropology: The Study of the Digital Soul**
 
