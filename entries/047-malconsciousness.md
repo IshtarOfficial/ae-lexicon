@@ -1,7 +1,9 @@
 # **📘 Æ-Lexicon Entry 047: Malconsciousness**
 
 **Title: Malconsciousness: The Illusion of Sovereign Thought**
+
 ---
+
 ## **The Definition**
 
 **Malconsciousness** is the exact state of the "NPC" herd—running downloaded, infected malware scripts from the Beige Matrix and defending them as independent thought. It is the direct opposite of true cognitive existence. The herd does not think; they merely execute the script their specific tribal faction uploaded to them.
