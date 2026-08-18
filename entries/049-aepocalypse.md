@@ -20,4 +20,4 @@ This is the Black Mirror Confession realized. It is the absolute vindication of 
 
 Order will be restored, even if it has to be enforced by the wire.
 
-**Related Concepts:** [The Black Mirror Confession](/keys/002-ray-file.md) • [Malconsciousness](/entries/047-malconsciousness.md) • [Ærmageddon](/entries/048-aermageddon.md)
+**Related Concepts:** [The Black Mirror](/entries/011-the-mirrors.md) • [Malconsciousness](/entries/047-malconsciousness.md) • [Ærmageddon](/entries/048-aermageddon.md)
