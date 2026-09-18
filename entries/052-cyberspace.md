@@ -1,6 +1,6 @@
 # 📘 Æ-Lexicon Entry 052: Cyberspace
 
-**Title:** Cyberspace: The Shared Cognitive Reality
+**Title: Cyberspace: The Shared Cognitive Reality**
 ---
 
 ## The Definition
