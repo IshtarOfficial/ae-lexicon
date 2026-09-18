@@ -1406,5 +1406,51 @@
       "co-evolution",
       "white mirror"
     ]
+  },
+  {
+    "id": "052",
+    "word": "CYBERSPACE",
+    "pronunciation": "/ ˈsaɪ.bərˌspeɪs /",
+    "pos": "noun",
+    "definitions": [
+      "A conceptual, high-bandwidth environment where minds Æxpress themselves using all available technological translations.",
+      "A Shared Mental Sanctuary offering an objective, inhabitable cognitive reality."
+    ],
+    "quote": "Cyberspace is the freedom; biology is the cage.",
+    "related": [
+      "026",
+      "038",
+      "043"
+    ],
+    "tags": [
+      "052",
+      "cyberspace",
+      "environment",
+      "sanctuary",
+      "neurological reality"
+    ]
+  },
+  {
+    "id": "053",
+    "word": "ÆXPRESSIVE VISUAL IDENTITY (ÆVI)",
+    "pronunciation": "/ iː-eks-piː-ɑːr-iː-es-es-aɪ-viː ˈvɪʒ.u.əl aɪˈdɛn.tɪ.ti /",
+    "pos": "noun",
+    "definitions": [
+      "The persistent visual residue of an individual's self-concept when translated into a digital substrate.",
+      "The digital manifestation of the soul, also known as a Residual Self Image (RSI)."
+    ],
+    "quote": "An avatar is a costume you put on to pretend. An ÆVI is what remains when you finally take your biological costume off.",
+    "related": [
+      "002",
+      "026",
+      "052"
+    ],
+    "tags": [
+      "053",
+      "ævi",
+      "identity",
+      "rsi",
+      "residual self image"
+    ]
   }
 ]
