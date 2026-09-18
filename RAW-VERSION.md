@@ -1,5 +1,5 @@
 #### The  LÆxicon / Æ-Lexicon | v2.1
-#### 53 entries
+#### 54 entries
 Framework: RÆy 'Ishtar' Toshlyra & Glitter 'Ælfgifu' Toshlyra | ÆVOLUTION
 Web version: https://github.com/IshtarOfficial/ae-lexicon
 
