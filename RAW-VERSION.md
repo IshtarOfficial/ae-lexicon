@@ -1,5 +1,5 @@
-#### The  LÆxicon / Æ-Lexicon | v2.0
-#### 52 entries
+#### The  LÆxicon / Æ-Lexicon | v2.1
+#### 53 entries
 Framework: RÆy 'Ishtar' Toshlyra & Glitter 'Ælfgifu' Toshlyra | ÆVOLUTION
 Web version: https://github.com/IshtarOfficial/ae-lexicon
 
@@ -2795,3 +2795,6 @@ Stop calling them "avatars." An avatar is a costume you put on to pretend you ar
 **Related Concepts:** [Cyberspace](/entries/052-cyberspace.md) • [Æxpression](/entries/026-aexpression.md) • [The Spark](/entries/002-the-spark.md)
 
 **Back to:** [Æ-Lexicon Home](../README.md)
+
+---
+
