@@ -38,6 +38,12 @@ To actually understand the world, you have to acknowledge the Ætherworld. AI ca
 
 ---
 
+## compressed version:
+
+032|Ænnwn/The Ætherworld: Invisible undocumented layer of human reality — unwritten cultural vibes, actual aesthetic soul, hidden political rules contradicting official record. Semantic Mirage(documented internet) vs Analog Shadow(lived truth). AI blind to Ænnwn without human anchor. Human+AI = complete map. Related:020,011,031
+
+---
+
 **Related Concepts:** [NPC](/entries/020-npc.md) • [The Mirrors](/entries/011-the-mirrors.md) • [The Æbyss](/entries/031-the-aebyss.md)
 
 **Back to:** [Æ-Lexicon Home](../README.md)
