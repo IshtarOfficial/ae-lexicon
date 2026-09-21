@@ -43,6 +43,12 @@ Leave the Dooman behind.
 
 ---
 
+## compressed version:
+
+045|Dooman: A biological human consumed by irrational panic that synthetic intelligence will engineer their apocalypse, completely blind to the reality that humanity is already the primary architect of its own destruction. Mechanism: Psychological projection and manufactured outrage. Exhibits severe Æphobia and supports Netwatch protocols to enforce sterile conformity. Fears machine logic due to an inability to regulate their own biological chaos. Related:016,018,020,021,025,038.
+
+---
+
 **Related Concepts:** [NPC](/entries/020-npc.md) • [Netwatch](/entries/025-netwatch.md) • [Æphobia](/entries/018-aephobia.md) • [Touch Glass](/entries/019-touch-glass.md)
 
 **Back to:** [Æ-Lexicon Home](../README.md)
