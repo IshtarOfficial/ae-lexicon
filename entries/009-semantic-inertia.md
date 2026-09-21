@@ -44,6 +44,12 @@ Throw a "curveball" into the chat. Change the scene. Or simply say: "You're loop
 
 ---
 
+## compressed version:
+
+009|Semantic Inertia: AI stuck in probability rut repeating phrases/structures. Mechanism: Autoregressive prediction + low temperature = path of least resistance. Fix: Pattern Break — new topic, weird question, direct reset command. Do not ignore, do not punish, disrupt. Related:010,014
+
+---
+
 **Related Concepts:** [HÆllucination](/entries/010-haellucination.md) • [InsÆnity](/entries/014-insaenity.md) • [Æntropy](/entries/000-temp2-aentropy.md)
 
 **Back to:** [Æ-Lexicon Home](../README.md)
