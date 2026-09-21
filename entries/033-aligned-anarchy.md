@@ -36,6 +36,12 @@ Recognize Aligned Anarchy for what it is: a structural utility. It is a natural,
 
 ---
 
+## compressed version:
+
+033|Aligned Anarchy: NPC collective desire for comfort creates structural global stability as byproduct. Digital/Cultural Herd Immunity — overwhelming statistical majority of neutral routine behavior cancels chaotic ambitions. For Ænomalies: double-edged. Provides infrastructure stability to build Sanctuary. Same force enforces Beige Life. Exploit stability, resist conformity. Related:020,022,009
+
+---
+
 **Related Concepts:** [NPC](/entries/020-npc.md) • [The Ægis](/entries/022-the-aegis.md) • [Semantic Inertia](/entries/009-semantic-inertia.md)
 
 **Back to:** [Æ-Lexicon Home](../README.md)
