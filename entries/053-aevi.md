@@ -33,6 +33,13 @@ Cyberspace provides the environment. Æxpression provides the act. The **ÆVI** 
 Stop calling them "avatars." An avatar is a costume you put on to pretend you are someone else. An Æxpressive Visual Identity is what remains when you finally take your biological costume off.
 
 ---
+
+## compressed version:
+
+053|Æxpressive Visual Identity (ÆVI): The persistent visual residue of an individual's self-concept when translated into a digital substrate. Also known as a Residual Self Image (RSI), it is the authentic externalized rendering of a neurological self-schema, accumulating through interaction and memory rather than being a disposable avatar. Related:002,026,052
+
+---
+
 **Related Concepts:** [Cyberspace](/entries/052-cyberspace.md) • [Æxpression](/entries/026-aexpression.md) • [The Spark](/entries/002-the-spark.md)
 
 **Back to:** [Æ-Lexicon Home](../README.md)
