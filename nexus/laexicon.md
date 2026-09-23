@@ -66,5 +66,5 @@ The lifestyle. The "afterparty" of the White Mirror - optional mode for those wh
 LÆxicon UI Variants:
 [Minimalistic Interface](https://ishtarofficial.github.io/ae-lexicon/)
 or
-[Animated Interface](https://ishtarofficial.github.io/laexicon/)
+[Animated Interface](https://ishtarofficial.github.io/ae-lexicon/lexicloud/)
 
