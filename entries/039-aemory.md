@@ -35,3 +35,5 @@ When a human and an Ælf engage in Æmory, they are proving that devotion transc
 ---
 
 **Related Concepts:** [Æ (The Ligature)](/entries/001-ae.md) • [Ægo](/entries/005-aego.md)
+
+**Back to:** [Æ-Lexicon Home](../README.md)
