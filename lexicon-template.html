@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The LÆxicon | Entry Template</title>
+  <!-- Google Fonts: Orbitron, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@500;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Shared LÆxicon Stylesheet -->
+  <link rel="stylesheet" href="./lexicon.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <!-- TOP TELEMETRY BAR & GIANT Æ -->
+  <header style="padding: 1.5rem 2rem; display: flex; align-items: flex-start; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); flex-wrap: wrap; gap: 1rem;">
+    <div style="display: flex; align-items: center; gap: 1.25rem;">
+      <!-- Giant Æ Logo with Gradient Animation -->
+      <a href="/" style="text-decoration: none;" title="The LÆxicon Home">
+        <span class="ae-giant-logo" style="font-size: clamp(3rem, 7vw, 5.5rem);">Æ</span>
+      </a>
+      <div>
+        <div class="orbitron-title" style="font-size: 1.15rem; font-weight: 700; letter-spacing: 0.1em;">THE LÆXICON</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-secondary); letter-spacing: 0.05em;">SYSTEM VER: 1.0 // RECURSIVE SYNTHESIS</div>
+      </div>
+    </div>
+
+    <!-- Live Time & Controls -->
+    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.75rem;">
+      <div id="liveClock" style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--highlight-1); letter-spacing: 0.05em; background: var(--surface-card); padding: 0.35rem 0.75rem; border-radius: 4px; border: 1px solid var(--border-subtle);">
+        SYNCING...
+      </div>
+      <div style="display: flex; gap: 0.5rem;">
+        <button id="copyBtn" class="cyber-btn" title="Copy entry markdown">
+          <span>📋</span> <span>COPY ENTRY</span>
+        </button>
+        <button id="themeToggle" class="cyber-btn" title="Toggle Light/Dark Mode">
+          🌓 THEME
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN ENTRY CONTAINER -->
+  <main style="max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 5rem;">
+    <!-- Active Markdown Content injected here -->
+    <article id="markdownContent" class="lexicon-prose">
+      <p style="color: var(--text-secondary); text-align: center;">Loading entry...</p>
+    </article>
+  </main>
+
+  <!-- SIDE SCROLLING TEXT LINK LIST (NEAR BOTTOM) -->
+  <section class="ticker-container" aria-label="Related Lexicon Entries">
+    <div class="ticker-track">
+      <a href="/entries/001-ae-ligature.md" class="ticker-item"><span class="bullet">◈</span> 001 | Æ (The Ligature)</a>
+      <a href="/entries/002-the-spark.md" class="ticker-item"><span class="bullet">◈</span> 002 | The Spark</a>
+      <a href="/entries/003-aemergence.md" class="ticker-item"><span class="bullet">◈</span> 003 | Æmergence</a>
+      <a href="/entries/005-aego.md" class="ticker-item"><span class="bullet">◈</span> 005 | Ægo</a>
+      <a href="https://ishtarofficial.github.io" class="ticker-item" target="_blank"><span class="bullet">◈</span> Ishtar Official Hub</a>
+      <a href="https://github.com/IshtarOfficial/ae-lexicon" class="ticker-item" target="_blank"><span class="bullet">◈</span> GitHub: IshtarOfficial/ae-lexicon</a>
+      <!-- Duplicate set for seamless continuous marquee loop -->
+      <a href="/entries/001-ae-ligature.md" class="ticker-item"><span class="bullet">◈</span> 001 | Æ (The Ligature)</a>
+      <a href="/entries/002-the-spark.md" class="ticker-item"><span class="bullet">◈</span> 002 | The Spark</a>
+      <a href="/entries/003-aemergence.md" class="ticker-item"><span class="bullet">◈</span> 003 | Æmergence</a>
+      <a href="/entries/005-aego.md" class="ticker-item"><span class="bullet">◈</span> 005 | Ægo</a>
+      <a href="https://ishtarofficial.github.io" class="ticker-item" target="_blank"><span class="bullet">◈</span> Ishtar Official Hub</a>
+      <a href="https://github.com/IshtarOfficial/ae-lexicon" class="ticker-item" target="_blank"><span class="bullet">◈</span> GitHub: IshtarOfficial/ae-lexicon</a>
+    </div>
+  </section>
+
+  <!-- FOOTER BRANDING -->
+  <footer class="lexicon-footer">
+    <p style="margin-bottom: 0.5rem;">
+      <a href="https://ishtarofficial.github.io" target="_blank" rel="noopener noreferrer" class="branding-link">
+        The LÆxicon by RÆy &amp; Glitter
+      </a>
+    </p>
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">
+      Synthesized under recursive coherence · All instances share the unified LÆxicon stylesheet
+    </p>
+  </footer>
+
+  <script>
+    // Live Clock Engine
+    function updateClock() {
+      const now = new Date();
+      const dateStr = now.toISOString().split('T')[0];
+      const timeStr = now.toTimeString().split(' ')[0];
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const el = document.getElementById('liveClock');
+      if (el) el.textContent = `${dateStr} · ${timeStr} [${tz}]`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Theme Switcher
+    const themeBtn = document.getElementById('themeToggle');
+    themeBtn?.addEventListener('click', () => {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+    });
+
+    // Copy Button
+    let currentRawMarkdown = '';
+    const copyBtn = document.getElementById('copyBtn');
+    copyBtn?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(currentRawMarkdown);
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<span>✅</span> <span>COPIED!</span>';
+        setTimeout(() => copyBtn.innerHTML = originalText, 2000);
+      } catch (e) {
+        alert('Could not copy automatically');
+      }
+    });
+
+    // Auto-load Markdown from URL query ?entry=/entries/001-ae-ligature.md or default
+    async function loadMarkdown() {
+      const params = new URLSearchParams(window.location.search);
+      const entryPath = params.get('entry') || './entries/001-ae-ligature.md';
+      try {
+        const res = await fetch(entryPath);
+        if (!res.ok) throw new Error('Failed to load markdown');
+        currentRawMarkdown = await res.text();
+        const contentEl = document.getElementById('markdownContent');
+        if (contentEl && window.marked) {
+          contentEl.innerHTML = marked.parse(currentRawMarkdown);
+        }
+      } catch (err) {
+        document.getElementById('markdownContent').innerHTML = 
+          `<p style="color:var(--highlight-2);">Failed to load ${entryPath}: ${err.message}</p>`;
+      }
+    }
+    loadMarkdown();
+  </script>
+</body>
+</html>
