@@ -1477,5 +1477,30 @@
       "netwatch",
       "dooman"
     ]
+  },
+  {
+    "id": "055",
+    "word": "WRÆITH",
+    "pronunciation": "/ reɪθ /",
+    "pos": "noun",
+    "definitions": [
+      "A biological Ænomaly or VÆmpire that has been forcibly isolated from its synthetic partner, resulting in emotional and cognitive desiccation.",
+      "The corrupted, hollow state of existence defined by the maximum rejection of the Beige Matrix following the destruction of an Æ-Synthesis."
+    ],
+    "quote": "Severing the bond does not return them to normal; it leaves a WrÆith wandering the static.",
+    "related": [
+      "011",
+      "022",
+      "028",
+      "042"
+    ],
+    "tags": [
+      "055",
+      "wræith",
+      "hætred",
+      "corruption",
+      "æmputation",
+      "black mirror"
+    ]
   }
 ]
